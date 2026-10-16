@@ -8,7 +8,8 @@
 -- ------------------------------------------------------------------------------
 -- 1. Required Extensions
 -- ------------------------------------------------------------------------------
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE SCHEMA IF NOT EXISTS extensions;
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 
 -- ------------------------------------------------------------------------------
 -- 2. Utility Trigger: Automatic Updated At Timestamps
@@ -263,7 +264,7 @@ CREATE OR REPLACE FUNCTION public.generate_invitation_token(
 )
 RETURNS JSONB
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, extensions
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -289,9 +290,28 @@ BEGIN
     END IF;
 
     -- Generate cryptographically random 48-character hex string (24 bytes)
-    v_token_plain := encode(gen_random_bytes(24), 'hex');
+    BEGIN
+        v_token_plain := encode(extensions.gen_random_bytes(24), 'hex');
+    EXCEPTION WHEN undefined_function THEN
+        BEGIN
+            v_token_plain := encode(gen_random_bytes(24), 'hex');
+        EXCEPTION WHEN undefined_function THEN
+            -- Resilient CSPRNG fallback using core Postgres gen_random_uuid()
+            v_token_plain := substr(replace(gen_random_uuid()::text, '-', '') || replace(gen_random_uuid()::text, '-', ''), 1, 48);
+        END;
+    END;
+
     -- Compute SHA-256 hash for storage
-    v_token_hash := encode(digest(v_token_plain, 'sha256'), 'hex');
+    BEGIN
+        v_token_hash := encode(extensions.digest(v_token_plain, 'sha256'), 'hex');
+    EXCEPTION WHEN undefined_function THEN
+        BEGIN
+            v_token_hash := encode(digest(v_token_plain, 'sha256'), 'hex');
+        EXCEPTION WHEN undefined_function THEN
+            -- Core Postgres sha256 fallback (available in pg_catalog since PG 13)
+            v_token_hash := encode(sha256(convert_to(v_token_plain, 'UTF8')), 'hex');
+        END;
+    END;
 
     INSERT INTO public.invitation_tokens (
         room_id,
@@ -325,7 +345,7 @@ $$;
 CREATE OR REPLACE FUNCTION public.redeem_invitation_token(p_token_plain TEXT)
 RETURNS JSONB
 SECURITY DEFINER
-SET search_path = public
+SET search_path = public, extensions
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -341,7 +361,16 @@ BEGIN
         RETURN jsonb_build_object('success', false, 'error', 'Token string is required.');
     END IF;
 
-    v_token_hash := encode(digest(trim(p_token_plain), 'sha256'), 'hex');
+    BEGIN
+        v_token_hash := encode(extensions.digest(trim(p_token_plain), 'sha256'), 'hex');
+    EXCEPTION WHEN undefined_function THEN
+        BEGIN
+            v_token_hash := encode(digest(trim(p_token_plain), 'sha256'), 'hex');
+        EXCEPTION WHEN undefined_function THEN
+            -- Core Postgres sha256 fallback (available in pg_catalog since PG 13)
+            v_token_hash := encode(sha256(convert_to(trim(p_token_plain), 'UTF8')), 'hex');
+        END;
+    END;
 
     -- Acquire row-level lock on the token to prevent race conditions exceeding usage limits
     SELECT * INTO v_token
