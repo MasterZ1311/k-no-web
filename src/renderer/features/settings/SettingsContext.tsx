@@ -3,6 +3,7 @@ import type { AppSettings } from '../../../preload/types';
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
   theme: 'system',
+  colorPalette: 'emerald',
   sidebarCollapsed: false,
   notificationsEnabled: true,
   taskDueAlerts: true,
@@ -44,6 +45,30 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   }, []);
 
+  // Apply color palette to DOM
+  const applyPalette = useCallback((colorPalette?: AppSettings['colorPalette']) => {
+    if (typeof document === 'undefined') return;
+
+    const root = document.documentElement;
+    root.classList.remove('palette-emerald', 'palette-luxury-taupe', 'palette-spectrum', 'palette-bygone', 'palette-todo-app');
+    if (colorPalette === 'luxury-taupe') {
+      root.classList.add('palette-luxury-taupe');
+      root.setAttribute('data-palette', 'luxury-taupe');
+    } else if (colorPalette === 'spectrum') {
+      root.classList.add('palette-spectrum');
+      root.setAttribute('data-palette', 'spectrum');
+    } else if (colorPalette === 'bygone') {
+      root.classList.add('palette-bygone');
+      root.setAttribute('data-palette', 'bygone');
+    } else if (colorPalette === 'todo-app') {
+      root.classList.add('palette-todo-app');
+      root.setAttribute('data-palette', 'todo-app');
+    } else {
+      root.classList.add('palette-emerald');
+      root.setAttribute('data-palette', 'emerald');
+    }
+  }, []);
+
   // Apply reduced motion
   const applyReducedMotion = useCallback((reduced: boolean) => {
     if (typeof document === 'undefined') return;
@@ -64,6 +89,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           if (isMounted) {
             setSettings(loaded);
             applyTheme(loaded.theme);
+            applyPalette(loaded.colorPalette);
             applyReducedMotion(loaded.reducedMotion);
             setIsLoading(false);
           }
@@ -77,6 +103,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         if (isMounted) {
           setSettings(newSettings);
           applyTheme(newSettings.theme);
+          applyPalette(newSettings.colorPalette);
           applyReducedMotion(newSettings.reducedMotion);
         }
       });
@@ -88,7 +115,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } else {
       setIsLoading(false);
     }
-  }, [applyTheme, applyReducedMotion]);
+  }, [applyTheme, applyPalette, applyReducedMotion]);
 
   // Listen to system theme changes if theme === 'system'
   useEffect(() => {
@@ -110,6 +137,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const updated = { ...settings, ...patch };
       setSettings(updated);
       applyTheme(updated.theme);
+      applyPalette(updated.colorPalette);
       applyReducedMotion(updated.reducedMotion);
       return { success: true };
     }
@@ -119,6 +147,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (res.success && res.settings) {
         setSettings(res.settings);
         applyTheme(res.settings.theme);
+        applyPalette(res.settings.colorPalette);
         applyReducedMotion(res.settings.reducedMotion);
         return { success: true };
       }

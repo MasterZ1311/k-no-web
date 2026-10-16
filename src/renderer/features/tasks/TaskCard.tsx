@@ -23,10 +23,10 @@ export interface TaskCardProps {
 }
 
 const PRIORITY_CONFIG: Record<TaskPriority, { label: string; bg: string; text: string; dot: string }> = {
-  urgent: { label: 'Urgent', bg: 'bg-rose-500/10', text: 'text-rose-600 dark:text-rose-400', dot: 'bg-rose-500' },
-  high: { label: 'High', bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400', dot: 'bg-amber-500' },
-  medium: { label: 'Medium', bg: 'bg-blue-500/10', text: 'text-blue-600 dark:text-blue-400', dot: 'bg-blue-500' },
-  low: { label: 'Low', bg: 'bg-slate-500/10', text: 'text-slate-600 dark:text-slate-400', dot: 'bg-slate-400' },
+  urgent: { label: 'Urgent', bg: 'bg-[#FA2E23]/15', text: 'text-[#FA2E23] dark:text-[#FA2E23]', dot: 'bg-[#FA2E23]' },
+  high: { label: 'High', bg: 'bg-[#A8120B]/15', text: 'text-[#A8120B] dark:text-[#ff7a70]', dot: 'bg-[#A8120B]' },
+  medium: { label: 'Medium', bg: 'bg-[#787A5B]/15', text: 'text-[#5a5c3d] dark:text-[#cfd2a8]', dot: 'bg-[#787A5B]' },
+  low: { label: 'Low', bg: 'bg-[#607080]/15', text: 'text-[#607080] dark:text-[#94a3b8]', dot: 'bg-[#607080]' },
 };
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -118,7 +118,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         if (onDragStart) onDragStart(e);
       }}
       onClick={handleCardClick}
-      className={`group relative flex flex-col p-3 rounded-lg border border-kano-border bg-kano-surface hover:border-kano-accent/40 hover:shadow-xs transition-all cursor-pointer ${
+      className={`group relative flex flex-col p-3.5 rounded-xl border border-kano-border bg-kano-surface hover:border-kano-accent/50 shadow-subtle hover:shadow-popup transition-all cursor-pointer ${
         isDone ? 'opacity-75 bg-kano-bg/50' : ''
       } ${className}`}
     >
@@ -163,7 +163,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           {task.labels.map((label) => (
             <span
               key={label.id}
-              className="inline-flex items-center text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+              className="inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full"
               style={{
                 backgroundColor: `${label.colorHex}20`,
                 color: label.colorHex,
@@ -180,19 +180,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       <div className="flex items-center flex-wrap gap-2 text-[10px] text-kano-text-muted mt-auto pt-1">
         {/* Priority Badge */}
         <span
-          className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${priorityInfo.bg} ${priorityInfo.text}`}
+          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium transition-colors ${priorityInfo.bg} ${priorityInfo.text}`}
         >
-          <span className={`w-1.5 h-1.5 rounded-full ${priorityInfo.dot}`} />
+          <span className={`w-1.5 h-1.5 rounded-full ${priorityInfo.dot} shadow-[0_0_4px_currentColor]`} />
           {priorityInfo.label}
         </span>
 
         {/* Due Date */}
         {dueDateText && (
           <span
-            className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded font-mono ${
+            className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono transition-colors ${
               isOverdue
-                ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 font-semibold'
-                : 'bg-kano-bg text-kano-text-muted'
+                ? 'bg-[#FA2E23]/15 text-[#FA2E23] font-semibold'
+                : 'bg-kano-surface-hover border border-kano-border text-kano-text-muted'
             }`}
           >
             {isOverdue ? <AlertCircle className="w-2.5 h-2.5" /> : <Calendar className="w-2.5 h-2.5" />}
@@ -202,7 +202,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
         {/* Checklists Progress */}
         {totalChecklists > 0 && (
-          <span className="inline-flex items-center gap-1 font-mono bg-kano-bg px-1.5 py-0.5 rounded">
+          <span className="inline-flex items-center gap-1.5 font-mono bg-kano-surface-hover border border-kano-border px-2 py-0.5 rounded-full">
             <CheckSquare className="w-2.5 h-2.5 text-kano-text-muted" />
             {completedChecklists}/{totalChecklists}
           </span>

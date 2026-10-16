@@ -67,6 +67,87 @@ describe('SettingsRoute Component', () => {
     });
   });
 
+  it('allows switching color palette to Luxury Taupe S', async () => {
+    const updateSettingsSpy = vi.fn().mockResolvedValue({
+      success: true,
+      settings: {
+        theme: 'system',
+        colorPalette: 'luxury-taupe',
+        sidebarCollapsed: false,
+        notificationsEnabled: true,
+        taskDueAlerts: true,
+        roomActivityAlerts: true,
+        reducedMotion: false,
+        autoCheckUpdates: true,
+      },
+    });
+
+    window.kanoDesktop.settings.updateSettings = updateSettingsSpy;
+
+    renderSettings();
+
+    const luxuryTaupeButton = await screen.findByRole('button', { name: /luxury taupe s palette/i });
+    fireEvent.click(luxuryTaupeButton);
+
+    await waitFor(() => {
+      expect(updateSettingsSpy).toHaveBeenCalledWith({ colorPalette: 'luxury-taupe' });
+    });
+  });
+
+  it('allows switching color palette to Bygone', async () => {
+    const updateSettingsSpy = vi.fn().mockResolvedValue({
+      success: true,
+      settings: {
+        theme: 'system',
+        colorPalette: 'bygone',
+        sidebarCollapsed: false,
+        notificationsEnabled: true,
+        taskDueAlerts: true,
+        roomActivityAlerts: true,
+        reducedMotion: false,
+        autoCheckUpdates: true,
+      },
+    });
+
+    window.kanoDesktop.settings.updateSettings = updateSettingsSpy;
+
+    renderSettings();
+
+    const bygoneButton = await screen.findByRole('button', { name: /bygone palette/i });
+    fireEvent.click(bygoneButton);
+
+    await waitFor(() => {
+      expect(updateSettingsSpy).toHaveBeenCalledWith({ colorPalette: 'bygone' });
+    });
+  });
+
+  it('allows switching color palette to To-Do App', async () => {
+    const updateSettingsSpy = vi.fn().mockResolvedValue({
+      success: true,
+      settings: {
+        theme: 'system',
+        colorPalette: 'todo-app',
+        sidebarCollapsed: false,
+        notificationsEnabled: true,
+        taskDueAlerts: true,
+        roomActivityAlerts: true,
+        reducedMotion: false,
+        autoCheckUpdates: true,
+      },
+    });
+
+    window.kanoDesktop.settings.updateSettings = updateSettingsSpy;
+
+    renderSettings();
+
+    const todoAppButton = await screen.findByRole('button', { name: /to-do app palette/i });
+    fireEvent.click(todoAppButton);
+
+    await waitFor(() => {
+      expect(updateSettingsSpy).toHaveBeenCalledWith({ colorPalette: 'todo-app' });
+    });
+  });
+
   it('dispatches a test desktop notification', async () => {
     const showNotificationSpy = vi.fn().mockResolvedValue({ success: true, shown: true });
     window.kanoDesktop.notifications.show = showNotificationSpy;

@@ -18,15 +18,26 @@ export interface TaskDialogProps {
 }
 
 const PRESET_LABEL_COLORS = [
-  '#ef4444', // red
-  '#f97316', // orange
-  '#f59e0b', // amber
-  '#10b981', // green
-  '#06b6d4', // cyan
-  '#3b82f6', // blue
-  '#8b5cf6', // purple
-  '#ec4899', // pink
-  '#6b7280', // gray
+  '#7FC0FA', // Sky Blue
+  '#F0FA73', // Acid Lime
+  '#FA2E23', // Vivid Red
+  '#A8120B', // Crimson Maroon
+  '#EA1F0A', // Luxury Taupe Crimson
+  '#000000', // Luxury Taupe Black
+  '#F6F5F1', // Luxury Taupe Alabaster
+  '#402212', // Bygone Espresso
+  '#FFF99F', // Bygone Buttercream
+  '#850805', // Bygone Burgundy
+  '#84784E', // Bygone Vintage Brass
+  '#1C241B', // Bygone Pine Onyx
+  '#3A4793', // To-Do App Royal Indigo
+  '#25B3EC', // To-Do App Electric Cyan
+  '#9787EE', // To-Do App Periwinkle
+  '#FFBF3E', // To-Do App Marigold
+  '#607080', // Steel Slate
+  '#787A5B', // Sage Olive
+  '#10b981', // Vivid Emerald
+  '#8b5cf6', // Purple
 ];
 
 export const TaskDialog: React.FC<TaskDialogProps> = ({

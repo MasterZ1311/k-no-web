@@ -24,6 +24,7 @@ import { useRealtime } from '../features/realtime/RealtimeContext';
 import { useToast } from '../design-system/ToastProvider';
 import { Button } from '../design-system/Button';
 import { Dialog } from '../design-system/Dialog';
+import type { ColorPalette } from '../../preload/types';
 
 export const SettingsRoute: React.FC = () => {
   const { settings, updateSettings, clearCache } = useSettings();
@@ -52,6 +53,13 @@ export const SettingsRoute: React.FC = () => {
     const res = await updateSettings({ theme });
     if (!res.success) {
       showToast(res.error || 'Failed to update theme', { type: 'error' });
+    }
+  };
+
+  const handlePaletteChange = async (colorPalette: ColorPalette) => {
+    const res = await updateSettings({ colorPalette });
+    if (!res.success) {
+      showToast(res.error || 'Failed to update color palette', { type: 'error' });
     }
   };
 
@@ -215,6 +223,129 @@ export const SettingsRoute: React.FC = () => {
               >
                 <Moon className="w-5 h-5" />
                 <span>Dark</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Color Palette Selection */}
+          <div className="pt-3 border-t border-kano-border/60">
+            <label className="font-semibold block text-kano-text-primary mb-1">Color Palette</label>
+            <p className="text-[11px] text-kano-text-muted mb-2.5">
+              Choose the accent and tonal personality for your workspace.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl">
+              {/* Vivid Emerald */}
+              <button
+                type="button"
+                onClick={() => handlePaletteChange('emerald')}
+                aria-label="Vivid Emerald Palette"
+                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                  (settings.colorPalette || 'emerald') === 'emerald'
+                    ? 'border-kano-accent ring-2 ring-kano-accent/20 bg-kano-surface-hover/70 shadow-xs'
+                    : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-semibold text-xs text-kano-text-primary">Vivid Emerald</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#10b981] shadow-xs" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#0b0d11] border border-white/20" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#f8fafc] border border-black/10" />
+                  </div>
+                </div>
+                <span className="text-[11px] text-kano-text-muted">Linear precision graphite & mint</span>
+              </button>
+
+              {/* Luxury Taupe S */}
+              <button
+                type="button"
+                onClick={() => handlePaletteChange('luxury-taupe')}
+                aria-label="Luxury Taupe S Palette"
+                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                  settings.colorPalette === 'luxury-taupe'
+                    ? 'border-[#EA1F0A] ring-2 ring-[#EA1F0A]/20 bg-kano-surface-hover/70 shadow-xs'
+                    : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-semibold text-xs text-kano-text-primary">Luxury Taupe S</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#EA1F0A] shadow-xs" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#000000] border border-white/20" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#F6F5F1] border border-black/10" />
+                  </div>
+                </div>
+                <span className="text-[11px] text-kano-text-muted">Editorial crimson, pitch black & alabaster</span>
+              </button>
+
+              {/* Bygone */}
+              <button
+                type="button"
+                onClick={() => handlePaletteChange('bygone')}
+                aria-label="Bygone Palette"
+                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                  settings.colorPalette === 'bygone'
+                    ? 'border-[#850805] ring-2 ring-[#850805]/20 bg-kano-surface-hover/70 shadow-xs'
+                    : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-semibold text-xs text-kano-text-primary">Bygone</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#850805] shadow-xs" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#402212]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#FFF99F] border border-black/10" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#84784E]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#1C241B]" />
+                  </div>
+                </div>
+                <span className="text-[11px] text-kano-text-muted">Vintage sepia, parchment & burgundy</span>
+              </button>
+
+              {/* To-Do App */}
+              <button
+                type="button"
+                onClick={() => handlePaletteChange('todo-app')}
+                aria-label="To-Do App Palette"
+                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                  settings.colorPalette === 'todo-app'
+                    ? 'border-[#25B3EC] ring-2 ring-[#25B3EC]/20 bg-kano-surface-hover/70 shadow-xs'
+                    : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-semibold text-xs text-kano-text-primary">To-Do App</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#FFFFFF] border border-black/15 shadow-xs" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#3A4793]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#25B3EC]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#9787EE]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#FFBF3E]" />
+                  </div>
+                </div>
+                <span className="text-[11px] text-kano-text-muted">Royal indigo, electric cyan & marigold</span>
+              </button>
+
+              {/* Studio Spectrum */}
+              <button
+                type="button"
+                onClick={() => handlePaletteChange('spectrum')}
+                aria-label="Studio Spectrum Palette"
+                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                  settings.colorPalette === 'spectrum'
+                    ? 'border-[#7FC0FA] ring-2 ring-[#7FC0FA]/20 bg-kano-surface-hover/70 shadow-xs'
+                    : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-semibold text-xs text-kano-text-primary">Studio Spectrum</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#7FC0FA]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#F0FA73]" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-[#FA2E23]" />
+                  </div>
+                </div>
+                <span className="text-[11px] text-kano-text-muted">Creative multi-shade studio palette</span>
               </button>
             </div>
           </div>
@@ -484,10 +615,38 @@ export const SettingsRoute: React.FC = () => {
         </div>
       </div>
 
+      {/* Brand & Vector Assets */}
+      <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-kano-border">
+          <div className="flex items-center gap-2.5">
+            <Sparkles className="w-4 h-4 text-kano-accent" />
+            <h3 className="text-sm font-semibold text-kano-text-primary">Brand & Vector Assets</h3>
+          </div>
+          <span className="text-[11px] text-kano-text-muted">Official SVG Assets</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div className="p-3.5 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-2 text-center">
+            <img src="/logo-mark.svg" alt="Brand Mark" className="w-10 h-10 object-contain" />
+            <span className="font-medium text-kano-text-primary text-[11px]">Brand Mark</span>
+            <span className="text-[10px] text-kano-text-muted font-mono">logo-mark.svg</span>
+          </div>
+          <div className="p-3.5 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-2 text-center">
+            <img src="/logo-full.svg" alt="Full Logotype" className="h-10 w-full object-contain px-2" />
+            <span className="font-medium text-kano-text-primary text-[11px]">Full Logotype</span>
+            <span className="text-[10px] text-kano-text-muted font-mono">logo-full.svg</span>
+          </div>
+          <div className="p-3.5 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-2 text-center">
+            <img src="/logo-monochrome.svg" alt="Monochrome Mark" className="w-10 h-10 object-contain" />
+            <span className="font-medium text-kano-text-primary text-[11px]">Monochrome Mark</span>
+            <span className="text-[10px] text-kano-text-muted font-mono">logo-monochrome.svg</span>
+          </div>
+        </div>
+      </div>
+
       {/* 9. Client Build Info */}
       <div className="p-4 rounded-xl bg-kano-bg border border-kano-border text-xs text-kano-text-muted flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Info className="w-4 h-4 text-kano-text-muted" />
+        <div className="flex items-center gap-2.5">
+          <img src="/logo-mark.svg" alt="káno̱ logo" className="w-5 h-5 object-contain" />
           <span>káno̱ Desktop Client</span>
         </div>
         <div className="flex items-center gap-4 font-mono text-[11px]">

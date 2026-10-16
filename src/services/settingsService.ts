@@ -2,6 +2,7 @@ import type { AppSettings } from '../preload/types';
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
   theme: 'system',
+  colorPalette: 'emerald',
   sidebarCollapsed: false,
   notificationsEnabled: true,
   taskDueAlerts: true,
@@ -33,8 +34,18 @@ export class SettingsService {
         ? obj.theme
         : DEFAULT_APP_SETTINGS.theme;
 
+    const colorPalette: AppSettings['colorPalette'] =
+      obj.colorPalette === 'luxury-taupe' ||
+      obj.colorPalette === 'spectrum' ||
+      obj.colorPalette === 'bygone' ||
+      obj.colorPalette === 'todo-app' ||
+      obj.colorPalette === 'emerald'
+        ? obj.colorPalette
+        : DEFAULT_APP_SETTINGS.colorPalette;
+
     return {
       theme,
+      colorPalette,
       sidebarCollapsed:
         typeof obj.sidebarCollapsed === 'boolean' ? obj.sidebarCollapsed : DEFAULT_APP_SETTINGS.sidebarCollapsed,
       notificationsEnabled:

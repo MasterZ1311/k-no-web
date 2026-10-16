@@ -41,14 +41,17 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
     <header className="h-14 border-b border-kano-border bg-kano-surface px-6 flex items-center justify-between flex-shrink-0 select-none">
       <div className="flex items-center gap-3">
         {isSidebarCollapsed && (
-          <IconButton
-            aria-label="Expand sidebar"
-            variant="ghost"
-            size="sm"
-            onClick={onToggleSidebar}
-          >
-            <PanelLeft className="w-4 h-4" />
-          </IconButton>
+          <div className="flex items-center gap-2">
+            <IconButton
+              aria-label="Expand sidebar"
+              variant="ghost"
+              size="sm"
+              onClick={onToggleSidebar}
+            >
+              <PanelLeft className="w-4 h-4" />
+            </IconButton>
+            <img src="/logo-mark.svg" alt="káno̱ mark" className="w-5 h-5 object-contain" />
+          </div>
         )}
         <Breadcrumbs
           items={[

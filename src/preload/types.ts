@@ -451,8 +451,11 @@ export interface KanoRealtimeAPI {
 // Settings & Desktop Preferences Types
 // ----------------------------------------------------------------------------
 
+export type ColorPalette = 'emerald' | 'luxury-taupe' | 'spectrum' | 'bygone' | 'todo-app';
+
 export interface AppSettings {
   theme: 'system' | 'light' | 'dark';
+  colorPalette?: ColorPalette;
   sidebarCollapsed: boolean;
   notificationsEnabled: boolean;
   taskDueAlerts: boolean;

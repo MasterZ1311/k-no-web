@@ -150,9 +150,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="h-14 px-3 flex items-center justify-between border-b border-kano-border flex-shrink-0">
         {!isCollapsed && (
           <div className="flex items-center gap-2 pl-1.5">
-            <div className="w-5 h-5 rounded bg-kano-accent text-white flex items-center justify-center font-bold text-xs shadow-subtle">
-              k
-            </div>
+            <img
+              src="/logo-mark.svg"
+              alt="káno̱ mark"
+              className="w-5 h-5 object-contain flex-shrink-0"
+            />
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-sm tracking-tight text-kano-text-primary">
                 káno̱

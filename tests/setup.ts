@@ -484,6 +484,7 @@ export function createMockKanoDesktop(overrides?: Partial<KanoDesktopAPI>): Kano
     settings: {
       getSettings: async () => ({
         theme: 'system',
+        colorPalette: 'emerald',
         sidebarCollapsed: false,
         notificationsEnabled: true,
         taskDueAlerts: true,
@@ -495,6 +496,7 @@ export function createMockKanoDesktop(overrides?: Partial<KanoDesktopAPI>): Kano
         success: true,
         settings: {
           theme: 'system',
+          colorPalette: 'emerald',
           sidebarCollapsed: false,
           notificationsEnabled: true,
           taskDueAlerts: true,

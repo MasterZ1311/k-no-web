@@ -1,42 +1,63 @@
 /**
  * káno̱ Design Tokens
- * Calm, refined productivity color palette and spacing scale.
+ * Linear-inspired precision with Monochrome & Vivid Emerald,
+ * soft tactile radii (10px–16px scale), and dedicated 6-color palette tokens.
  */
 
 :root {
-  /* Surface & Background */
-  --color-bg: #fcfcfd;
+  /* Surface & Background (Light Mode) */
+  --color-bg: #f8fafc;
   --color-surface: #ffffff;
-  --color-surface-hover: #f4f4f5;
-  --color-surface-active: #ebecef;
+  --color-surface-hover: #f1f5f9;
+  --color-surface-active: #e2e8f0;
 
   /* Borders */
-  --color-border: #e4e4e7;
-  --color-border-subtle: #f1f1f4;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
 
   /* Typography */
-  --color-text-primary: #18181b;
-  --color-text-secondary: #52525b;
-  --color-text-muted: #71717a;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
 
-  /* Accent (Calm Slate-Indigo) */
-  --color-accent: #4f46e5;
-  --color-accent-hover: #4338ca;
-  --color-accent-subtle: #eef2ff;
+  /* Primary Accent: Vivid Emerald */
+  --color-accent: #10b981;
+  --color-accent-hover: #059669;
+  --color-accent-subtle: rgba(16, 185, 129, 0.12);
   --color-accent-text: #ffffff;
 
-  /* Semantic Feedback */
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-danger: #dc2626;
-  --color-danger-hover: #b91c1c;
-  --color-danger-subtle: #fef2f2;
+  /* User-Provided 6-Color Palette Tokens */
+  --palette-sky: #7FC0FA;
+  --palette-sky-subtle: rgba(127, 192, 250, 0.15);
 
-  /* Border Radii */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
+  --palette-lime: #F0FA73;
+  --palette-lime-subtle: rgba(240, 250, 115, 0.18);
+
+  --palette-red: #FA2E23;
+  --palette-red-subtle: rgba(250, 46, 35, 0.15);
+
+  --palette-crimson: #A8120B;
+  --palette-crimson-subtle: rgba(168, 18, 11, 0.15);
+
+  --palette-slate: #607080;
+  --palette-slate-subtle: rgba(96, 112, 128, 0.15);
+
+  --palette-olive: #787A5B;
+  --palette-olive-subtle: rgba(120, 122, 91, 0.15);
+
+  /* Semantic Feedback Mapped to Palette */
+  --color-success: #10b981;
+  --color-warning: #eab308;
+  --color-danger: #FA2E23;
+  --color-danger-hover: #A8120B;
+  --color-danger-subtle: rgba(250, 46, 35, 0.12);
+
+  /* Soft & Tactile Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
 
   /* Elevations */
   --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -49,25 +70,229 @@
 }
 
 .dark {
-  /* Dark Mode Palette */
-  --color-bg: #0d0f12;
-  --color-surface: #14171d;
-  --color-surface-hover: #1e222b;
-  --color-surface-active: #262b36;
+  /* Dark Mode Palette: Linear-inspired Graphite */
+  --color-bg: #0b0d11;
+  --color-surface: #13171f;
+  --color-surface-hover: #1c222e;
+  --color-surface-active: #242c3b;
 
-  --color-border: #272c37;
-  --color-border-subtle: #1c2029;
+  --color-border: #1f2736;
+  --color-border-subtle: #161c28;
 
-  --color-text-primary: #f4f4f5;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
 
-  --color-accent: #6366f1;
-  --color-accent-hover: #818cf8;
-  --color-accent-subtle: #1e1b4b;
+  --color-accent: #10b981;
+  --color-accent-hover: #34d399;
+  --color-accent-subtle: rgba(16, 185, 129, 0.16);
   --color-accent-text: #ffffff;
 
-  --color-danger-subtle: #450a0a;
+  --color-danger-subtle: rgba(250, 46, 35, 0.2);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Luxury Taupe S Palette (Crimson #EA1F0A, Pitch Black #000000, Alabaster #F6F5F1) */
+/* -------------------------------------------------------------------------- */
+
+[data-palette="luxury-taupe"],
+.palette-luxury-taupe {
+  --palette-luxury-crimson: #EA1F0A;
+  --palette-luxury-black: #000000;
+  --palette-luxury-taupe: #F6F5F1;
+
+  /* Light Mode Luxury Taupe: warm alabaster canvas with obsidian text & crimson accent */
+  --color-bg: #F6F5F1;
+  --color-surface: #ffffff;
+  --color-surface-hover: #edece5;
+  --color-surface-active: #e2e0d8;
+
+  --color-border: #dedbd0;
+  --color-border-subtle: #eae8df;
+
+  --color-text-primary: #000000;
+  --color-text-secondary: #575551;
+  --color-text-muted: #828078;
+
+  --color-accent: #EA1F0A;
+  --color-accent-hover: #cc1a08;
+  --color-accent-subtle: rgba(234, 31, 10, 0.12);
+  --color-accent-text: #ffffff;
+
+  --color-danger: #EA1F0A;
+  --color-danger-hover: #b01507;
+  --color-danger-subtle: rgba(234, 31, 10, 0.12);
+}
+
+.dark[data-palette="luxury-taupe"],
+.dark.palette-luxury-taupe,
+[data-palette="luxury-taupe"].dark,
+.palette-luxury-taupe.dark {
+  /* Dark Mode Luxury Taupe: pure pitch black canvas with warm alabaster text & crimson accent */
+  --color-bg: #000000;
+  --color-surface: #0e0e10;
+  --color-surface-hover: #1a1a1c;
+  --color-surface-active: #252528;
+
+  --color-border: #242426;
+  --color-border-subtle: #161618;
+
+  --color-text-primary: #F6F5F1;
+  --color-text-secondary: #a8a69e;
+  --color-text-muted: #73716a;
+
+  --color-accent: #EA1F0A;
+  --color-accent-hover: #ff3b29;
+  --color-accent-subtle: rgba(234, 31, 10, 0.18);
+  --color-accent-text: #ffffff;
+
+  --color-danger: #EA1F0A;
+  --color-danger-hover: #b01507;
+  --color-danger-subtle: rgba(234, 31, 10, 0.22);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Studio Spectrum Palette (Sky #7FC0FA, Lime #F0FA73, Red #FA2E23)           */
+/* -------------------------------------------------------------------------- */
+
+[data-palette="spectrum"],
+.palette-spectrum {
+  --color-accent: #7FC0FA;
+  --color-accent-hover: #58aaf2;
+  --color-accent-subtle: rgba(127, 192, 250, 0.16);
+  --color-accent-text: #0b0d11;
+}
+
+.dark[data-palette="spectrum"],
+.dark.palette-spectrum,
+[data-palette="spectrum"].dark,
+.palette-spectrum.dark {
+  --color-accent: #7FC0FA;
+  --color-accent-hover: #9bd2fc;
+  --color-accent-subtle: rgba(127, 192, 250, 0.2);
+  --color-accent-text: #0b0d11;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Bygone Palette (Espresso #402212, Parchment #FFF99F, Burgundy #850805, Brass #84784E, Pine #1C241B) */
+/* -------------------------------------------------------------------------- */
+
+[data-palette="bygone"],
+.palette-bygone {
+  --palette-bygone-espresso: #402212;
+  --palette-bygone-parchment: #FFF99F;
+  --palette-bygone-burgundy: #850805;
+  --palette-bygone-brass: #84784E;
+  --palette-bygone-pine: #1C241B;
+
+  /* Light Mode Bygone: nostalgic parchment paper, espresso & burgundy */
+  --color-bg: #fcf9ee;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f4eee0;
+  --color-surface-active: #ebe2cf;
+
+  --color-border: #ded4be;
+  --color-border-subtle: #ece4d2;
+
+  --color-text-primary: #1C241B;
+  --color-text-secondary: #402212;
+  --color-text-muted: #84784E;
+
+  --color-accent: #850805;
+  --color-accent-hover: #690604;
+  --color-accent-subtle: rgba(133, 8, 5, 0.12);
+  --color-accent-text: #ffffff;
+
+  --color-danger: #850805;
+  --color-danger-hover: #690604;
+  --color-danger-subtle: rgba(133, 8, 5, 0.12);
+}
+
+.dark[data-palette="bygone"],
+.dark.palette-bygone,
+[data-palette="bygone"].dark,
+.palette-bygone.dark {
+  /* Dark Mode Bygone: deep forest pine onyx, dark espresso surfaces & buttercream glow */
+  --color-bg: #141a14;
+  --color-surface: #221915;
+  --color-surface-hover: #2e211b;
+  --color-surface-active: #3a2a22;
+
+  --color-border: #3a2c24;
+  --color-border-subtle: #271e19;
+
+  --color-text-primary: #FFF99F;
+  --color-text-secondary: #cfcaa2;
+  --color-text-muted: #84784E;
+
+  --color-accent: #850805;
+  --color-accent-hover: #b01511;
+  --color-accent-subtle: rgba(133, 8, 5, 0.22);
+  --color-accent-text: #ffffff;
+
+  --color-danger: #850805;
+  --color-danger-hover: #b01511;
+  --color-danger-subtle: rgba(133, 8, 5, 0.25);
+}
+
+/* -------------------------------------------------------------------------- */
+/* To-Do App Palette (White #FFFFFF, Royal Indigo #3A4793, Cyan #25B3EC, Periwinkle #9787EE, Marigold #FFBF3E) */
+/* -------------------------------------------------------------------------- */
+
+[data-palette="todo-app"],
+.palette-todo-app {
+  --palette-todo-white: #FFFFFF;
+  --palette-todo-indigo: #3A4793;
+  --palette-todo-cyan: #25B3EC;
+  --palette-todo-periwinkle: #9787EE;
+  --palette-todo-marigold: #FFBF3E;
+
+  /* Light Mode To-Do App: crisp white surfaces, electric cyan accent, royal indigo headers */
+  --color-bg: #f5f8fc;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #edf3fa;
+  --color-surface-active: #e2ecf7;
+
+  --color-border: #dbe4ef;
+  --color-border-subtle: #edf2f9;
+
+  --color-text-primary: #171d3d;
+  --color-text-secondary: #3A4793;
+  --color-text-muted: #6b779e;
+
+  --color-accent: #25B3EC;
+  --color-accent-hover: #179ed4;
+  --color-accent-subtle: rgba(37, 179, 236, 0.14);
+  --color-accent-text: #ffffff;
+
+  --color-warning: #FFBF3E;
+  --color-warning-subtle: rgba(255, 191, 62, 0.16);
+}
+
+.dark[data-palette="todo-app"],
+.dark.palette-todo-app,
+[data-palette="todo-app"].dark,
+.palette-todo-app.dark {
+  /* Dark Mode To-Do App: midnight navy background, rich royal indigo surfaces, periwinkle & cyan accents */
+  --color-bg: #0c1024;
+  --color-surface: #141b3a;
+  --color-surface-hover: #1d2752;
+  --color-surface-active: #27346b;
+
+  --color-border: #263366;
+  --color-border-subtle: #192244;
+
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #9787EE;
+  --color-text-muted: #7380b0;
+
+  --color-accent: #25B3EC;
+  --color-accent-hover: #58c8f5;
+  --color-accent-subtle: rgba(37, 179, 236, 0.2);
+  --color-accent-text: #0c1024;
+
+  --color-warning: #FFBF3E;
+  --color-warning-subtle: rgba(255, 191, 62, 0.2);
 }
 
 @media (prefers-reduced-motion: reduce) {

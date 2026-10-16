@@ -41,8 +41,12 @@ export const AuthContainer: React.FC = () => {
       <div className="max-w-md w-full bg-kano-surface border border-kano-border rounded-xl shadow-card p-8 space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
-          <div className="w-10 h-10 rounded-lg bg-kano-accent text-white flex items-center justify-center font-bold text-lg shadow-subtle mx-auto">
-            k
+          <div className="flex justify-center mb-1">
+            <img
+              src="/logo-mark.svg"
+              alt="káno̱ logo"
+              className="w-12 h-12 object-contain drop-shadow-sm"
+            />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-kano-text-primary">

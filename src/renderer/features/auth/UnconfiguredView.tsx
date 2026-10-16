@@ -35,6 +35,13 @@ export const UnconfiguredView: React.FC = () => {
   return (
     <div className="min-h-screen w-screen flex items-center justify-center bg-kano-bg p-6 text-kano-text-primary">
       <div className="max-w-lg w-full bg-kano-surface border border-kano-border rounded-xl shadow-modal p-8 space-y-6">
+        <div className="flex justify-center pb-1">
+          <img
+            src="/logo-full.svg"
+            alt="káno̱ logo"
+            className="h-9 object-contain"
+          />
+        </div>
         <div className="flex items-center gap-3 text-amber-500">
           <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
             <Globe className="w-5 h-5 text-amber-500" />
