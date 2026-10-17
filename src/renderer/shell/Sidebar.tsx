@@ -229,20 +229,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* 1. App Wordmark & Branding */}
         <div className="h-14 px-3 flex items-center justify-between border-b border-kano-border flex-shrink-0">
           {!isCollapsed && (
-            <div className="flex items-center gap-2 pl-1.5">
+            <div className="flex items-center gap-2 pl-1.5 min-w-0">
               <img
-                src="/logo-mark.svg"
-                alt="káno̱ mark"
-                className="w-5 h-5 object-contain flex-shrink-0"
+                src="/logo-full.svg"
+                alt="káno̱"
+                className="h-7 w-auto max-w-[110px] object-contain flex-shrink-0"
               />
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-base tracking-tight text-kano-text-primary">
-                  káno̱
-                </span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-kano-surface-hover text-kano-text-muted border border-kano-border-subtle">
-                  web v1.0
-                </span>
-              </div>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-kano-surface-hover text-kano-text-muted border border-kano-border-subtle whitespace-nowrap">
+                web v1.0
+              </span>
             </div>
           )}
           <div className="flex items-center gap-1">
