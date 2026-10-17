@@ -130,23 +130,34 @@ export const AppShell: React.FC = () => {
     }
   };
 
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-kano-bg text-kano-text-primary">
+    <div className="flex h-screen h-[100dvh] w-screen overflow-hidden bg-kano-bg text-kano-text-primary">
       {/* Sidebar Navigation */}
       <Sidebar
         currentRoute={currentRoute}
-        onNavigate={setCurrentRoute}
+        onNavigate={(route) => {
+          setCurrentRoute(route);
+          setIsMobileSidebarOpen(false);
+        }}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        isMobileOpen={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* Main Workspace Region */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 h-screen h-[100dvh] overflow-hidden">
         <PageHeader
           currentRoute={currentRoute}
-          onNavigate={setCurrentRoute}
+          onNavigate={(route) => {
+            setCurrentRoute(route);
+            setIsMobileSidebarOpen(false);
+          }}
           isSidebarCollapsed={isSidebarCollapsed}
           onToggleSidebar={() => setIsSidebarCollapsed(false)}
+          onToggleMobileSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
           onOpenSearch={() => setIsSearchOpen(true)}
         />
 
@@ -160,7 +171,10 @@ export const AppShell: React.FC = () => {
       <SearchPalette
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        onNavigate={setCurrentRoute}
+        onNavigate={(route) => {
+          setCurrentRoute(route);
+          setIsMobileSidebarOpen(false);
+        }}
       />
     </div>
   );

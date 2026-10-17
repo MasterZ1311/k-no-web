@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Plus,
   LogOut,
+  X,
 } from 'lucide-react';
 import { RoutePath } from '../routes/types';
 import { SidebarNavItem } from './SidebarNavItem';
@@ -33,6 +34,8 @@ interface SidebarProps {
   onNavigate: (route: RoutePath) => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  isMobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -40,10 +43,58 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNavigate,
   isCollapsed,
   onToggleCollapse,
+  isMobileOpen = false,
+  onCloseMobile,
 }) => {
   const { showToast } = useToast();
   const { user, signOut } = useAuth();
   const { activeRoom } = useRooms();
+
+  const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('kano_sidebar_width');
+      if (saved) {
+        const val = parseInt(saved, 10);
+        if (!isNaN(val) && val >= 180 && val <= 480) return val;
+      }
+    } catch {}
+    return 256;
+  });
+
+  const [isResizing, setIsResizing] = useState(false);
+
+  const startResizing = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isResizing) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const newWidth = Math.min(Math.max(e.clientX, 180), 480);
+      setSidebarWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      try {
+        localStorage.setItem('kano_sidebar_width', String(sidebarWidth));
+      } catch {}
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing, sidebarWidth]);
+
+  const handleNavClick = (path: RoutePath) => {
+    onNavigate(path);
+    onCloseMobile?.();
+  };
 
   const [folders, setFolders] = useState<FolderDTO[]>([]);
   const [counts, setCounts] = useState({
@@ -114,7 +165,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleFolderClick = (folder: FolderDTO) => {
-    onNavigate('/notes');
+    handleNavClick('/notes');
   };
 
   const handleCreateFolderSubmit = async (name: string, parentId?: string | null) => {
@@ -140,47 +191,89 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const getChildFolders = (parentId: string) => folders.filter((f) => f.parentId === parentId);
 
   return (
-    <aside
-      aria-label="Workspace Sidebar"
-      className={`h-screen flex flex-col border-r border-kano-border bg-kano-surface transition-all duration-200 select-none flex-shrink-0 ${
-        isCollapsed ? 'w-14' : 'w-64'
-      }`}
-    >
-      {/* 1. App Wordmark & Branding */}
-      <div className="h-14 px-3 flex items-center justify-between border-b border-kano-border flex-shrink-0">
+    <>
+      {/* Mobile Drawer Backdrop Overlay */}
+      {isMobileOpen && (
+        <div
+          role="presentation"
+          aria-hidden="true"
+          className="fixed inset-0 bg-black/60 z-40 backdrop-blur-xs md:hidden transition-opacity"
+          onClick={onCloseMobile}
+        />
+      )}
+
+      <aside
+        aria-label="Workspace Sidebar"
+        style={isCollapsed ? undefined : { width: `${sidebarWidth}px` }}
+        className={`h-screen h-[100dvh] flex flex-col border-r border-kano-border bg-kano-surface select-none flex-shrink-0 relative z-50 md:z-auto transition-transform md:transition-[width] duration-200 ${
+          isCollapsed ? 'w-14' : 'w-64'
+        } ${
+          isMobileOpen
+            ? 'fixed inset-y-0 left-0 shadow-2xl translate-x-0 max-w-[85vw]'
+            : 'fixed md:relative -translate-x-full md:translate-x-0'
+        }`}
+      >
+        {/* Resizer Handle (Desktop only) */}
         {!isCollapsed && (
-          <div className="flex items-center gap-2 pl-1.5">
-            <img
-              src="/logo-mark.svg"
-              alt="káno̱ mark"
-              className="w-5 h-5 object-contain flex-shrink-0"
-            />
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-sm tracking-tight text-kano-text-primary">
-                káno̱
-              </span>
-              <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-kano-surface-hover text-kano-text-muted border border-kano-border-subtle">
-                web v1.0
-              </span>
-            </div>
-          </div>
+          <div
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Resize sidebar"
+            onMouseDown={startResizing}
+            onDoubleClick={() => setSidebarWidth(256)}
+            title="Drag to resize, double click to reset"
+            className="hidden md:block absolute top-0 right-0 w-1.5 h-full cursor-col-resize hover:bg-kano-accent/40 active:bg-kano-accent transition-colors z-30"
+          />
         )}
-        <Tooltip content={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} position="right">
-          <IconButton
-            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            variant="ghost"
-            size="sm"
-            onClick={onToggleCollapse}
-            className={isCollapsed ? 'mx-auto' : ''}
-          >
-            <PanelLeftClose
-              className={`w-4 h-4 transition-transform duration-200 ${
-                isCollapsed ? 'rotate-180' : ''
-              }`}
-            />
-          </IconButton>
-        </Tooltip>
-      </div>
+
+        {/* 1. App Wordmark & Branding */}
+        <div className="h-14 px-3 flex items-center justify-between border-b border-kano-border flex-shrink-0">
+          {!isCollapsed && (
+            <div className="flex items-center gap-2 pl-1.5">
+              <img
+                src="/logo-mark.svg"
+                alt="káno̱ mark"
+                className="w-5 h-5 object-contain flex-shrink-0"
+              />
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-sm tracking-tight text-kano-text-primary">
+                  káno̱
+                </span>
+                <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-kano-surface-hover text-kano-text-muted border border-kano-border-subtle">
+                  web v1.0
+                </span>
+              </div>
+            </div>
+          )}
+          <div className="flex items-center gap-1">
+            {onCloseMobile && (
+              <IconButton
+                aria-label="Close navigation"
+                variant="ghost"
+                size="sm"
+                onClick={onCloseMobile}
+                className="md:hidden"
+              >
+                <X className="w-4 h-4 text-kano-text-muted" />
+              </IconButton>
+            )}
+            <Tooltip content={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} position="right">
+              <IconButton
+                aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                variant="ghost"
+                size="sm"
+                onClick={onToggleCollapse}
+                className={isCollapsed ? 'mx-auto' : 'hidden md:inline-flex'}
+              >
+                <PanelLeftClose
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    isCollapsed ? 'rotate-180' : ''
+                  }`}
+                />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </div>
 
       {/* 2. Workspace Identity & Switcher */}
       <div className="p-2 border-b border-kano-border flex-shrink-0">
@@ -198,7 +291,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             badgeCount={counts.notes}
             isActive={currentRoute === '/notes'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/notes')}
+            onClick={() => handleNavClick('/notes')}
           />
           <SidebarNavItem
             path="/tasks"
@@ -207,7 +300,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             badgeCount={counts.tasks}
             isActive={currentRoute === '/tasks'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/tasks')}
+            onClick={() => handleNavClick('/tasks')}
           />
           <SidebarNavItem
             path="/board"
@@ -216,7 +309,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             badgeCount={counts.boardItems}
             isActive={currentRoute === '/board'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/board')}
+            onClick={() => handleNavClick('/board')}
           />
           <SidebarNavItem
             path="/calendar"
@@ -225,7 +318,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             badgeCount={counts.calendarItems}
             isActive={currentRoute === '/calendar'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/calendar')}
+            onClick={() => handleNavClick('/calendar')}
           />
           <SidebarNavItem
             path="/activity"
@@ -233,7 +326,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             icon={<Activity className="w-4 h-4" />}
             isActive={currentRoute === '/activity'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/activity')}
+            onClick={() => handleNavClick('/activity')}
           />
         </div>
 
@@ -340,7 +433,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             icon={<Star className="w-4 h-4 text-amber-500" />}
             isActive={currentRoute === '/favorites'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/favorites')}
+            onClick={() => handleNavClick('/favorites')}
           />
           <SidebarNavItem
             path="/trash"
@@ -349,7 +442,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             badgeCount={counts.trashCount}
             isActive={currentRoute === '/trash'}
             isCollapsed={isCollapsed}
-            onClick={() => onNavigate('/trash')}
+            onClick={() => handleNavClick('/trash')}
           />
         </div>
       </div>
@@ -362,7 +455,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           icon={<Settings className="w-4 h-4" />}
           isActive={currentRoute === '/settings'}
           isCollapsed={isCollapsed}
-          onClick={() => onNavigate('/settings')}
+          onClick={() => handleNavClick('/settings')}
         />
 
         {/* User Identity Area */}
@@ -415,5 +508,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         onSubmit={handleCreateFolderSubmit}
       />
     </aside>
+    </>
   );
 };

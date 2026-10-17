@@ -118,9 +118,9 @@ export const TrashRoute: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-6 select-none bg-kano-bg max-w-5xl mx-auto">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 select-none bg-kano-bg max-w-5xl mx-auto">
       {/* Route Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
             <Trash2 className="w-5 h-5 text-kano-text-muted" />
@@ -130,7 +130,7 @@ export const TrashRoute: React.FC = () => {
             Items in trash remain restorable. Restoring an item whose folder was deleted places it at the workspace root.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Button
             variant="secondary"
             size="sm"
@@ -198,9 +198,9 @@ export const TrashRoute: React.FC = () => {
             return (
               <div
                 key={note.id}
-                className="bg-kano-surface border border-kano-border rounded-xl p-4 flex items-center justify-between text-xs shadow-subtle hover:border-kano-accent/50 transition-colors"
+                className="bg-kano-surface border border-kano-border rounded-xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-subtle hover:border-kano-accent/50 transition-colors"
               >
-                <div className="flex items-center gap-3 min-w-0 flex-1 pr-4">
+                <div className="flex items-center gap-3 min-w-0 flex-1 sm:pr-4">
                   <div className="w-8 h-8 rounded-lg bg-kano-bg border border-kano-border flex items-center justify-center text-kano-text-muted flex-shrink-0">
                     <Trash2 className="w-4 h-4" />
                   </div>
@@ -214,7 +214,7 @@ export const TrashRoute: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center justify-end gap-2 flex-shrink-0">
                   <Button
                     variant="secondary"
                     size="sm"

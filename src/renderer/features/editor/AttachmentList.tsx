@@ -72,8 +72,8 @@ export const AttachmentList: React.FC<AttachmentListProps> = ({
   };
 
   return (
-    <div className="border-t border-kano-border px-6 py-4 bg-kano-surface/50">
-      <div className="flex items-center justify-between mb-3">
+    <div className="border-t border-kano-border px-3 sm:px-6 py-3 sm:py-4 bg-kano-surface/50">
+      <div className="flex items-center justify-between mb-3 gap-2">
         <div className="flex items-center gap-2">
           <Paperclip className="w-4 h-4 text-kano-text-muted" />
           <h4 className="text-xs font-semibold text-kano-text-primary">

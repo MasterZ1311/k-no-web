@@ -58,7 +58,7 @@ export const FavoritesRoute: React.FC<FavoritesRouteProps> = ({ onNavigate }) =>
   const hasItems = favoriteNotes.length > 0 || urgentTasks.length > 0;
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-6 select-none max-w-5xl mx-auto">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 select-none max-w-5xl mx-auto">
       <div>
         <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
           <Star className="w-5 h-5 text-amber-500 fill-amber-500" />

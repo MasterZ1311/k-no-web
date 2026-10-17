@@ -12,6 +12,7 @@ interface PageHeaderProps {
   onToggleSidebar: () => void;
   isSidebarCollapsed: boolean;
   onOpenSearch: () => void;
+  onToggleMobileSidebar?: () => void;
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({
@@ -20,6 +21,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   onToggleSidebar,
   isSidebarCollapsed,
   onOpenSearch,
+  onToggleMobileSidebar,
 }) => {
   const meta = ROUTES[currentRoute];
   const { showToast } = useToast();
@@ -38,10 +40,24 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   };
 
   return (
-    <header className="h-14 border-b border-kano-border bg-kano-surface px-6 flex items-center justify-between flex-shrink-0 select-none">
-      <div className="flex items-center gap-3">
+    <header className="h-14 border-b border-kano-border bg-kano-surface px-3 sm:px-6 flex items-center justify-between flex-shrink-0 select-none">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        {/* Mobile menu drawer toggle button */}
+        <div className="md:hidden flex items-center gap-1.5">
+          <IconButton
+            aria-label="Open mobile navigation"
+            variant="ghost"
+            size="sm"
+            onClick={onToggleMobileSidebar || onToggleSidebar}
+          >
+            <PanelLeft className="w-4 h-4" />
+          </IconButton>
+          <img src="/logo-mark.svg" alt="káno̱ mark" className="w-5 h-5 object-contain" />
+        </div>
+
+        {/* Desktop sidebar expand button */}
         {isSidebarCollapsed && (
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <IconButton
               aria-label="Expand sidebar"
               variant="ghost"
@@ -53,25 +69,27 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             <img src="/logo-mark.svg" alt="káno̱ mark" className="w-5 h-5 object-contain" />
           </div>
         )}
-        <Breadcrumbs
-          items={[
-            { label: 'Workspace', onClick: () => onNavigate('/notes') },
-            { label: meta.breadcrumb, current: true },
-          ]}
-        />
+        <div className="truncate">
+          <Breadcrumbs
+            items={[
+              { label: 'Workspace', onClick: () => onNavigate('/notes') },
+              { label: meta.breadcrumb, current: true },
+            ]}
+          />
+        </div>
       </div>
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         {/* Search Palette Trigger */}
         <button
           type="button"
           onClick={onOpenSearch}
-          className="flex items-center gap-2 h-8 px-2.5 rounded-md border border-kano-border bg-kano-bg hover:bg-kano-surface-hover text-kano-text-muted hover:text-kano-text-primary text-xs transition-colors shadow-subtle"
+          className="flex items-center gap-1.5 sm:gap-2 h-8 px-2 sm:px-2.5 rounded-md border border-kano-border bg-kano-bg hover:bg-kano-surface-hover text-kano-text-muted hover:text-kano-text-primary text-xs transition-colors shadow-subtle"
           title="Search or jump to route (Ctrl+K)"
         >
           <Search className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Search workspace...</span>
-          <kbd className="text-[10px] px-1 py-0.2 rounded bg-kano-surface border border-kano-border font-mono ml-1">
+          <kbd className="hidden sm:inline-block text-[10px] px-1 py-0.2 rounded bg-kano-surface border border-kano-border font-mono ml-1">
             Ctrl+K
           </kbd>
         </button>
@@ -83,14 +101,18 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
             size="sm"
             iconLeft={<Plus className="w-3.5 h-3.5" />}
             onClick={handleAction}
+            className="h-8 text-xs whitespace-nowrap"
           >
-            {currentRoute === '/notes'
-              ? 'New Note'
-              : currentRoute === '/tasks'
-              ? 'New Task'
-              : currentRoute === '/board'
-              ? 'Add Card'
-              : 'New Event'}
+            <span className="hidden sm:inline">
+              {currentRoute === '/notes'
+                ? 'New Note'
+                : currentRoute === '/tasks'
+                ? 'New Task'
+                : currentRoute === '/board'
+                ? 'Add Card'
+                : 'New Event'}
+            </span>
+            <span className="sm:hidden">New</span>
           </Button>
         )}
       </div>

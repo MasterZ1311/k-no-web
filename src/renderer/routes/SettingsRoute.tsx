@@ -164,7 +164,7 @@ export const SettingsRoute: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-8 select-none max-w-4xl">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 sm:space-y-8 select-none max-w-4xl">
       <div>
         <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
           <Settings className="w-5 h-5 text-kano-accent" />

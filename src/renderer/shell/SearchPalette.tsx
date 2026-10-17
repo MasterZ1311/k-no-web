@@ -137,7 +137,7 @@ export const SearchPalette: React.FC<SearchPaletteProps> = ({ isOpen, onClose, o
       role="dialog"
       aria-modal="true"
       aria-label="Search and Command Palette"
-      className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-black/40 backdrop-blur-xs select-none"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-8 sm:pt-24 px-3 sm:px-4 bg-black/40 backdrop-blur-xs select-none"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}

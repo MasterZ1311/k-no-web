@@ -145,8 +145,8 @@ export const ActivityRoute: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-8 space-y-6 select-none max-w-5xl mx-auto">
-      <div className="flex items-center justify-between">
+    <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-6 select-none max-w-5xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
             <Activity className="w-5 h-5 text-kano-accent" />
@@ -162,7 +162,7 @@ export const ActivityRoute: React.FC = () => {
             size="sm"
             onClick={fetchLogs}
             disabled={isLoading}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1.5 self-start sm:self-auto"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
@@ -171,7 +171,7 @@ export const ActivityRoute: React.FC = () => {
       </div>
 
       {!activeRoom ? (
-        <div className="bg-kano-surface border border-kano-border rounded-xl p-12 text-center">
+        <div className="bg-kano-surface border border-kano-border rounded-xl p-8 sm:p-12 text-center">
           <EmptyState
             icon={<Activity className="w-6 h-6" />}
             title="No Active Room"
@@ -182,7 +182,7 @@ export const ActivityRoute: React.FC = () => {
         <>
 
       {/* Filter Chips */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
         {(
           [
             { id: 'all', label: 'All Activity' },

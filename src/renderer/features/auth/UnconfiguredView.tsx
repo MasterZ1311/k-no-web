@@ -33,8 +33,8 @@ export const UnconfiguredView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center bg-kano-bg p-6 text-kano-text-primary">
-      <div className="max-w-lg w-full bg-kano-surface border border-kano-border rounded-xl shadow-modal p-8 space-y-6">
+    <div className="min-h-screen min-h-[100dvh] w-screen flex items-center justify-center bg-kano-bg p-4 sm:p-6 overflow-y-auto text-kano-text-primary">
+      <div className="max-w-lg w-full my-auto bg-kano-surface border border-kano-border rounded-xl shadow-modal p-5 sm:p-8 space-y-6">
         <div className="flex justify-center pb-1">
           <img
             src="/logo-full.svg"

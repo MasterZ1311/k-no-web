@@ -6,6 +6,8 @@ import {
   Pin,
   Star,
   Download,
+  ChevronLeft,
+  Folder,
 } from 'lucide-react';
 import { Button } from '../design-system/Button';
 import { IconButton } from '../design-system/IconButton';
@@ -29,6 +31,61 @@ export const NotesRoute: React.FC = () => {
   const [selectedFolderFilter, setSelectedFolderFilter] = useState<string | 'all' | 'uncategorized'>('all');
   const [selectedNoteId, setSelectedNoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Column width states with localStorage persistence
+  const [foldersWidth, setFoldersWidth] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('kano_folders_width');
+      if (saved) {
+        const val = parseInt(saved, 10);
+        if (!isNaN(val) && val >= 160 && val <= 380) return val;
+      }
+    } catch {}
+    return 224; // w-56
+  });
+
+  const [notesListWidth, setNotesListWidth] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('kano_notes_width');
+      if (saved) {
+        const val = parseInt(saved, 10);
+        if (!isNaN(val) && val >= 220 && val <= 520) return val;
+      }
+    } catch {}
+    return 288; // w-72
+  });
+
+  const [resizingTarget, setResizingTarget] = useState<'folders' | 'notes' | null>(null);
+
+  // Resize drag handling
+  useEffect(() => {
+    if (!resizingTarget) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (resizingTarget === 'folders') {
+        const newWidth = Math.min(Math.max(e.clientX - 256, 160), 380);
+        setFoldersWidth(newWidth);
+      } else if (resizingTarget === 'notes') {
+        const newWidth = Math.min(Math.max(e.clientX - 256 - foldersWidth, 220), 520);
+        setNotesListWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setResizingTarget(null);
+      try {
+        localStorage.setItem('kano_folders_width', String(foldersWidth));
+        localStorage.setItem('kano_notes_width', String(notesListWidth));
+      } catch {}
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [resizingTarget, foldersWidth]);
 
   // Folder Dialog States
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false);
@@ -431,8 +488,11 @@ export const NotesRoute: React.FC = () => {
 
   return (
     <div className="flex-1 flex h-full overflow-hidden select-none bg-kano-bg">
-      {/* Column 1: Folder Tree (Width 220px) */}
-      <div className="w-56 border-r border-kano-border bg-kano-surface flex flex-col flex-shrink-0">
+      {/* Column 1: Folder Tree (Desktop) */}
+      <div
+        style={{ width: `${foldersWidth}px` }}
+        className="hidden md:flex border-r border-kano-border bg-kano-surface flex-col flex-shrink-0 relative group"
+      >
         <FolderTree
           folders={folders}
           selectedFolderId={selectedFolderFilter}
@@ -446,10 +506,61 @@ export const NotesRoute: React.FC = () => {
           totalNotesCount={notes.length}
           uncategorizedNotesCount={uncategorizedCount}
         />
+        {/* Resizer Handle */}
+        <div
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Resize folders pane"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            setResizingTarget('folders');
+          }}
+          onDoubleClick={() => setFoldersWidth(224)}
+          title="Drag to resize, double-click to reset"
+          className="hidden md:block absolute top-0 right-0 w-1.5 h-full cursor-col-resize hover:bg-kano-accent/40 active:bg-kano-accent transition-colors z-20"
+        />
       </div>
 
-      {/* Column 2: Notes List (Width 280px) */}
-      <div className="w-72 border-r border-kano-border bg-kano-surface flex flex-col flex-shrink-0">
+      {/* Column 2: Notes List */}
+      <div
+        style={{ width: undefined }}
+        className={`border-r border-kano-border bg-kano-surface flex-col flex-shrink-0 relative md:flex ${
+          selectedNoteId ? 'hidden md:flex' : 'flex w-full md:w-auto'
+        }`}
+        ref={(el) => {
+          if (el && typeof window !== 'undefined' && window.innerWidth >= 768) {
+            el.style.width = `${notesListWidth}px`;
+          }
+        }}
+      >
+        {/* Mobile Folder Selector Bar (mobile only) */}
+        <div className="md:hidden px-3 pt-2.5 pb-2 flex items-center justify-between gap-2 border-b border-kano-border/60 bg-kano-surface">
+          <div className="flex items-center gap-1.5 text-xs text-kano-text-secondary truncate">
+            <Folder className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+            <span className="font-medium truncate">
+              {selectedFolderFilter === 'all'
+                ? 'All Notes'
+                : selectedFolderFilter === 'uncategorized'
+                ? 'Uncategorized'
+                : folders.find((f) => f.id === selectedFolderFilter)?.name || 'Folder'}
+            </span>
+          </div>
+          <select
+            aria-label="Filter by folder"
+            value={selectedFolderFilter}
+            onChange={(e) => setSelectedFolderFilter(e.target.value)}
+            className="text-[11px] bg-kano-bg border border-kano-border rounded px-2 py-0.5 text-kano-text-primary focus:outline-none focus:border-kano-accent"
+          >
+            <option value="all">All Folders ({notes.length})</option>
+            <option value="uncategorized">Uncategorized ({uncategorizedCount})</option>
+            {folders.map((f) => (
+              <option key={f.id} value={f.id}>
+                {f.name} ({f.noteCount || 0})
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Header & Search */}
         <div className="p-3 border-b border-kano-border space-y-2">
           <div className="flex items-center justify-between">
@@ -548,25 +659,64 @@ export const NotesRoute: React.FC = () => {
             })
           )}
         </div>
+
+        {/* Resizer Handle */}
+        <div
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Resize notes list pane"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            setResizingTarget('notes');
+          }}
+          onDoubleClick={() => setNotesListWidth(288)}
+          title="Drag to resize, double-click to reset"
+          className="hidden md:block absolute top-0 right-0 w-1.5 h-full cursor-col-resize hover:bg-kano-accent/40 active:bg-kano-accent transition-colors z-20"
+        />
       </div>
 
       {/* Column 3: Active Note Editor Pane */}
-      <div className="flex-1 flex flex-col h-full bg-kano-surface min-w-0">
+      <div
+        className={`flex-1 flex-col h-full bg-kano-surface min-w-0 ${
+          !selectedNoteId ? 'hidden md:flex' : 'flex'
+        }`}
+      >
         {selectedNote ? (
-          <RichTextEditor
-            key={selectedNote.id}
-            note={selectedNote}
-            folders={folders}
-            onUpdateNote={handleUpdateNote}
-            onDeleteNote={handleTrashNote}
-            onTogglePin={handleTogglePin}
-            onToggleFavorite={handleToggleFavorite}
-            onMoveNote={handleMoveNote}
-            attachments={attachments}
-            onUploadAttachment={handleUploadAttachment}
-            onDeleteAttachment={handleDeleteAttachment}
-            onDuplicateConflictNote={handleDuplicateConflictNote}
-          />
+          <>
+            {/* Mobile Back Button Bar */}
+            <div className="md:hidden flex items-center justify-between px-3 py-2 border-b border-kano-border bg-kano-surface shrink-0">
+              <Button
+                variant="ghost"
+                size="sm"
+                iconLeft={<ChevronLeft className="w-4 h-4" />}
+                onClick={() => setSelectedNoteId(null)}
+                className="text-xs px-2"
+              >
+                Back to Notes
+              </Button>
+              <span className="text-xs text-kano-text-muted font-medium">
+                Editing Note
+              </span>
+            </div>
+
+            <RichTextEditor
+              key={selectedNote.id}
+              note={selectedNote}
+              folders={folders}
+              onUpdateNote={handleUpdateNote}
+              onDeleteNote={(noteId) => {
+                handleTrashNote(noteId);
+                setSelectedNoteId(null);
+              }}
+              onTogglePin={handleTogglePin}
+              onToggleFavorite={handleToggleFavorite}
+              onMoveNote={handleMoveNote}
+              attachments={attachments}
+              onUploadAttachment={handleUploadAttachment}
+              onDeleteAttachment={handleDeleteAttachment}
+              onDuplicateConflictNote={handleDuplicateConflictNote}
+            />
+          </>
         ) : (
           <div className="flex-1 flex items-center justify-center p-8 select-none">
             <EmptyState

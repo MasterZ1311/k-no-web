@@ -81,7 +81,7 @@ export const Dialog: React.FC<DialogProps> = ({
     >
       <div
         ref={dialogRef}
-        className={`w-full ${widthClasses[maxWidth]} bg-kano-surface border border-kano-border rounded-lg shadow-modal overflow-hidden flex flex-col focus:outline-none`}
+        className={`w-full ${widthClasses[maxWidth]} max-h-[calc(100dvh-2rem)] bg-kano-surface border border-kano-border rounded-lg shadow-modal overflow-hidden flex flex-col focus:outline-none`}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-kano-border">
           <div>

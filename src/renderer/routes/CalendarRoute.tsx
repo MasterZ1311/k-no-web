@@ -207,9 +207,9 @@ export const CalendarRoute: React.FC = () => {
   const now = new Date();
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden p-6 select-none">
+    <div className="flex-1 flex flex-col h-full overflow-hidden p-3 sm:p-6 select-none">
       {/* Top Header */}
-      <div className="flex items-center justify-between mb-4 shrink-0 flex-wrap gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 shrink-0 gap-3">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
             <CalendarIcon className="w-5 h-5 text-kano-accent" />
@@ -219,7 +219,7 @@ export const CalendarRoute: React.FC = () => {
             UTC-consistent milestones, task deadlines, and local system reminder alerts.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <Button
             variant="primary"
             size="sm"
@@ -247,15 +247,15 @@ export const CalendarRoute: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 overflow-hidden">
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 sm:gap-6 min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* Left: Month Grid */}
-        <div className="flex-1 flex flex-col bg-kano-bg border border-kano-border rounded-xl p-4 min-h-0 overflow-hidden">
+        <div className="flex-1 flex flex-col bg-kano-bg border border-kano-border rounded-xl p-3 sm:p-4 min-h-[400px] lg:min-h-0 overflow-hidden">
           {/* Calendar Controls */}
-          <div className="flex items-center justify-between pb-3 mb-2 border-b border-kano-border shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 mb-2 border-b border-kano-border shrink-0">
             <h2 className="text-base font-bold text-kano-text-primary">
               {currentDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
             </h2>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 self-end sm:self-auto">
               <Button variant="secondary" size="sm" onClick={handleToday}>
                 Today
               </Button>
@@ -300,7 +300,7 @@ export const CalendarRoute: React.FC = () => {
                 <div
                   key={idx}
                   onClick={() => setSelectedDate(cell.date)}
-                  className={`flex flex-col p-1.5 min-h-[64px] rounded-lg border transition-all cursor-pointer ${
+                  className={`flex flex-col p-1 sm:p-1.5 min-h-[50px] sm:min-h-[64px] rounded-lg border transition-all cursor-pointer ${
                     isSelected
                       ? 'border-kano-accent bg-kano-surface ring-1 ring-kano-accent/40 shadow-xs'
                       : 'border-kano-border/60 bg-kano-surface/40 hover:bg-kano-surface hover:border-kano-border'
@@ -372,7 +372,7 @@ export const CalendarRoute: React.FC = () => {
         </div>
 
         {/* Right: Selected Day Agenda */}
-        <div className="w-full lg:w-80 flex flex-col bg-kano-bg border border-kano-border rounded-xl p-4 min-h-0 shrink-0">
+        <div className="w-full lg:w-80 flex flex-col bg-kano-bg border border-kano-border rounded-xl p-3 sm:p-4 min-h-0 shrink-0">
           <div className="flex items-center justify-between pb-3 mb-3 border-b border-kano-border shrink-0">
             <div>
               <span className="text-xs font-semibold text-kano-text-muted uppercase tracking-wider block">

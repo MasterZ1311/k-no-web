@@ -37,8 +37,8 @@ export const AuthContainer: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center bg-kano-bg p-6 text-kano-text-primary">
-      <div className="max-w-md w-full bg-kano-surface border border-kano-border rounded-xl shadow-card p-8 space-y-6">
+    <div className="min-h-screen min-h-[100dvh] w-screen flex items-center justify-center bg-kano-bg p-4 sm:p-6 overflow-y-auto text-kano-text-primary">
+      <div className="max-w-md w-full my-auto bg-kano-surface border border-kano-border rounded-xl shadow-card p-6 sm:p-8 space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="flex justify-center mb-1">

@@ -210,9 +210,9 @@ export const BoardRoute: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden p-6 select-none">
+    <div className="flex-1 flex flex-col h-full overflow-hidden p-3 sm:p-6 select-none">
       {/* Top Header */}
-      <div className="flex items-center justify-between mb-4 shrink-0 flex-wrap gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 shrink-0 gap-3">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
             <LayoutGrid className="w-5 h-5 text-kano-accent" />
@@ -227,6 +227,7 @@ export const BoardRoute: React.FC = () => {
           size="sm"
           iconLeft={<Plus className="w-3.5 h-3.5" />}
           onClick={() => handleOpenNewTask(columns[0]?.id)}
+          className="self-start sm:self-auto"
         >
           Add Task Card
         </Button>
@@ -245,7 +246,7 @@ export const BoardRoute: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4 overflow-x-auto min-h-0 pb-2">
+        <div className="flex-1 flex gap-4 overflow-x-auto min-h-0 pb-3 snap-x snap-mandatory">
         {columns.map((col) => {
           const colTasks = tasksByColumn.get(col.id) || [];
           const colorCfg = COLUMN_COLOR_MAP[col.statusKey] || COLUMN_COLOR_MAP.todo;
@@ -254,10 +255,11 @@ export const BoardRoute: React.FC = () => {
           return (
             <div
               key={col.id}
+              id={`board-col-${col.id}`}
               onDragOver={(e) => handleDragOver(e, col.id)}
               onDragLeave={(e) => handleDragLeave(e, col.id)}
               onDrop={(e) => handleDrop(e, col.id)}
-              className={`flex flex-col bg-kano-bg border rounded-xl p-3 min-w-[240px] transition-colors ${
+              className={`flex flex-col bg-kano-bg border rounded-xl p-3 min-w-[270px] w-72 sm:w-80 flex-shrink-0 snap-start transition-colors ${
                 isDragOver
                   ? 'border-kano-accent ring-2 ring-kano-accent/20 bg-kano-surface/80'
                   : 'border-kano-border'

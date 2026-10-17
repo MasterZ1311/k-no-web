@@ -58,7 +58,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
         <div
           role="menu"
           aria-orientation="vertical"
-          className={`absolute z-40 mt-1 min-w-[180px] bg-kano-surface border border-kano-border rounded-md shadow-popup py-1 select-none focus:outline-none ${
+          className={`absolute z-40 mt-1 min-w-[180px] max-w-[calc(100vw-2rem)] max-h-80 overflow-y-auto bg-kano-surface border border-kano-border rounded-md shadow-popup py-1 select-none focus:outline-none ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
