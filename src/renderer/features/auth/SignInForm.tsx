@@ -83,7 +83,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
           <button
             type="button"
             onClick={onSwitchToForgotPassword}
-            className="text-[11px] text-kano-accent hover:underline font-medium focus:outline-none"
+            className="text-xs text-kano-accent hover:underline font-medium focus:outline-none"
           >
             Forgot password?
           </button>
@@ -105,7 +105,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         type="submit"
         variant="primary"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-1.5 py-2"
+        className="w-full flex items-center justify-center gap-2 h-10 text-sm font-medium whitespace-nowrap shrink-0"
       >
         <span>{isSubmitting ? 'Signing In...' : 'Sign In'}</span>
         {!isSubmitting && <ArrowRight className="w-4 h-4" />}

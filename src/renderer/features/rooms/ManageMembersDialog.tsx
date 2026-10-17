@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Dialog } from '../../design-system/Dialog';
 import { Button } from '../../design-system/Button';
+import { IconButton } from '../../design-system/IconButton';
 import { Input } from '../../design-system/Input';
 import { useRooms } from './RoomContext';
 import { useAuth } from '../auth/AuthContext';
@@ -250,9 +251,15 @@ export const ManageMembersDialog: React.FC<ManageMembersDialogProps> = ({ isOpen
 
           <div className="flex-1" />
 
-          <Button variant="ghost" size="sm" onClick={loadData} disabled={isLoading}>
+          <IconButton
+            aria-label="Refresh data"
+            variant="ghost"
+            size="sm"
+            onClick={loadData}
+            disabled={isLoading}
+          >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-          </Button>
+          </IconButton>
         </div>
 
         {error && (
@@ -313,25 +320,25 @@ export const ManageMembersDialog: React.FC<ManageMembersDialogProps> = ({ isOpen
 
                       {/* Owner actions for standard members */}
                       {isOwner && !isTargetOwner && (
-                        <div className="flex items-center gap-1 ml-2">
-                          <Button
+                        <div className="flex items-center gap-1 ml-2 shrink-0">
+                          <IconButton
+                            aria-label="Transfer Room Ownership"
                             variant="ghost"
                             size="sm"
                             onClick={() => setTransferTarget(member)}
-                            className="text-xs text-kano-text-muted hover:text-amber-600"
-                            title="Transfer Room Ownership"
+                            className="text-kano-text-muted hover:text-amber-600"
                           >
                             <ArrowRightLeft className="w-3.5 h-3.5" />
-                          </Button>
-                          <Button
+                          </IconButton>
+                          <IconButton
+                            aria-label="Remove Member"
                             variant="ghost"
                             size="sm"
                             onClick={() => setRemoveTarget(member)}
-                            className="text-xs text-kano-text-muted hover:text-red-600"
-                            title="Remove Member"
+                            className="text-kano-text-muted hover:text-red-600"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
-                          </Button>
+                          </IconButton>
                         </div>
                       )}
                     </div>
@@ -444,11 +451,11 @@ export const ManageMembersDialog: React.FC<ManageMembersDialogProps> = ({ isOpen
               <Button
                 type="submit"
                 variant="primary"
-                size="sm"
+                size="md"
                 disabled={isGenerating}
-                className="w-full flex items-center justify-center gap-1.5"
+                className="w-full flex items-center justify-center gap-2 whitespace-nowrap shrink-0"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 <span>{isGenerating ? 'Generating...' : 'Generate Invitation Token'}</span>
               </Button>
             </form>
@@ -469,16 +476,16 @@ export const ManageMembersDialog: React.FC<ManageMembersDialogProps> = ({ isOpen
                     type="text"
                     readOnly
                     value={generatedToken}
-                    className="flex-1 h-8 px-2 font-mono text-xs bg-kano-surface border border-kano-border rounded text-kano-text-primary select-all"
+                    className="flex-1 h-10 px-3 font-mono text-sm bg-kano-surface border border-kano-border rounded-lg text-kano-text-primary select-all"
                   />
                   <Button
                     type="button"
                     variant="secondary"
-                    size="sm"
+                    size="md"
                     onClick={handleCopyToken}
-                    className="flex items-center gap-1"
+                    className="flex items-center gap-1.5 whitespace-nowrap shrink-0"
                   >
-                    {hasCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                    {hasCopied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                     <span>{hasCopied ? 'Copied' : 'Copy'}</span>
                   </Button>
                 </div>

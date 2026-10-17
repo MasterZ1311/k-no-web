@@ -26,12 +26,20 @@ import {
   AlertTriangle,
   FolderOpen,
   Download,
+  MessageSquare,
+  Users,
 } from 'lucide-react';
 import { IconButton } from '../../design-system/IconButton';
 import { Button } from '../../design-system/Button';
 import { DropdownMenu } from '../../design-system/DropdownMenu';
 import { useToast } from '../../design-system/ToastProvider';
+import { useAuth } from '../auth/AuthContext';
+import { useRealtime } from '../realtime/RealtimeContext';
 import { AttachmentList } from './AttachmentList';
+import { SlashCommandMenu } from './SlashCommandMenu';
+import { BubbleMenu } from './BubbleMenu';
+import { BlockDragHandle } from './BlockDragHandle';
+import { InlineComments } from './InlineComments';
 import { kanoDocToTipTap, tipTapToKanoDoc } from './converter';
 import type { NoteDTO, FolderDTO, AttachmentDTO, KanoDocContent, NoteUpdateResult } from '../../../preload/types';
 
@@ -71,14 +79,44 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onDuplicateConflictNote,
 }) => {
   const { showToast } = useToast();
+  const { user } = useAuth();
+  const { presenceUsers, trackPresence } = useRealtime();
+
   const [title, setTitle] = useState(note.title);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved');
   const [conflictData, setConflictData] = useState<{ currentVersion: number; currentNote?: NoteDTO } | null>(null);
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const [pendingHighlight, setPendingHighlight] = useState('');
 
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isDirtyRef = useRef<boolean>(false);
   const latestVersionRef = useRef<number>(note.version);
   const currentNoteIdRef = useRef<string>(note.id);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
+
+  const [slashMenuState, setSlashMenuState] = useState<{
+    isOpen: boolean;
+    filterText: string;
+    position: { top: number; left: number };
+  }>({
+    isOpen: false,
+    filterText: '',
+    position: { top: 0, left: 0 },
+  });
+
+  // Track user presence on current note
+  useEffect(() => {
+    if (note?.id) {
+      trackPresence({ currentNoteId: note.id, currentRoute: '/notes' });
+    }
+    return () => {
+      trackPresence({ currentNoteId: undefined });
+    };
+  }, [note?.id, trackPresence]);
+
+  const otherCollaboratorsOnNote = presenceUsers.filter(
+    (p) => p.currentNoteId === note.id && p.userId !== user?.id
+  );
 
   // Synchronize internal state when selected note changes
   useEffect(() => {
@@ -88,6 +126,8 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     setSaveStatus('saved');
     setConflictData(null);
     isDirtyRef.current = false;
+    setPendingHighlight('');
+    setSlashMenuState({ isOpen: false, filterText: '', position: { top: 0, left: 0 } });
   }, [note.id, note.version, note.title]);
 
   const editor = useEditor({
@@ -108,10 +148,41 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       }),
     ],
     content: kanoDocToTipTap(note.content),
-    onUpdate: () => {
+    onUpdate: ({ editor: currentEditor }) => {
       isDirtyRef.current = true;
       setSaveStatus('unsaved');
       triggerDebouncedSave();
+
+      const { selection } = currentEditor.state;
+      const { from, empty } = selection;
+      if (!empty) {
+        setSlashMenuState((prev) => (prev.isOpen ? { ...prev, isOpen: false } : prev));
+        return;
+      }
+
+      const $from = selection.$from;
+      const currentLineText = $from.parent.textContent.slice(0, $from.parentOffset);
+      const lastSlashIndex = currentLineText.lastIndexOf('/');
+
+      if (lastSlashIndex !== -1) {
+        const charBefore = lastSlashIndex > 0 ? currentLineText[lastSlashIndex - 1] : ' ';
+        if (/\s/.test(charBefore) || lastSlashIndex === 0) {
+          const queryText = currentLineText.slice(lastSlashIndex + 1);
+          if (!/\s/.test(queryText)) {
+            try {
+              const coords = currentEditor.view.coordsAtPos(from);
+              setSlashMenuState({
+                isOpen: true,
+                filterText: queryText,
+                position: { top: coords.bottom + 6, left: coords.left },
+              });
+              return;
+            } catch {}
+          }
+        }
+      }
+
+      setSlashMenuState((prev) => (prev.isOpen ? { ...prev, isOpen: false } : prev));
     },
   });
 
@@ -278,7 +349,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
             trigger={
               <button
                 type="button"
-                className="flex items-center gap-1.5 px-2 py-1 rounded text-xs text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border-subtle transition-colors"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs sm:text-sm text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border-subtle transition-colors whitespace-nowrap shrink-0"
               >
                 <FolderIcon className="w-3.5 h-3.5 text-amber-500" />
                 <span className="truncate max-w-[120px]">
@@ -370,6 +441,17 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
             <Star className={`w-3.5 h-3.5 ${note.isFavorite ? 'fill-amber-500' : ''}`} />
           </IconButton>
 
+          <IconButton
+            aria-label={isCommentsOpen ? 'Hide comments' : 'Show comments'}
+            variant={isCommentsOpen ? 'primary' : 'ghost'}
+            size="sm"
+            onClick={() => setIsCommentsOpen((prev) => !prev)}
+            title="Toggle Discussion & Inline Comments"
+            className="text-kano-text-muted hover:text-kano-accent"
+          >
+            <MessageSquare className="w-3.5 h-3.5" />
+          </IconButton>
+
           <DropdownMenu
             align="right"
             trigger={
@@ -403,9 +485,34 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </div>
       </div>
 
+      {/* Collaborator Presence Notice when other teammates are viewing this note */}
+      {otherCollaboratorsOnNote.length > 0 && (
+        <div className="bg-emerald-500/10 border-b border-emerald-500/20 px-3 sm:px-6 py-1.5 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-400 select-none animate-in fade-in duration-150">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span className="font-medium truncate text-[11px] sm:text-xs">
+              <strong>{otherCollaboratorsOnNote.map((c) => c.name).join(', ')}</strong>{' '}
+              {otherCollaboratorsOnNote.length === 1 ? 'is' : 'are'} viewing this note with you
+            </span>
+          </div>
+          <div className="flex items-center -space-x-1.5 shrink-0 ml-2">
+            {otherCollaboratorsOnNote.map((c) => (
+              <div
+                key={c.userId}
+                style={{ backgroundColor: c.color }}
+                className="w-5 h-5 rounded-full border border-kano-surface flex items-center justify-center text-[9px] font-bold text-white uppercase shadow-xs"
+                title={`${c.name} (${c.email})`}
+              >
+                {(c.name[0] || 'U').toUpperCase()}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* 2. Version Conflict Warning Banner with 3 Explicit Recovery Choices */}
       {saveStatus === 'conflict' && conflictData && (
-        <div className="bg-rose-50 border-b border-rose-200 px-6 py-3 flex items-center justify-between text-xs text-rose-900 flex-shrink-0 animate-fadeIn">
+        <div className="bg-rose-50 dark:bg-rose-950/30 border-b border-rose-200 dark:border-rose-900/40 px-4 sm:px-6 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs sm:text-sm text-rose-900 dark:text-rose-200 flex-shrink-0 animate-fadeIn">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-rose-600 flex-shrink-0" />
             <span>
@@ -413,14 +520,14 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
               {conflictData.currentVersion}). Your changes are preserved in the editor.
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={handleResolveDiscard}>
+          <div className="flex items-center gap-2 flex-wrap shrink-0">
+            <Button variant="ghost" size="sm" onClick={handleResolveDiscard} className="whitespace-nowrap shrink-0 text-xs sm:text-sm">
               Discard Local Changes
             </Button>
-            <Button variant="secondary" size="sm" onClick={handleResolveDuplicate}>
+            <Button variant="secondary" size="sm" onClick={handleResolveDuplicate} className="whitespace-nowrap shrink-0 text-xs sm:text-sm">
               Save as Conflict Copy
             </Button>
-            <Button variant="danger" size="sm" onClick={handleResolveOverwrite}>
+            <Button variant="danger" size="sm" onClick={handleResolveOverwrite} className="whitespace-nowrap shrink-0 text-xs sm:text-sm">
               Overwrite Remote Version
             </Button>
           </div>
@@ -569,12 +676,50 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         </IconButton>
       </div>
 
-      {/* 4. TipTap Prose Editor Content Area */}
-      <div
-        className="flex-1 overflow-y-auto px-4 sm:px-8 py-4 sm:py-6 cursor-text"
-        onClick={() => editor.chain().focus().run()}
-      >
-        <EditorContent editor={editor} onBlur={handleBlur} />
+      {/* 4. TipTap Prose Editor Content Area + Inline Comments Split */}
+      <div className="flex-1 flex overflow-hidden min-h-0 relative">
+        <div
+          ref={editorContainerRef}
+          className="flex-1 overflow-y-auto px-4 sm:px-12 py-4 sm:py-6 cursor-text relative"
+          onClick={() => editor.chain().focus().run()}
+        >
+          {/* Notion-Style Visual Block Drag Handle */}
+          <BlockDragHandle editor={editor} containerRef={editorContainerRef} />
+
+          <EditorContent editor={editor} onBlur={handleBlur} />
+
+          {/* Notion-Style Floating Selection Bubble Menu */}
+          {editor && (
+            <BubbleMenu
+              editor={editor}
+              onAddComment={(highlightedText) => {
+                setPendingHighlight(highlightedText);
+                setIsCommentsOpen(true);
+              }}
+            />
+          )}
+
+          {/* Notion-Style Slash Command Palette */}
+          {editor && (
+            <SlashCommandMenu
+              editor={editor}
+              isOpen={slashMenuState.isOpen}
+              onClose={() => setSlashMenuState((prev) => ({ ...prev, isOpen: false }))}
+              filterText={slashMenuState.filterText}
+              position={slashMenuState.position}
+            />
+          )}
+        </div>
+
+        {/* Real-time Inline Comments Discussion Sidebar */}
+        <InlineComments
+          noteId={note.id}
+          roomId={note.roomId}
+          isOpen={isCommentsOpen}
+          onClose={() => setIsCommentsOpen(false)}
+          pendingHighlightText={pendingHighlight}
+          onClearPendingHighlight={() => setPendingHighlight('')}
+        />
       </div>
 
       {/* 5. Attachments Pane */}

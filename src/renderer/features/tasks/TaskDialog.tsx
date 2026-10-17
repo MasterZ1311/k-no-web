@@ -288,13 +288,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = ({
       description="Manage task details, checklists, priority, and board status."
       maxWidth="lg"
       footer={
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full gap-2">
           {taskToEdit ? (
             <Button
               type="button"
               variant="danger"
-              size="sm"
-              iconLeft={<Trash2 className="w-3.5 h-3.5" />}
+              size="md"
+              iconLeft={<Trash2 className="w-4 h-4" />}
               isLoading={isDeleting}
               onClick={handleDeleteTask}
             >
@@ -304,13 +304,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = ({
             <div />
           )}
           <div className="flex items-center gap-2">
-            <Button type="button" variant="secondary" size="sm" onClick={onClose}>
+            <Button type="button" variant="secondary" size="md" onClick={onClose}>
               Cancel
             </Button>
             <Button
               type="button"
               variant="primary"
-              size="sm"
+              size="md"
               isLoading={isSubmitting}
               onClick={handleSave}
             >
@@ -456,13 +456,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = ({
                 }
               }}
               placeholder="Add a checklist item (press Enter)..."
-              className="text-xs"
+              className="text-sm"
             />
             <Button
               type="button"
               variant="secondary"
-              size="sm"
-              iconLeft={<Plus className="w-3.5 h-3.5" />}
+              size="md"
+              iconLeft={<Plus className="w-4 h-4" />}
               onClick={handleAddChecklist}
             >
               Add
@@ -494,9 +494,9 @@ export const TaskDialog: React.FC<TaskDialogProps> = ({
                   value={newLabelName}
                   onChange={(e) => setNewLabelName(e.target.value)}
                   placeholder="Label name (e.g. Bug, Feature)"
-                  className="text-xs flex-1"
+                  className="text-sm flex-1"
                 />
-                <Button type="button" variant="primary" size="sm" onClick={handleCreateLabel}>
+                <Button type="button" variant="primary" size="md" onClick={handleCreateLabel}>
                   Create
                 </Button>
               </div>

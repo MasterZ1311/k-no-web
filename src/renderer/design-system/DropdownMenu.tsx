@@ -76,7 +76,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
                   item.onClick();
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center justify-between px-3 py-1.5 text-xs text-left transition-colors ${
+                className={`w-full flex items-center justify-between px-3.5 py-2 text-sm text-left transition-colors whitespace-nowrap ${
                   item.danger
                     ? 'text-kano-danger hover:bg-kano-danger-subtle'
                     : 'text-kano-text-primary hover:bg-kano-surface-hover'

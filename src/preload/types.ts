@@ -439,12 +439,51 @@ export interface RealtimeInvalidationEvent {
   timestamp: string;
 }
 
+export interface PresenceUser {
+  userId: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  color: string;
+  currentRoute?: string;
+  currentNoteId?: string;
+  onlineAt: string;
+}
+
+export interface NoteCommentReply {
+  id: string;
+  authorId: string;
+  authorName: string;
+  authorEmail: string;
+  content: string;
+  createdAt: string;
+}
+
+export interface NoteComment {
+  id: string;
+  noteId: string;
+  roomId: string;
+  authorId: string;
+  authorName: string;
+  authorEmail: string;
+  content: string;
+  highlightedText?: string;
+  resolved: boolean;
+  createdAt: string;
+  replies: NoteCommentReply[];
+}
+
 export interface KanoRealtimeAPI {
   getStatus: () => Promise<RealtimeStatus>;
   subscribeRoom: (roomId: string) => Promise<{ success: boolean; error?: string }>;
   unsubscribeRoom: () => Promise<{ success: boolean; error?: string }>;
   onStatusChange: (callback: (status: RealtimeStatus) => void) => () => void;
   onInvalidation: (callback: (event: RealtimeInvalidationEvent) => void) => () => void;
+  trackPresence: (state: Partial<PresenceUser>) => Promise<{ success: boolean; error?: string }>;
+  getPresenceState: () => Promise<PresenceUser[]>;
+  onPresenceChange: (callback: (users: PresenceUser[]) => void) => () => void;
+  broadcastComment: (comment: NoteComment) => Promise<{ success: boolean; error?: string }>;
+  onCommentBroadcast: (callback: (comment: NoteComment) => void) => () => void;
 }
 
 // ----------------------------------------------------------------------------

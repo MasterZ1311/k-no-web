@@ -139,7 +139,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                 <button
                   type="button"
                   aria-label="Task options"
-                  className="p-1 rounded text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover opacity-80 group-hover:opacity-100 transition-opacity"
+                  className="w-7 h-7 flex items-center justify-center shrink-0 rounded-md text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover opacity-80 group-hover:opacity-100 transition-colors"
                 >
                   <MoreVertical className="w-4 h-4" />
                 </button>

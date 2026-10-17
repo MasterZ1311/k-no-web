@@ -83,13 +83,13 @@ export const FolderTree: React.FC<FolderTreeProps> = ({
               <button
                 type="button"
                 onClick={(e) => toggleExpand(folder.id, e)}
-                className="w-4 h-4 flex items-center justify-center p-0.5 text-kano-text-muted hover:text-kano-text-primary rounded transition-colors"
+                className="w-5 h-5 flex items-center justify-center p-0.5 text-kano-text-muted hover:text-kano-text-primary rounded transition-colors shrink-0"
                 aria-label={isExpanded ? 'Collapse folder' : 'Expand folder'}
               >
-                {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
               </button>
             ) : (
-              <span className="w-4" />
+              <span className="w-5 shrink-0" />
             )}
 
             {isExpanded || isSelected ? (
@@ -226,7 +226,7 @@ export const FolderTree: React.FC<FolderTreeProps> = ({
             <button
               type="button"
               onClick={() => onCreateFolder(null)}
-              className="mt-1.5 text-xs text-kano-accent hover:underline font-medium inline-block"
+              className="mt-1.5 text-xs sm:text-sm text-kano-accent hover:underline font-medium inline-block whitespace-nowrap"
             >
               + Create first folder
             </button>

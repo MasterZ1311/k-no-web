@@ -165,13 +165,13 @@ export const EventDialog: React.FC<EventDialogProps> = ({
       description="Plan workspace meetings, milestones, and deadlines."
       maxWidth="md"
       footer={
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full gap-2">
           {eventToEdit ? (
             <Button
               type="button"
               variant="danger"
-              size="sm"
-              iconLeft={<Trash2 className="w-3.5 h-3.5" />}
+              size="md"
+              iconLeft={<Trash2 className="w-4 h-4" />}
               isLoading={isDeleting}
               onClick={handleDelete}
             >
@@ -181,13 +181,13 @@ export const EventDialog: React.FC<EventDialogProps> = ({
             <div />
           )}
           <div className="flex items-center gap-2">
-            <Button type="button" variant="secondary" size="sm" onClick={onClose}>
+            <Button type="button" variant="secondary" size="md" onClick={onClose}>
               Cancel
             </Button>
             <Button
               type="button"
               variant="primary"
-              size="sm"
+              size="md"
               isLoading={isSubmitting}
               onClick={handleSave}
             >

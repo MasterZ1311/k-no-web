@@ -20,12 +20,12 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     ref
   ) => {
     const baseStyles =
-      'inline-flex items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kano-accent focus-visible:ring-offset-1 disabled:opacity-50 disabled:pointer-events-none select-none';
+      'inline-flex items-center justify-center rounded-md transition-all duration-150 active:scale-[0.94] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kano-accent focus-visible:ring-offset-1 disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 select-none shrink-0';
 
     const sizeStyles = {
-      sm: 'w-7 h-7 p-1 text-xs',
-      md: 'w-8 h-8 p-1.5 text-sm',
-      lg: 'w-9 h-9 p-2 text-base',
+      sm: 'w-8 h-8 p-1.5 text-xs',
+      md: 'w-9 h-9 p-2 text-sm',
+      lg: 'w-10 h-10 p-2.5 text-base',
     };
 
     const variantStyles = {

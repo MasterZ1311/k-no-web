@@ -162,9 +162,9 @@ export const ActivityRoute: React.FC = () => {
             size="sm"
             onClick={fetchLogs}
             disabled={isLoading}
-            className="flex items-center gap-1.5 self-start sm:self-auto"
+            iconLeft={<RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />}
+            className="self-start sm:self-auto h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
         )}
@@ -198,7 +198,7 @@ export const ActivityRoute: React.FC = () => {
             key={item.id}
             type="button"
             onClick={() => setFilter(item.id)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors border whitespace-nowrap shrink-0 ${
               filter === item.id
                 ? 'bg-kano-accent text-white border-kano-accent shadow-sm'
                 : 'bg-kano-surface text-kano-text-secondary border-kano-border hover:bg-kano-surface-hover'
@@ -216,7 +216,7 @@ export const ActivityRoute: React.FC = () => {
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
-          <Button variant="secondary" size="sm" onClick={fetchLogs}>
+          <Button variant="secondary" size="sm" onClick={fetchLogs} className="whitespace-nowrap shrink-0">
             Retry
           </Button>
         </div>

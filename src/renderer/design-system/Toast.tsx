@@ -41,7 +41,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onDismiss }) => {
         type="button"
         aria-label="Dismiss notification"
         onClick={() => onDismiss(toast.id)}
-        className="text-kano-text-muted hover:text-kano-text-primary rounded p-1 -m-1 transition-colors"
+        className="text-kano-text-muted hover:text-kano-text-primary rounded-md p-1.5 -m-1 transition-colors shrink-0 flex items-center justify-center"
       >
         <X className="w-3.5 h-3.5" />
       </button>

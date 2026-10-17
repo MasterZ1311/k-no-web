@@ -3,13 +3,41 @@ import type {
   RealtimeStatus,
   RealtimeTable,
   RealtimeInvalidationEvent,
+  PresenceUser,
+  NoteComment,
 } from '../../../preload/types';
 import { useRoom } from '../rooms/RoomContext';
 import { useAuth } from '../auth/AuthContext';
 
+// Distinct curated color hues for collaborators
+const COLLABORATOR_COLORS = [
+  '#10b981', // Emerald
+  '#06b6d4', // Cyan
+  '#3b82f6', // Blue
+  '#8b5cf6', // Violet
+  '#ec4899', // Pink
+  '#f59e0b', // Amber
+  '#14b8a6', // Teal
+  '#f43f5e', // Rose
+];
+
+function getUserColor(userId: string): string {
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) {
+    hash = (hash << 5) - hash + userId.charCodeAt(i);
+    hash |= 0;
+  }
+  const index = Math.abs(hash) % COLLABORATOR_COLORS.length;
+  return COLLABORATOR_COLORS[index];
+}
+
 interface RealtimeContextValue {
   status: RealtimeStatus;
+  presenceUsers: PresenceUser[];
   subscribeInvalidation: (callback: (event: RealtimeInvalidationEvent) => void) => () => void;
+  trackPresence: (state: Partial<PresenceUser>) => void;
+  broadcastComment: (comment: NoteComment) => Promise<void>;
+  subscribeComment: (callback: (comment: NoteComment) => void) => () => void;
 }
 
 const RealtimeContext = createContext<RealtimeContextValue | undefined>(undefined);
@@ -18,7 +46,9 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const { activeRoom, refreshRooms } = useRoom();
   const { user } = useAuth();
   const [status, setStatus] = useState<RealtimeStatus>('disconnected');
+  const [presenceUsers, setPresenceUsers] = useState<PresenceUser[]>([]);
   const listenersRef = useRef<Set<(event: RealtimeInvalidationEvent) => void>>(new Set());
+  const commentListenersRef = useRef<Set<(comment: NoteComment) => void>>(new Set());
 
   // Subscribe to room realtime channel when activeRoom changes
   useEffect(() => {
@@ -27,6 +57,7 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         window.kanoDesktop.realtime.unsubscribeRoom().catch(() => {});
       }
       setStatus('disconnected');
+      setPresenceUsers([]);
       return;
     }
 
@@ -39,6 +70,14 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           window.kanoDesktop.realtime.getStatus().then((s) => {
             if (isMounted) setStatus(s);
           });
+          // Track current user presence
+          window.kanoDesktop.realtime.trackPresence?.({
+            userId: user.id,
+            name: user.displayName || user.email?.split('@')[0] || 'You',
+            email: user.email || '',
+            color: getUserColor(user.id),
+            onlineAt: new Date().toISOString(),
+          }).catch(() => {});
         }
       })
       .catch((err) => {
@@ -48,7 +87,6 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const unsubscribeStatus = window.kanoDesktop.realtime.onStatusChange((newStatus) => {
       if (isMounted) {
         setStatus(newStatus);
-        // If reconnected, trigger a gentle refresh of room data
         if (newStatus === 'connected') {
           for (const listener of listenersRef.current) {
             listener({
@@ -65,7 +103,6 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const unsubscribeInvalidation = window.kanoDesktop.realtime.onInvalidation((event) => {
       if (!isMounted) return;
 
-      // Handle room membership eviction or room deletion
       if (
         (event.table === 'room_members' && event.eventType === 'DELETE') ||
         (event.table === 'activity_logs' && event.eventType === 'INSERT')
@@ -82,10 +119,30 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
     });
 
+    const unsubscribePresence = window.kanoDesktop.realtime.onPresenceChange?.((users) => {
+      if (isMounted) {
+        setPresenceUsers(users);
+      }
+    });
+
+    const unsubscribeComment = window.kanoDesktop.realtime.onCommentBroadcast?.((comment) => {
+      if (isMounted) {
+        for (const listener of commentListenersRef.current) {
+          try {
+            listener(comment);
+          } catch (err) {
+            console.warn('[RealtimeProvider] Comment listener error:', err);
+          }
+        }
+      }
+    });
+
     return () => {
       isMounted = false;
       unsubscribeStatus();
       unsubscribeInvalidation();
+      if (unsubscribePresence) unsubscribePresence();
+      if (unsubscribeComment) unsubscribeComment();
       if (window.kanoDesktop?.realtime) {
         window.kanoDesktop.realtime.unsubscribeRoom().catch(() => {});
       }
@@ -99,9 +156,36 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
   }, []);
 
+  const trackPresence = useCallback(
+    (state: Partial<PresenceUser>) => {
+      if (!window.kanoDesktop?.realtime?.trackPresence) return;
+      window.kanoDesktop.realtime.trackPresence(state).catch(() => {});
+    },
+    []
+  );
+
+  const broadcastComment = useCallback(
+    async (comment: NoteComment) => {
+      if (!window.kanoDesktop?.realtime?.broadcastComment) return;
+      await window.kanoDesktop.realtime.broadcastComment(comment);
+    },
+    []
+  );
+
+  const subscribeComment = useCallback((callback: (comment: NoteComment) => void) => {
+    commentListenersRef.current.add(callback);
+    return () => {
+      commentListenersRef.current.delete(callback);
+    };
+  }, []);
+
   const value: RealtimeContextValue = {
     status,
+    presenceUsers,
     subscribeInvalidation,
+    trackPresence,
+    broadcastComment,
+    subscribeComment,
   };
 
   return <RealtimeContext.Provider value={value}>{children}</RealtimeContext.Provider>;
@@ -109,7 +193,11 @@ export const RealtimeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
 const defaultRealtimeContext: RealtimeContextValue = {
   status: 'disconnected',
+  presenceUsers: [],
   subscribeInvalidation: () => () => {},
+  trackPresence: () => {},
+  broadcastComment: async () => {},
+  subscribeComment: () => () => {},
 };
 
 export const useRealtime = (): RealtimeContextValue => {

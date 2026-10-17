@@ -9,14 +9,18 @@ import { UnconfiguredView } from './features/auth/UnconfiguredView';
 import { AuthContainer } from './features/auth/AuthContainer';
 import { AppShell } from './shell/AppShell';
 import { LoadingState } from './design-system/LoadingState';
+import { BrandBackdrop } from './design-system/BrandBackdrop';
 
 const MainContent: React.FC = () => {
   const { status, isLoading } = useAuth();
 
   if (isLoading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-kano-bg">
-        <LoadingState label="Connecting to workspace..." />
+      <div className="h-screen w-screen flex items-center justify-center bg-kano-bg relative overflow-hidden">
+        <BrandBackdrop size="huge" position="center" />
+        <div className="relative z-10">
+          <LoadingState label="Connecting to workspace..." />
+        </div>
       </div>
     );
   }

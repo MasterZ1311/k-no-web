@@ -25,12 +25,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      'inline-flex items-center justify-center font-medium transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kano-accent focus-visible:ring-offset-1 disabled:opacity-50 disabled:pointer-events-none select-none';
+      'inline-flex items-center justify-center font-medium transition-all duration-150 active:scale-[0.98] rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kano-accent focus-visible:ring-offset-1 disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 select-none whitespace-nowrap shrink-0';
 
     const sizeStyles = {
-      sm: 'h-8 px-3 text-xs sm:text-sm gap-1.5 font-medium',
-      md: 'h-9.5 px-4 text-sm gap-2 font-medium',
-      lg: 'h-11 px-5 text-base gap-2.5 font-medium',
+      sm: 'h-8.5 min-h-[34px] px-3.5 text-xs sm:text-sm gap-1.5 font-medium',
+      md: 'h-10 min-h-[40px] px-4 text-sm gap-2 font-medium',
+      lg: 'h-11 min-h-[44px] px-5 text-base gap-2.5 font-medium',
     };
 
     const variantStyles = {

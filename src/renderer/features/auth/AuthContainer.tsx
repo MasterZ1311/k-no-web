@@ -3,6 +3,7 @@ import { SignInForm } from './SignInForm';
 import { SignUpForm } from './SignUpForm';
 import { ForgotPasswordForm } from './ForgotPasswordForm';
 import { VerifyEmailNotice } from './VerifyEmailNotice';
+import { BrandBackdrop } from '../../design-system/BrandBackdrop';
 
 type AuthView = 'signIn' | 'signUp' | 'forgotPassword' | 'verifyPending';
 
@@ -37,8 +38,11 @@ export const AuthContainer: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen min-h-[100dvh] w-screen flex items-center justify-center bg-kano-bg p-4 sm:p-6 overflow-y-auto text-kano-text-primary">
-      <div className="max-w-md w-full my-auto bg-kano-surface border border-kano-border rounded-xl shadow-card p-6 sm:p-8 space-y-6">
+    <div className="min-h-screen min-h-[100dvh] w-screen flex items-center justify-center bg-kano-bg p-4 sm:p-6 overflow-y-auto text-kano-text-primary relative">
+      {/* Huge Subtle Brand Backdrop Watermark */}
+      <BrandBackdrop size="huge" position="center" />
+
+      <div className="max-w-md w-full my-auto bg-kano-surface/95 backdrop-blur-md border border-kano-border rounded-xl shadow-card p-6 sm:p-8 space-y-6 relative z-10">
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="flex justify-center mb-1">

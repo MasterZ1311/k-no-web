@@ -480,6 +480,11 @@ export function createMockKanoDesktop(overrides?: Partial<KanoDesktopAPI>): Kano
       unsubscribeRoom: async () => ({ success: true }),
       onStatusChange: () => () => {},
       onInvalidation: () => () => {},
+      trackPresence: async () => ({ success: true }),
+      getPresenceState: async () => [],
+      onPresenceChange: () => () => {},
+      broadcastComment: async () => ({ success: true }),
+      onCommentBroadcast: () => () => {},
     },
     settings: {
       getSettings: async () => ({

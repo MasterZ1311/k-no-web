@@ -130,19 +130,24 @@ export const TrashRoute: React.FC = () => {
             Items in trash remain restorable. Restoring an item whose folder was deleted places it at the workspace root.
           </p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap shrink-0">
           <Button
             variant="secondary"
             size="sm"
             onClick={loadTrash}
             disabled={isLoading}
-            className="flex items-center gap-1.5"
+            iconLeft={<RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />}
+            className="h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
           </Button>
           {trashNotes.length > 0 && (
-            <Button variant="danger" size="sm" onClick={() => setIsEmptyTrashOpen(true)}>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => setIsEmptyTrashOpen(true)}
+              className="h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
+            >
               Empty Trash ({trashNotes.length})
             </Button>
           )}
@@ -221,6 +226,7 @@ export const TrashRoute: React.FC = () => {
                     size="sm"
                     iconLeft={<RotateCcw className="w-3.5 h-3.5" />}
                     onClick={() => handleRestoreNote(note.id)}
+                    className="whitespace-nowrap shrink-0"
                   >
                     Restore
                   </Button>
@@ -228,6 +234,7 @@ export const TrashRoute: React.FC = () => {
                     variant="danger"
                     size="sm"
                     onClick={() => setNoteToDelete(note)}
+                    className="whitespace-nowrap shrink-0"
                   >
                     Delete Forever
                   </Button>
@@ -247,12 +254,12 @@ export const TrashRoute: React.FC = () => {
         maxWidth="sm"
         footer={
           <div className="flex items-center justify-end gap-2">
-            <Button variant="ghost" size="sm" onClick={() => setNoteToDelete(null)} disabled={isDeleting}>
+            <Button variant="ghost" size="md" onClick={() => setNoteToDelete(null)} disabled={isDeleting}>
               Cancel
             </Button>
             <Button
               variant="danger"
-              size="sm"
+              size="md"
               onClick={handleConfirmPermanentDelete}
               disabled={isDeleting}
             >

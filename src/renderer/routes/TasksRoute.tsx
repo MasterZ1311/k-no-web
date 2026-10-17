@@ -29,11 +29,11 @@ const STATUS_TAB_CONFIG: { key: FilterTab; label: string }[] = [
   { key: 'done', label: 'Completed' },
 ];
 
-const PRIORITY_BADGE_CONFIG: Record<TaskPriority, { label: string; bg: string; text: string }> = {
-  urgent: { label: 'Urgent', bg: 'bg-rose-500/10', text: 'text-rose-600 dark:text-rose-400' },
-  high: { label: 'High', bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400' },
-  medium: { label: 'Medium', bg: 'bg-blue-500/10', text: 'text-blue-600 dark:text-blue-400' },
-  low: { label: 'Low', bg: 'bg-slate-500/10', text: 'text-slate-600 dark:text-slate-400' },
+const PRIORITY_BADGE_CONFIG: Record<TaskPriority, { label: string; bg: string; text: string; dot: string }> = {
+  urgent: { label: 'Urgent', bg: 'bg-rose-500/10 border border-rose-500/20', text: 'text-rose-600 dark:text-rose-400', dot: 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]' },
+  high: { label: 'High', bg: 'bg-amber-500/10 border border-amber-500/20', text: 'text-amber-600 dark:text-amber-400', dot: 'bg-amber-500' },
+  medium: { label: 'Medium', bg: 'bg-blue-500/10 border border-blue-500/20', text: 'text-blue-600 dark:text-blue-400', dot: 'bg-blue-500' },
+  low: { label: 'Low', bg: 'bg-slate-500/10 border border-slate-500/20', text: 'text-slate-600 dark:text-slate-400', dot: 'bg-slate-400' },
 };
 
 export const TasksRoute: React.FC = () => {
@@ -203,7 +203,7 @@ export const TasksRoute: React.FC = () => {
             setTaskToEdit(null);
             setIsDialogOpen(true);
           }}
-          className="self-start sm:self-auto h-9 px-3.5 text-xs sm:text-sm"
+          className="self-start sm:self-auto h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
         >
           New Task
         </Button>
@@ -211,8 +211,8 @@ export const TasksRoute: React.FC = () => {
 
       {/* Filter Bar & Tabs */}
       <div className="space-y-3">
-        {/* Status Tabs */}
-        <div className="flex items-center gap-2 border-b border-kano-border pb-3 overflow-x-auto no-scrollbar">
+        {/* Apple-style Segmented Filter Track */}
+        <div className="p-1 bg-kano-surface/80 border border-kano-border rounded-xl flex items-center gap-1 overflow-x-auto no-scrollbar shadow-subtle backdrop-blur-sm">
           {STATUS_TAB_CONFIG.map((tab) => {
             const isCurrent = activeTab === tab.key;
             return (
@@ -220,16 +220,16 @@ export const TasksRoute: React.FC = () => {
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shrink-0 ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-150 flex items-center gap-2 shrink-0 whitespace-nowrap active:scale-[0.98] ${
                   isCurrent
-                    ? 'bg-kano-accent text-white shadow-xs'
+                    ? 'bg-kano-accent text-white shadow-sm font-semibold'
                     : 'text-kano-text-secondary hover:bg-kano-surface-hover hover:text-kano-text-primary'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span
-                  className={`text-xs font-mono px-2 py-0.5 rounded-full ${
-                    isCurrent ? 'bg-white/20 text-white' : 'bg-kano-surface border border-kano-border text-kano-text-muted'
+                  className={`text-[11px] font-mono px-1.5 py-0.2 rounded-md ${
+                    isCurrent ? 'bg-white/20 text-white' : 'bg-kano-bg border border-kano-border text-kano-text-muted'
                   }`}
                 >
                   {tabCounts[tab.key]}
@@ -336,7 +336,7 @@ export const TasksRoute: React.FC = () => {
                   setTaskToEdit(task);
                   setIsDialogOpen(true);
                 }}
-                className={`group flex items-center justify-between p-3.5 rounded-lg border border-kano-border bg-kano-surface hover:border-kano-accent/40 hover:shadow-xs transition-all cursor-pointer gap-4 ${
+                className={`group flex items-center justify-between p-3.5 rounded-xl border border-kano-border bg-kano-surface hover:border-kano-accent/50 hover:shadow-subtle hover:-translate-y-[0.5px] active:scale-[0.99] transition-all cursor-pointer gap-4 ${
                   isDone ? 'opacity-70 bg-kano-bg/50' : ''
                 }`}
               >
@@ -351,7 +351,7 @@ export const TasksRoute: React.FC = () => {
                       e.stopPropagation();
                       handleToggleComplete(task);
                     }}
-                    className={`w-4 h-4 rounded border flex items-center justify-center transition-colors shrink-0 ${
+                    className={`w-4 h-4 rounded-md border flex items-center justify-center transition-all duration-150 active:scale-90 shrink-0 ${
                       isDone
                         ? 'bg-emerald-500 border-emerald-500 text-white'
                         : 'border-kano-border hover:border-kano-accent bg-kano-bg'
@@ -404,10 +404,11 @@ export const TasksRoute: React.FC = () => {
                     </span>
                   )}
 
-                  {/* Priority Badge */}
+                  {/* Priority Badge with Linear Dot Indicator */}
                   <span
-                    className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${priorityBadge.bg} ${priorityBadge.text}`}
+                    className={`text-[10px] font-medium px-2 py-0.5 rounded-md flex items-center gap-1.5 ${priorityBadge.bg} ${priorityBadge.text}`}
                   >
+                    <span className={`w-1.5 h-1.5 rounded-full ${priorityBadge.dot}`} />
                     {priorityBadge.label}
                   </span>
 
@@ -442,7 +443,7 @@ export const TasksRoute: React.FC = () => {
                       setTaskToEdit(task);
                       setIsDialogOpen(true);
                     }}
-                    className="p-1 rounded text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="w-7 h-7 flex items-center justify-center shrink-0 rounded-md text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover opacity-0 group-hover:opacity-100 transition-all"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                   </button>

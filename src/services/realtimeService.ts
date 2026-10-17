@@ -4,6 +4,8 @@ import type {
   RealtimeTable,
   RealtimeEventType,
   RealtimeInvalidationEvent,
+  PresenceUser,
+  NoteComment,
 } from '../preload/types';
 import { SupabaseManager, defaultSupabaseManager } from './supabaseClient';
 
@@ -29,6 +31,10 @@ export class RealtimeService {
 
   private statusListeners: Set<(status: RealtimeStatus) => void> = new Set();
   private invalidationListeners: Set<(event: RealtimeInvalidationEvent) => void> = new Set();
+  private presenceListeners: Set<(users: PresenceUser[]) => void> = new Set();
+  private commentListeners: Set<(comment: NoteComment) => void> = new Set();
+  private currentPresenceState: Map<string, PresenceUser> = new Map();
+  private lastTrackedPresence: Partial<PresenceUser> | null = null;
 
   constructor(supabaseManager: SupabaseManager = defaultSupabaseManager) {
     this.supabaseManager = supabaseManager;
@@ -131,6 +137,19 @@ export class RealtimeService {
         }
       );
 
+      // Presence synchronization
+      channel.on('presence', { event: 'sync' }, () => {
+        const state = channel.presenceState();
+        this.handlePresenceSync(state);
+      });
+
+      // Collaborative broadcast events (e.g. comments, replies)
+      channel.on('broadcast', { event: 'comment' }, (payload: { payload: NoteComment }) => {
+        if (payload?.payload) {
+          this.emitComment(payload.payload);
+        }
+      });
+
       channel.subscribe((status, err) => {
         if (err) {
           console.warn('[RealtimeService] Channel subscribe error:', err);
@@ -141,6 +160,9 @@ export class RealtimeService {
         switch (status) {
           case 'SUBSCRIBED':
             this.setStatus('connected');
+            if (this.lastTrackedPresence) {
+              channel.track(this.lastTrackedPresence).catch(() => {});
+            }
             break;
           case 'TIMED_OUT':
           case 'CHANNEL_ERROR':
@@ -163,9 +185,119 @@ export class RealtimeService {
     }
   }
 
+  private handlePresenceSync(state: Record<string, unknown[]>): void {
+    const usersMap = new Map<string, PresenceUser>();
+    for (const key of Object.keys(state)) {
+      const presences = state[key] as Array<Partial<PresenceUser>>;
+      if (Array.isArray(presences)) {
+        for (const p of presences) {
+          if (p.userId) {
+            usersMap.set(p.userId, {
+              userId: p.userId,
+              name: p.name || 'Collaborator',
+              email: p.email || '',
+              avatarUrl: p.avatarUrl,
+              color: p.color || '#10b981',
+              currentRoute: p.currentRoute,
+              currentNoteId: p.currentNoteId,
+              onlineAt: p.onlineAt || new Date().toISOString(),
+            });
+          }
+        }
+      }
+    }
+    this.currentPresenceState = usersMap;
+    this.emitPresence(Array.from(usersMap.values()));
+  }
+
+  private emitPresence(users: PresenceUser[]): void {
+    for (const listener of this.presenceListeners) {
+      try {
+        listener(users);
+      } catch (err) {
+        console.warn('[RealtimeService] Error in presence listener:', err);
+      }
+    }
+  }
+
+  private emitComment(comment: NoteComment): void {
+    for (const listener of this.commentListeners) {
+      try {
+        listener(comment);
+      } catch (err) {
+        console.warn('[RealtimeService] Error in comment listener:', err);
+      }
+    }
+  }
+
+  public async trackPresence(state: Partial<PresenceUser>): Promise<{ success: boolean; error?: string }> {
+    this.lastTrackedPresence = { ...this.lastTrackedPresence, ...state };
+    if (!this.currentChannel) {
+      if (state.userId) {
+        this.currentPresenceState.set(state.userId, {
+          userId: state.userId,
+          name: state.name || 'You',
+          email: state.email || '',
+          color: state.color || '#10b981',
+          currentRoute: state.currentRoute,
+          currentNoteId: state.currentNoteId,
+          onlineAt: state.onlineAt || new Date().toISOString(),
+          ...state,
+        });
+        this.emitPresence(Array.from(this.currentPresenceState.values()));
+      }
+      return { success: true };
+    }
+
+    try {
+      await this.currentChannel.track(this.lastTrackedPresence);
+      return { success: true };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return { success: false, error: msg };
+    }
+  }
+
+  public async getPresenceState(): Promise<PresenceUser[]> {
+    return Array.from(this.currentPresenceState.values());
+  }
+
+  public onPresenceChange(callback: (users: PresenceUser[]) => void): () => void {
+    this.presenceListeners.add(callback);
+    callback(Array.from(this.currentPresenceState.values()));
+    return () => {
+      this.presenceListeners.delete(callback);
+    };
+  }
+
+  public async broadcastComment(comment: NoteComment): Promise<{ success: boolean; error?: string }> {
+    this.emitComment(comment);
+
+    if (this.currentChannel) {
+      try {
+        await this.currentChannel.send({
+          type: 'broadcast',
+          event: 'comment',
+          payload: comment,
+        });
+      } catch (err) {
+        console.warn('[RealtimeService] Failed to broadcast comment:', err);
+      }
+    }
+    return { success: true };
+  }
+
+  public onCommentBroadcast(callback: (comment: NoteComment) => void): () => void {
+    this.commentListeners.add(callback);
+    return () => {
+      this.commentListeners.delete(callback);
+    };
+  }
+
   public async unsubscribeRoom(): Promise<{ success: boolean; error?: string }> {
     if (!this.currentChannel) {
       this.activeRoomId = null;
+      this.currentPresenceState.clear();
       this.setStatus('disconnected');
       return { success: true };
     }
@@ -180,6 +312,7 @@ export class RealtimeService {
     } finally {
       this.currentChannel = null;
       this.activeRoomId = null;
+      this.currentPresenceState.clear();
       this.setStatus('disconnected');
     }
 
@@ -204,7 +337,10 @@ export class RealtimeService {
     this.unsubscribeRoom().catch(() => {});
     this.statusListeners.clear();
     this.invalidationListeners.clear();
+    this.presenceListeners.clear();
+    this.commentListeners.clear();
   }
 }
 
 export const defaultRealtimeService = new RealtimeService();
+

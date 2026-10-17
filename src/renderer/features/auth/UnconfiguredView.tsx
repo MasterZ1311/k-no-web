@@ -4,6 +4,7 @@ import { Button } from '../../design-system/Button';
 import { Input } from '../../design-system/Input';
 import { useAuth } from './AuthContext';
 import { defaultSupabaseManager } from '../../../services/supabaseClient';
+import { BrandBackdrop } from '../../design-system/BrandBackdrop';
 
 export const UnconfiguredView: React.FC = () => {
   const { refreshStatus, isLoading } = useAuth();
@@ -33,8 +34,11 @@ export const UnconfiguredView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen min-h-[100dvh] w-screen flex items-center justify-center bg-kano-bg p-4 sm:p-6 overflow-y-auto text-kano-text-primary">
-      <div className="max-w-lg w-full my-auto bg-kano-surface border border-kano-border rounded-xl shadow-modal p-5 sm:p-8 space-y-6">
+    <div className="min-h-screen min-h-[100dvh] w-screen flex items-center justify-center bg-kano-bg p-4 sm:p-6 overflow-y-auto text-kano-text-primary relative">
+      {/* Huge Subtle Brand Backdrop Watermark */}
+      <BrandBackdrop size="huge" position="center" />
+
+      <div className="max-w-lg w-full my-auto bg-kano-surface/95 backdrop-blur-md border border-kano-border rounded-xl shadow-modal p-5 sm:p-8 space-y-6 relative z-10">
         <div className="flex justify-center pb-1">
           <img
             src="/logo-full.svg"

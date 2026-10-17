@@ -118,7 +118,7 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         type="submit"
         variant="primary"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-1.5 py-2"
+        className="w-full flex items-center justify-center gap-2 h-10 text-sm font-medium whitespace-nowrap shrink-0"
       >
         <span>{isSubmitting ? 'Creating Account...' : 'Create Account'}</span>
         {!isSubmitting && <ArrowRight className="w-4 h-4" />}

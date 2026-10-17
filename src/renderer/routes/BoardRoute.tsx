@@ -227,7 +227,7 @@ export const BoardRoute: React.FC = () => {
           size="sm"
           iconLeft={<Plus className="w-4 h-4" />}
           onClick={() => handleOpenNewTask(columns[0]?.id)}
-          className="self-start sm:self-auto h-9 px-3.5 text-xs sm:text-sm"
+          className="self-start sm:self-auto h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
         >
           Add Task Card
         </Button>
@@ -280,7 +280,7 @@ export const BoardRoute: React.FC = () => {
                   type="button"
                   aria-label={`Add task to ${col.name}`}
                   onClick={() => handleOpenNewTask(col.id)}
-                  className="text-kano-text-muted hover:text-kano-text-primary p-1.5 rounded-md hover:bg-kano-surface-hover transition-colors"
+                  className="w-7 h-7 flex items-center justify-center shrink-0 text-kano-text-muted hover:text-kano-text-primary rounded-md hover:bg-kano-surface-hover transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                 </button>

@@ -131,6 +131,11 @@ export const webBridge: KanoDesktopAPI = {
     unsubscribeRoom: () => defaultRealtimeService.unsubscribeRoom(),
     onStatusChange: (callback) => defaultRealtimeService.onStatusChange(callback),
     onInvalidation: (callback) => defaultRealtimeService.onInvalidation(callback),
+    trackPresence: (state) => defaultRealtimeService.trackPresence(state),
+    getPresenceState: () => defaultRealtimeService.getPresenceState(),
+    onPresenceChange: (callback) => defaultRealtimeService.onPresenceChange(callback),
+    broadcastComment: (comment) => defaultRealtimeService.broadcastComment(comment),
+    onCommentBroadcast: (callback) => defaultRealtimeService.onCommentBroadcast(callback),
   },
 
   settings: {

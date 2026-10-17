@@ -102,7 +102,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onBackTo
         type="submit"
         variant="primary"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-1.5 py-2"
+        className="w-full flex items-center justify-center gap-2 h-10 text-sm font-medium whitespace-nowrap shrink-0"
       >
         <span>{isSubmitting ? 'Sending Link...' : 'Send Recovery Link'}</span>
       </Button>

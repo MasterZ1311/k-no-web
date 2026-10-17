@@ -12,26 +12,68 @@ import { FavoritesRoute } from '../routes/FavoritesRoute';
 import { TrashRoute } from '../routes/TrashRoute';
 import { SettingsRoute } from '../routes/SettingsRoute';
 import { useSettings } from '../features/settings/SettingsContext';
+import { BrandBackdrop } from '../design-system/BrandBackdrop';
+import { KeyboardShortcutsModal } from '../design-system/KeyboardShortcutsModal';
 
 export const AppShell: React.FC = () => {
-  const { settings } = useSettings();
+  const { settings, updateSettings } = useSettings();
   const [currentRoute, setCurrentRoute] = useState<RoutePath>('/notes');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(settings.sidebarCollapsed);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
 
-  // Keyboard shortcut listener for global shell operations
+  // Keyboard shortcut listener for global shell operations (Linear & Raycast inspired)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Check if user is typing inside an input, textarea, or rich text editor
+      const activeEl = document.activeElement;
+      const isInputActive =
+        activeEl &&
+        (activeEl.tagName === 'INPUT' ||
+          activeEl.tagName === 'TEXTAREA' ||
+          activeEl.getAttribute('contenteditable') === 'true');
+
+      // '?' -> Toggle keyboard shortcuts HUD when not in an active input
+      if (event.key === '?' && !isInputActive && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault();
+        setIsShortcutsOpen((prev) => !prev);
+        return;
+      }
+
+      // Ctrl+Shift+L / Cmd+Shift+L -> Toggle light/dark theme
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === 'l') {
+        event.preventDefault();
+        const isDark = document.documentElement.classList.contains('dark');
+        updateSettings({ theme: isDark ? 'light' : 'dark' });
+        return;
+      }
+
+      // Ctrl+Shift+N / Cmd+Shift+N -> Jump to Notes
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === 'n') {
+        event.preventDefault();
+        setCurrentRoute('/notes');
+        return;
+      }
+
+      // Ctrl+Shift+T / Cmd+Shift+T -> Jump to Tasks
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === 't') {
+        event.preventDefault();
+        setCurrentRoute('/tasks');
+        return;
+      }
+
       // Ctrl+K / Cmd+K -> Toggle command palette
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         setIsSearchOpen((prev) => !prev);
+        return;
       }
 
       // Ctrl+\ -> Toggle sidebar
       if ((event.ctrlKey || event.metaKey) && event.key === '\\') {
         event.preventDefault();
         setIsSidebarCollapsed((prev) => !prev);
+        return;
       }
 
       // Number navigation (Ctrl+1 to Ctrl+5)
@@ -57,7 +99,7 @@ export const AppShell: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [updateSettings]);
 
   // Listen to native menu navigation events from Electron main process
   useEffect(() => {
@@ -159,11 +201,15 @@ export const AppShell: React.FC = () => {
           onToggleSidebar={() => setIsSidebarCollapsed(false)}
           onToggleMobileSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
           onOpenSearch={() => setIsSearchOpen(true)}
+          onOpenShortcuts={() => setIsShortcutsOpen(true)}
         />
 
-        {/* Route View Outlet */}
-        <main className="flex-1 overflow-hidden flex flex-col min-h-0 bg-kano-bg">
-          {renderRoute()}
+        {/* Route View Outlet with Huge Subtle Brand Backdrop */}
+        <main className="flex-1 overflow-hidden flex flex-col min-h-0 bg-kano-bg relative">
+          <BrandBackdrop size="huge" position="center" />
+          <div className="flex-1 flex flex-col min-h-0 relative z-10">
+            {renderRoute()}
+          </div>
         </main>
       </div>
 
@@ -175,6 +221,22 @@ export const AppShell: React.FC = () => {
           setCurrentRoute(route);
           setIsMobileSidebarOpen(false);
         }}
+        onOpenShortcuts={() => setIsShortcutsOpen(true)}
+        onToggleSidebar={() => setIsSidebarCollapsed((prev) => !prev)}
+        onCreateNote={() => {
+          setCurrentRoute('/notes');
+          setIsMobileSidebarOpen(false);
+        }}
+        onCreateTask={() => {
+          setCurrentRoute('/tasks');
+          setIsMobileSidebarOpen(false);
+        }}
+      />
+
+      {/* Global Keyboard Shortcuts HUD */}
+      <KeyboardShortcutsModal
+        isOpen={isShortcutsOpen}
+        onClose={() => setIsShortcutsOpen(false)}
       />
     </div>
   );

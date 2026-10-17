@@ -594,7 +594,7 @@ export const NotesRoute: React.FC = () => {
                 size="sm"
                 iconLeft={<Plus className="w-4 h-4" />}
                 onClick={handleCreateNote}
-                className="h-8.5 px-3 text-xs sm:text-sm"
+                className="h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
               >
                 New Note
               </Button>
@@ -691,7 +691,7 @@ export const NotesRoute: React.FC = () => {
                 size="sm"
                 iconLeft={<ChevronLeft className="w-4 h-4" />}
                 onClick={() => setSelectedNoteId(null)}
-                className="text-xs px-2"
+                className="h-8.5 px-3 text-sm font-medium whitespace-nowrap shrink-0"
               >
                 Back to Notes
               </Button>
@@ -705,8 +705,8 @@ export const NotesRoute: React.FC = () => {
               note={selectedNote}
               folders={folders}
               onUpdateNote={handleUpdateNote}
-              onDeleteNote={(noteId) => {
-                handleTrashNote(noteId);
+              onDeleteNote={async (noteId) => {
+                await handleTrashNote(noteId);
                 setSelectedNoteId(null);
               }}
               onTogglePin={handleTogglePin}

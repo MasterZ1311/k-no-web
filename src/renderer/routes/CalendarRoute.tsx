@@ -219,7 +219,7 @@ export const CalendarRoute: React.FC = () => {
             UTC-consistent milestones, task deadlines, and local system reminder alerts.
           </p>
         </div>
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
           <Button
             variant="primary"
             size="sm"
@@ -228,7 +228,7 @@ export const CalendarRoute: React.FC = () => {
               setEventToEdit(null);
               setIsEventDialogOpen(true);
             }}
-            className="h-9 px-3.5 text-xs sm:text-sm font-medium"
+            className="h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0"
           >
             New Event
           </Button>
@@ -257,15 +257,15 @@ export const CalendarRoute: React.FC = () => {
             <h2 className="text-lg font-bold text-kano-text-primary">
               {currentDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
             </h2>
-            <div className="flex items-center gap-1.5 self-end sm:self-auto">
-              <Button variant="secondary" size="sm" onClick={handleToday} className="h-8 px-3 text-xs sm:text-sm font-medium">
+            <div className="flex items-center gap-1.5 self-end sm:self-auto shrink-0">
+              <Button variant="secondary" size="sm" onClick={handleToday} className="h-9 px-3.5 text-sm font-medium whitespace-nowrap shrink-0">
                 Today
               </Button>
               <button
                 type="button"
                 onClick={handlePrevMonth}
                 aria-label="Previous month"
-                className="p-1.5 rounded-lg text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border"
+                className="w-9 h-9 flex items-center justify-center shrink-0 rounded-lg text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -273,7 +273,7 @@ export const CalendarRoute: React.FC = () => {
                 type="button"
                 onClick={handleNextMonth}
                 aria-label="Next month"
-                className="p-1.5 rounded-lg text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border"
+                className="w-9 h-9 flex items-center justify-center shrink-0 rounded-lg text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -397,7 +397,7 @@ export const CalendarRoute: React.FC = () => {
                 setEventToEdit(null);
                 setIsEventDialogOpen(true);
               }}
-              className="h-8 px-3 text-xs sm:text-sm font-medium"
+              className="h-8.5 px-3 text-sm font-medium whitespace-nowrap shrink-0"
             >
               Add
             </Button>
@@ -447,9 +447,9 @@ export const CalendarRoute: React.FC = () => {
                               <button
                                 type="button"
                                 aria-label="Edit event"
-                                className="text-kano-text-muted hover:text-kano-text-primary p-0.5 rounded"
+                                className="w-7 h-7 flex items-center justify-center shrink-0 text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover rounded-md transition-colors"
                               >
-                                <Edit2 className="w-3 h-3" />
+                                <Edit2 className="w-3.5 h-3.5" />
                               </button>
                             </div>
                             <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 block mt-1">

@@ -396,7 +396,7 @@ export const SettingsRoute: React.FC = () => {
 
       {/* 3. Native Notifications */}
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-kano-border">
+        <div className="flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap pb-3 border-b border-kano-border">
           <div className="flex items-center gap-2.5">
             {settings.notificationsEnabled ? (
               <Bell className="w-4 h-4 text-kano-accent" />
@@ -405,7 +405,7 @@ export const SettingsRoute: React.FC = () => {
             )}
             <h3 className="text-base font-semibold text-kano-text-primary">Windows Desktop Notifications</h3>
           </div>
-          <Button variant="secondary" size="sm" onClick={handleTestNotification}>
+          <Button variant="secondary" size="sm" onClick={handleTestNotification} className="whitespace-nowrap shrink-0">
             Send Test Alert
           </Button>
         </div>
@@ -518,7 +518,7 @@ export const SettingsRoute: React.FC = () => {
           <h3 className="text-base font-semibold text-kano-text-primary">Storage & Cache</h3>
         </div>
 
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap text-sm">
           <div>
             <span className="font-semibold block text-kano-text-primary">Clear Local Cache</span>
             <span className="text-xs text-kano-text-muted">Purge cached web assets and session buffers to recover disk space.</span>
@@ -528,8 +528,9 @@ export const SettingsRoute: React.FC = () => {
             size="sm"
             onClick={handleClearCache}
             isLoading={isClearingCache}
+            iconLeft={<Trash2 className="w-3.5 h-3.5 text-rose-500" />}
+            className="whitespace-nowrap shrink-0"
           >
-            <Trash2 className="w-3.5 h-3.5 mr-1.5 text-rose-500" />
             Clear Cache
           </Button>
         </div>
@@ -542,15 +543,20 @@ export const SettingsRoute: React.FC = () => {
           <h3 className="text-base font-semibold text-kano-text-primary">Account & Active Session</h3>
         </div>
 
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap text-sm">
           <div>
             <span className="font-semibold block text-kano-text-primary">
               {user?.displayName || 'Active User'}
             </span>
             <span className="text-xs text-kano-text-muted">{user?.email || 'Authenticated user'}</span>
           </div>
-          <Button variant="danger" size="sm" onClick={() => setIsSignOutDialogOpen(true)}>
-            <LogOut className="w-3.5 h-3.5 mr-1.5" />
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => setIsSignOutDialogOpen(true)}
+            iconLeft={<LogOut className="w-3.5 h-3.5" />}
+            className="whitespace-nowrap shrink-0"
+          >
             Sign Out
           </Button>
         </div>
