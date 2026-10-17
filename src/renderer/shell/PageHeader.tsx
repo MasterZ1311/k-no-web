@@ -84,12 +84,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         <button
           type="button"
           onClick={onOpenSearch}
-          className="flex items-center gap-1.5 sm:gap-2 h-8 px-2 sm:px-2.5 rounded-md border border-kano-border bg-kano-bg hover:bg-kano-surface-hover text-kano-text-muted hover:text-kano-text-primary text-xs transition-colors shadow-subtle"
+          className="flex items-center gap-1.5 sm:gap-2 h-9 px-2.5 sm:px-3.5 rounded-lg border border-kano-border bg-kano-bg hover:bg-kano-surface-hover text-kano-text-muted hover:text-kano-text-primary text-xs sm:text-sm font-medium transition-colors shadow-subtle"
           title="Search or jump to route (Ctrl+K)"
         >
-          <Search className="w-3.5 h-3.5" />
+          <Search className="w-4 h-4" />
           <span className="hidden sm:inline">Search workspace...</span>
-          <kbd className="hidden sm:inline-block text-[10px] px-1 py-0.2 rounded bg-kano-surface border border-kano-border font-mono ml-1">
+          <kbd className="hidden sm:inline-block text-xs px-1.5 py-0.5 rounded bg-kano-surface border border-kano-border font-mono ml-1 text-kano-text-muted">
             Ctrl+K
           </kbd>
         </button>
@@ -99,9 +99,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           <Button
             variant="primary"
             size="sm"
-            iconLeft={<Plus className="w-3.5 h-3.5" />}
+            iconLeft={<Plus className="w-4 h-4" />}
             onClick={handleAction}
-            className="h-8 text-xs whitespace-nowrap"
+            className="h-9 px-3 text-xs sm:text-sm font-medium whitespace-nowrap"
           >
             <span className="hidden sm:inline">
               {currentRoute === '/notes'

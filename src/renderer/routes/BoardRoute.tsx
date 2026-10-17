@@ -218,16 +218,16 @@ export const BoardRoute: React.FC = () => {
             <LayoutGrid className="w-5 h-5 text-kano-accent" />
             {board ? board.name : 'Main Kanban Board'}
           </h1>
-          <p className="text-xs text-kano-text-muted mt-1">
+          <p className="text-sm text-kano-text-muted mt-1">
             Authoritative 4-column board synchronized with task status and room activities.
           </p>
         </div>
         <Button
           variant="primary"
           size="sm"
-          iconLeft={<Plus className="w-3.5 h-3.5" />}
+          iconLeft={<Plus className="w-4 h-4" />}
           onClick={() => handleOpenNewTask(columns[0]?.id)}
-          className="self-start sm:self-auto"
+          className="self-start sm:self-auto h-9 px-3.5 text-xs sm:text-sm"
         >
           Add Task Card
         </Button>
@@ -270,8 +270,8 @@ export const BoardRoute: React.FC = () => {
                 className={`flex items-center justify-between pb-2.5 mb-2 border-b border-kano-border pl-2 border-l-2 ${colorCfg.border}`}
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-kano-text-primary">{col.name}</span>
-                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-kano-surface border border-kano-border text-kano-text-muted">
+                  <span className="text-sm font-bold text-kano-text-primary">{col.name}</span>
+                  <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-kano-surface border border-kano-border text-kano-text-muted">
                     {colTasks.length}
                   </span>
                 </div>
@@ -279,9 +279,9 @@ export const BoardRoute: React.FC = () => {
                   type="button"
                   aria-label={`Add task to ${col.name}`}
                   onClick={() => handleOpenNewTask(col.id)}
-                  className="text-kano-text-muted hover:text-kano-text-primary p-1 rounded hover:bg-kano-surface-hover transition-colors"
+                  className="text-kano-text-muted hover:text-kano-text-primary p-1.5 rounded-md hover:bg-kano-surface-hover transition-colors"
                 >
-                  <Plus className="w-3.5 h-3.5" />
+                  <Plus className="w-4 h-4" />
                 </button>
               </div>
 

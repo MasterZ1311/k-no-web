@@ -118,13 +118,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         if (onDragStart) onDragStart(e);
       }}
       onClick={handleCardClick}
-      className={`group relative flex flex-col p-3.5 rounded-xl border border-kano-border bg-kano-surface hover:border-kano-accent/50 shadow-subtle hover:shadow-popup transition-all cursor-pointer ${
+      className={`group relative flex flex-col p-4 rounded-xl border border-kano-border bg-kano-surface hover:border-kano-accent/50 shadow-subtle hover:shadow-popup transition-all cursor-pointer ${
         isDone ? 'opacity-75 bg-kano-bg/50' : ''
       } ${className}`}
     >
       <div className="flex items-start justify-between gap-2 mb-1.5">
         <span
-          className={`text-xs font-medium text-kano-text-primary leading-snug break-words flex-1 ${
+          className={`text-sm font-semibold text-kano-text-primary leading-snug break-words flex-1 ${
             isDone ? 'line-through text-kano-text-muted' : ''
           }`}
         >
@@ -141,7 +141,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                   aria-label="Task options"
                   className="p-1 rounded text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover opacity-80 group-hover:opacity-100 transition-opacity"
                 >
-                  <MoreVertical className="w-3.5 h-3.5" />
+                  <MoreVertical className="w-4 h-4" />
                 </button>
               }
               items={menuItems}
@@ -152,18 +152,18 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       </div>
 
       {task.description && (
-        <p className="text-[11px] text-kano-text-secondary line-clamp-2 mb-2 leading-relaxed">
+        <p className="text-xs text-kano-text-secondary line-clamp-2 mb-2.5 leading-relaxed">
           {task.description}
         </p>
       )}
 
       {/* Labels */}
       {task.labels && task.labels.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-2">
+        <div className="flex flex-wrap gap-1.5 mb-2.5">
           {task.labels.map((label) => (
             <span
               key={label.id}
-              className="inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full"
+              className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full"
               style={{
                 backgroundColor: `${label.colorHex}20`,
                 color: label.colorHex,
@@ -177,10 +177,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       )}
 
       {/* Bottom Metadata Badges */}
-      <div className="flex items-center flex-wrap gap-2 text-[10px] text-kano-text-muted mt-auto pt-1">
+      <div className="flex items-center flex-wrap gap-2 text-xs text-kano-text-muted mt-auto pt-1">
         {/* Priority Badge */}
         <span
-          className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium transition-colors ${priorityInfo.bg} ${priorityInfo.text}`}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors ${priorityInfo.bg} ${priorityInfo.text}`}
         >
           <span className={`w-1.5 h-1.5 rounded-full ${priorityInfo.dot} shadow-[0_0_4px_currentColor]`} />
           {priorityInfo.label}
@@ -189,21 +189,21 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         {/* Due Date */}
         {dueDateText && (
           <span
-            className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono transition-colors ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-mono transition-colors ${
               isOverdue
                 ? 'bg-[#FA2E23]/15 text-[#FA2E23] font-semibold'
                 : 'bg-kano-surface-hover border border-kano-border text-kano-text-muted'
             }`}
           >
-            {isOverdue ? <AlertCircle className="w-2.5 h-2.5" /> : <Calendar className="w-2.5 h-2.5" />}
+            {isOverdue ? <AlertCircle className="w-3 h-3" /> : <Calendar className="w-3 h-3" />}
             {dueDateText}
           </span>
         )}
 
         {/* Checklists Progress */}
         {totalChecklists > 0 && (
-          <span className="inline-flex items-center gap-1.5 font-mono bg-kano-surface-hover border border-kano-border px-2 py-0.5 rounded-full">
-            <CheckSquare className="w-2.5 h-2.5 text-kano-text-muted" />
+          <span className="inline-flex items-center gap-1.5 font-mono bg-kano-surface-hover border border-kano-border px-2.5 py-0.5 rounded-full">
+            <CheckSquare className="w-3 h-3 text-kano-text-muted" />
             {completedChecklists}/{totalChecklists}
           </span>
         )}

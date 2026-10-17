@@ -191,19 +191,19 @@ export const TasksRoute: React.FC = () => {
             <CheckSquare className="w-5 h-5 text-kano-accent" />
             Tasks & Checklists
           </h1>
-          <p className="text-xs text-kano-text-muted mt-1">
+          <p className="text-sm text-kano-text-muted mt-1">
             Single authoritative task records synchronized with Kanban boards, reminders, and calendar deadlines.
           </p>
         </div>
         <Button
           variant="primary"
           size="sm"
-          iconLeft={<Plus className="w-3.5 h-3.5" />}
+          iconLeft={<Plus className="w-4 h-4" />}
           onClick={() => {
             setTaskToEdit(null);
             setIsDialogOpen(true);
           }}
-          className="self-start sm:self-auto"
+          className="self-start sm:self-auto h-9 px-3.5 text-xs sm:text-sm"
         >
           New Task
         </Button>
@@ -212,7 +212,7 @@ export const TasksRoute: React.FC = () => {
       {/* Filter Bar & Tabs */}
       <div className="space-y-3">
         {/* Status Tabs */}
-        <div className="flex items-center gap-1.5 border-b border-kano-border pb-3 overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-2 border-b border-kano-border pb-3 overflow-x-auto no-scrollbar">
           {STATUS_TAB_CONFIG.map((tab) => {
             const isCurrent = activeTab === tab.key;
             return (
@@ -220,7 +220,7 @@ export const TasksRoute: React.FC = () => {
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shrink-0 ${
                   isCurrent
                     ? 'bg-kano-accent text-white shadow-xs'
                     : 'text-kano-text-secondary hover:bg-kano-surface-hover hover:text-kano-text-primary'
@@ -228,7 +228,7 @@ export const TasksRoute: React.FC = () => {
               >
                 <span>{tab.label}</span>
                 <span
-                  className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
+                  className={`text-xs font-mono px-2 py-0.5 rounded-full ${
                     isCurrent ? 'bg-white/20 text-white' : 'bg-kano-surface border border-kano-border text-kano-text-muted'
                   }`}
                 >
@@ -240,25 +240,25 @@ export const TasksRoute: React.FC = () => {
         </div>
 
         {/* Search & Priority Controls */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div className="relative flex-1 min-w-0">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-kano-text-muted" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-kano-text-muted" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search tasks, descriptions, or labels..."
-              className="text-xs pl-8 h-8 w-full"
+              className="text-sm pl-9 h-10 w-full"
             />
           </div>
 
-          <div className="flex items-center justify-between sm:justify-start gap-2 shrink-0">
-            <span className="text-xs text-kano-text-muted flex items-center gap-1">
-              <Filter className="w-3 h-3" /> Priority:
+          <div className="flex items-center justify-between sm:justify-start gap-2.5 shrink-0">
+            <span className="text-sm text-kano-text-muted flex items-center gap-1 font-medium">
+              <Filter className="w-3.5 h-3.5" /> Priority:
             </span>
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className="text-xs rounded-md border border-kano-border bg-kano-surface px-2.5 py-1 text-kano-text-primary focus:outline-none focus:ring-1 focus:ring-kano-accent"
+              className="text-sm rounded-lg border border-kano-border bg-kano-surface px-3 py-2 h-10 text-kano-text-primary focus:outline-none focus:ring-1 focus:ring-kano-accent"
             >
               <option value="all">All Priorities</option>
               <option value="urgent">Urgent</option>

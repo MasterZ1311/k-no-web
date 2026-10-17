@@ -215,7 +215,7 @@ export const CalendarRoute: React.FC = () => {
             <CalendarIcon className="w-5 h-5 text-kano-accent" />
             Calendar & Deadlines
           </h1>
-          <p className="text-xs text-kano-text-muted mt-1">
+          <p className="text-sm text-kano-text-muted mt-1">
             UTC-consistent milestones, task deadlines, and local system reminder alerts.
           </p>
         </div>
@@ -223,11 +223,12 @@ export const CalendarRoute: React.FC = () => {
           <Button
             variant="primary"
             size="sm"
-            iconLeft={<Plus className="w-3.5 h-3.5" />}
+            iconLeft={<Plus className="w-4 h-4" />}
             onClick={() => {
               setEventToEdit(null);
               setIsEventDialogOpen(true);
             }}
+            className="h-9 px-3.5 text-xs sm:text-sm font-medium"
           >
             New Event
           </Button>
@@ -249,21 +250,21 @@ export const CalendarRoute: React.FC = () => {
       ) : (
         <div className="flex-1 flex flex-col lg:flex-row gap-4 sm:gap-6 min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* Left: Month Grid */}
-        <div className="flex-1 flex flex-col bg-kano-bg border border-kano-border rounded-xl p-3 sm:p-4 min-h-[400px] lg:min-h-0 overflow-hidden">
+        <div className="flex-1 flex flex-col bg-kano-bg border border-kano-border rounded-xl p-3.5 sm:p-5 min-h-[400px] lg:min-h-0 overflow-hidden">
           {/* Calendar Controls */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 mb-2 border-b border-kano-border shrink-0">
-            <h2 className="text-base font-bold text-kano-text-primary">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 mb-2 border-b border-kano-border shrink-0">
+            <h2 className="text-lg font-bold text-kano-text-primary">
               {currentDate.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
             </h2>
             <div className="flex items-center gap-1.5 self-end sm:self-auto">
-              <Button variant="secondary" size="sm" onClick={handleToday}>
+              <Button variant="secondary" size="sm" onClick={handleToday} className="h-8 px-3 text-xs sm:text-sm font-medium">
                 Today
               </Button>
               <button
                 type="button"
                 onClick={handlePrevMonth}
                 aria-label="Previous month"
-                className="p-1.5 rounded-md text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border"
+                className="p-1.5 rounded-lg text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -271,7 +272,7 @@ export const CalendarRoute: React.FC = () => {
                 type="button"
                 onClick={handleNextMonth}
                 aria-label="Next month"
-                className="p-1.5 rounded-md text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border"
+                className="p-1.5 rounded-lg text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover border border-kano-border"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -279,7 +280,7 @@ export const CalendarRoute: React.FC = () => {
           </div>
 
           {/* Weekday Row */}
-          <div className="grid grid-cols-7 gap-1 text-center py-1.5 shrink-0 border-b border-kano-border/60 text-xs font-semibold text-kano-text-muted uppercase tracking-wider">
+          <div className="grid grid-cols-7 gap-1 text-center py-2 shrink-0 border-b border-kano-border/60 text-xs font-semibold text-kano-text-muted uppercase tracking-wider">
             {WEEKDAYS.map((w) => (
               <div key={w} className="py-0.5">
                 {w}
@@ -288,7 +289,7 @@ export const CalendarRoute: React.FC = () => {
           </div>
 
           {/* Month Days Grid */}
-          <div className="flex-1 grid grid-cols-7 gap-1 min-h-0 overflow-y-auto pt-1">
+          <div className="flex-1 grid grid-cols-7 gap-1.5 min-h-0 overflow-y-auto pt-1.5">
             {calendarDays.map((cell, idx) => {
               const key = itemsByDateString.getKey(cell.date);
               const dayEvents = itemsByDateString.eventMap.get(key) || [];
@@ -300,7 +301,7 @@ export const CalendarRoute: React.FC = () => {
                 <div
                   key={idx}
                   onClick={() => setSelectedDate(cell.date)}
-                  className={`flex flex-col p-1 sm:p-1.5 min-h-[50px] sm:min-h-[64px] rounded-lg border transition-all cursor-pointer ${
+                  className={`flex flex-col p-1.5 min-h-[54px] sm:min-h-[68px] rounded-lg border transition-all cursor-pointer ${
                     isSelected
                       ? 'border-kano-accent bg-kano-surface ring-1 ring-kano-accent/40 shadow-xs'
                       : 'border-kano-border/60 bg-kano-surface/40 hover:bg-kano-surface hover:border-kano-border'
@@ -309,7 +310,7 @@ export const CalendarRoute: React.FC = () => {
                   {/* Day Number Header */}
                   <div className="flex items-center justify-between mb-1">
                     <span
-                      className={`text-xs font-medium w-5 h-5 flex items-center justify-center rounded-full ${
+                      className={`text-sm font-semibold w-6 h-6 flex items-center justify-center rounded-full ${
                         isToday
                           ? 'bg-kano-accent text-white font-bold'
                           : isSelected
@@ -322,7 +323,7 @@ export const CalendarRoute: React.FC = () => {
 
                     {/* Total item count indicator */}
                     {dayEvents.length + dayTasks.length > 0 && (
-                      <span className="text-[9px] font-mono text-kano-text-muted">
+                      <span className="text-xs font-mono text-kano-text-muted">
                         {dayEvents.length + dayTasks.length}
                       </span>
                     )}
@@ -335,9 +336,9 @@ export const CalendarRoute: React.FC = () => {
                       <div
                         key={ev.id}
                         title={ev.title}
-                        className="truncate text-[10px] font-medium px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center gap-1"
+                        className="truncate text-xs font-medium px-2 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 flex items-center gap-1"
                       >
-                        <Clock className="w-2.5 h-2.5 shrink-0" />
+                        <Clock className="w-3 h-3 shrink-0" />
                         <span className="truncate">{ev.title}</span>
                       </div>
                     ))}
@@ -347,20 +348,20 @@ export const CalendarRoute: React.FC = () => {
                       <div
                         key={t.id}
                         title={`Task Due: ${t.title}`}
-                        className={`truncate text-[10px] font-medium px-1.5 py-0.5 rounded flex items-center gap-1 border ${
+                        className={`truncate text-xs font-medium px-2 py-0.5 rounded flex items-center gap-1 border ${
                           t.status === 'done'
                             ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 line-through opacity-80'
                             : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20'
                         }`}
                       >
-                        <CheckSquare className="w-2.5 h-2.5 shrink-0" />
+                        <CheckSquare className="w-3 h-3 shrink-0 text-kano-accent" />
                         <span className="truncate">{t.title}</span>
                       </div>
                     ))}
 
                     {/* Overflow label */}
                     {dayEvents.length + dayTasks.length > 4 && (
-                      <span className="text-[9px] text-kano-text-muted pl-1">
+                      <span className="text-xs text-kano-text-muted pl-1">
                         +{dayEvents.length + dayTasks.length - 4} more
                       </span>
                     )}
@@ -378,7 +379,7 @@ export const CalendarRoute: React.FC = () => {
               <span className="text-xs font-semibold text-kano-text-muted uppercase tracking-wider block">
                 Selected Day
               </span>
-              <h3 className="text-sm font-bold text-kano-text-primary">
+              <h3 className="text-base font-bold text-kano-text-primary">
                 {selectedDate.toLocaleDateString(undefined, {
                   weekday: 'short',
                   month: 'short',
@@ -395,6 +396,7 @@ export const CalendarRoute: React.FC = () => {
                 setEventToEdit(null);
                 setIsEventDialogOpen(true);
               }}
+              className="h-8 px-3 text-xs sm:text-sm font-medium"
             >
               Add
             </Button>
@@ -405,10 +407,10 @@ export const CalendarRoute: React.FC = () => {
             {selectedDayEvents.length === 0 && selectedDayTasks.length === 0 ? (
               <div className="py-12 text-center border border-dashed border-kano-border rounded-lg">
                 <Clock className="w-6 h-6 text-kano-text-muted mx-auto mb-2 opacity-50" />
-                <span className="text-xs font-medium text-kano-text-secondary block">
+                <span className="text-sm font-medium text-kano-text-secondary block">
                   Nothing scheduled
                 </span>
-                <p className="text-[11px] text-kano-text-muted mt-0.5">
+                <p className="text-xs text-kano-text-muted mt-0.5">
                   Plan meetings or assign task deadlines for this day.
                 </p>
               </div>
@@ -417,7 +419,7 @@ export const CalendarRoute: React.FC = () => {
                 {/* Events Section */}
                 {selectedDayEvents.length > 0 && (
                   <div>
-                    <span className="text-[11px] font-semibold text-kano-text-muted uppercase tracking-wider block mb-2">
+                    <span className="text-xs font-semibold text-kano-text-muted uppercase tracking-wider block mb-2">
                       Calendar Events ({selectedDayEvents.length})
                     </span>
                     <div className="space-y-2">
@@ -435,10 +437,10 @@ export const CalendarRoute: React.FC = () => {
                               setEventToEdit(ev);
                               setIsEventDialogOpen(true);
                             }}
-                            className="p-3 rounded-lg border border-kano-border bg-kano-surface hover:border-kano-accent/40 cursor-pointer transition-colors"
+                            className="p-3.5 rounded-lg border border-kano-border bg-kano-surface hover:border-kano-accent/40 cursor-pointer transition-colors"
                           >
                             <div className="flex items-start justify-between gap-2">
-                              <span className="text-xs font-semibold text-kano-text-primary">
+                              <span className="text-sm font-semibold text-kano-text-primary">
                                 {ev.title}
                               </span>
                               <button

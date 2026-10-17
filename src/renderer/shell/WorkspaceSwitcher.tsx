@@ -35,21 +35,21 @@ export const WorkspaceSwitcher: React.FC<WorkspaceSwitcherProps> = ({ isCollapse
     <button
       type="button"
       aria-label="Switch workspace"
-      className={`w-full flex items-center gap-2 p-1.5 rounded-md hover:bg-kano-surface-hover text-left transition-colors border border-transparent hover:border-kano-border select-none ${
+      className={`w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-kano-surface-hover text-left transition-colors border border-transparent hover:border-kano-border select-none ${
         isCollapsed ? 'justify-center p-1' : ''
       }`}
     >
-      <div className="w-6 h-6 rounded-md bg-kano-accent text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-subtle">
-        <FolderKanban className="w-3.5 h-3.5" />
+      <div className="w-7 h-7 rounded-lg bg-kano-accent text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-subtle">
+        <FolderKanban className="w-4 h-4" />
       </div>
       {!isCollapsed && (
         <>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-semibold text-kano-text-primary truncate">
+              <span className="text-sm font-semibold text-kano-text-primary truncate">
                 {displayName}
               </span>
-              <span className={`text-[9px] px-1 py-0.2 rounded font-medium ${
+              <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${
                 displayRole === 'Owner'
                   ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
@@ -57,11 +57,11 @@ export const WorkspaceSwitcher: React.FC<WorkspaceSwitcherProps> = ({ isCollapse
                 {displayRole}
               </span>
             </div>
-            <span className="text-[10px] text-kano-text-muted block truncate">
+            <span className="text-xs text-kano-text-muted block truncate">
               {activeRoom?.description || 'Private workspace'}
             </span>
           </div>
-          <ChevronsUpDown className="w-3.5 h-3.5 text-kano-text-muted flex-shrink-0" />
+          <ChevronsUpDown className="w-4 h-4 text-kano-text-muted flex-shrink-0" />
         </>
       )}
     </button>

@@ -236,10 +236,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className="w-5 h-5 object-contain flex-shrink-0"
               />
               <div className="flex items-center gap-1.5">
-                <span className="font-bold text-sm tracking-tight text-kano-text-primary">
+                <span className="font-bold text-base tracking-tight text-kano-text-primary">
                   káno̱
                 </span>
-                <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-kano-surface-hover text-kano-text-muted border border-kano-border-subtle">
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-kano-surface-hover text-kano-text-muted border border-kano-border-subtle">
                   web v1.0
                 </span>
               </div>
@@ -333,8 +333,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Folders Section (Shown in expanded mode) */}
         {!isCollapsed && (
           <div className="pt-2">
-            <div className="flex items-center justify-between px-2 mb-1.5">
-              <span className="text-[10px] font-semibold text-kano-text-muted tracking-wider uppercase">
+            <div className="flex items-center justify-between px-2.5 mb-2">
+              <span className="text-xs font-semibold text-kano-text-muted tracking-wider uppercase">
                 Folders
               </span>
               {activeRoom && (
@@ -343,16 +343,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsCreateFolderOpen(true)}
-                  className="w-5 h-5 p-0.5 text-kano-text-muted hover:text-kano-text-primary"
+                  className="w-6 h-6 p-1 text-kano-text-muted hover:text-kano-text-primary"
                 >
-                  <Plus className="w-3 h-3" />
+                  <Plus className="w-3.5 h-3.5" />
                 </IconButton>
               )}
             </div>
 
             <div className="space-y-0.5">
               {rootFolders.length === 0 ? (
-                <div className="px-2 py-1.5 text-[11px] text-kano-text-muted italic">
+                <div className="px-2.5 py-2 text-xs text-kano-text-muted italic">
                   No folders yet
                 </div>
               ) : (
@@ -363,17 +363,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                   return (
                     <div key={folder.id}>
-                      <div className="flex items-center group rounded-md hover:bg-kano-surface-hover px-1.5 py-1 text-xs text-kano-text-secondary">
+                      <div className="flex items-center group rounded-lg hover:bg-kano-surface-hover px-2 py-1.5 text-sm text-kano-text-secondary">
                         {hasChildren ? (
                           <button
                             type="button"
                             onClick={() => toggleFolder(folder.id)}
-                            className="p-0.5 hover:text-kano-text-primary rounded"
+                            className="p-1 hover:text-kano-text-primary rounded"
                           >
                             {isExpanded ? (
-                              <ChevronDown className="w-3 h-3" />
+                              <ChevronDown className="w-3.5 h-3.5" />
                             ) : (
-                              <ChevronRight className="w-3 h-3" />
+                              <ChevronRight className="w-3.5 h-3.5" />
                             )}
                           </button>
                         ) : (
@@ -382,16 +382,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         <button
                           type="button"
                           onClick={() => handleFolderClick(folder)}
-                          className="flex-1 flex items-center gap-1.5 ml-1 text-left truncate hover:text-kano-text-primary"
+                          className="flex-1 flex items-center gap-2 ml-1 text-left truncate hover:text-kano-text-primary font-medium"
                         >
                           {isExpanded ? (
-                            <FolderOpen className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            <FolderOpen className="w-4 h-4 text-amber-500 flex-shrink-0" />
                           ) : (
-                            <FolderIcon className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+                            <FolderIcon className="w-4 h-4 text-amber-500 flex-shrink-0" />
                           )}
                           <span className="truncate">{folder.name}</span>
                         </button>
-                        <span className="text-[10px] text-kano-text-muted px-1 font-mono">
+                        <span className="text-xs text-kano-text-muted px-1.5 font-mono">
                           {folder.noteCount || 0}
                         </span>
                       </div>
@@ -404,13 +404,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               key={child.id}
                               type="button"
                               onClick={() => handleFolderClick(child)}
-                              className="w-full flex items-center justify-between px-2 py-1 rounded-md text-xs text-kano-text-secondary hover:text-kano-text-primary hover:bg-kano-surface-hover text-left truncate"
+                              className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-sm text-kano-text-secondary hover:text-kano-text-primary hover:bg-kano-surface-hover text-left truncate"
                             >
-                              <div className="flex items-center gap-1.5 truncate">
-                                <FolderIcon className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                              <div className="flex items-center gap-2 truncate">
+                                <FolderIcon className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                                 <span className="truncate">{child.name}</span>
                               </div>
-                              <span className="text-[10px] text-kano-text-muted font-mono">
+                              <span className="text-xs text-kano-text-muted font-mono">
                                 {child.noteCount || 0}
                               </span>
                             </button>
@@ -460,23 +460,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* User Identity Area */}
         <div
-          className={`flex items-center gap-2 p-1.5 rounded-md hover:bg-kano-surface-hover select-none transition-colors ${
+          className={`flex items-center gap-2.5 p-2 rounded-lg hover:bg-kano-surface-hover select-none transition-colors ${
             isCollapsed ? 'justify-center p-1' : ''
           }`}
           title={user ? `${user.displayName || user.email} (${user.email})` : 'Authenticated user'}
         >
-          <div className="w-7 h-7 rounded-full bg-kano-accent-subtle text-kano-accent border border-kano-accent/20 flex items-center justify-center text-xs font-bold flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-kano-accent-subtle text-kano-accent border border-kano-accent/20 flex items-center justify-center text-xs font-bold flex-shrink-0">
             {user ? (user.displayName || user.email || 'U').charAt(0).toUpperCase() : 'U'}
           </div>
           {!isCollapsed && (
             <>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-medium text-kano-text-primary truncate">
+                  <span className="text-sm font-semibold text-kano-text-primary truncate">
                     {user ? (user.displayName || user.email.split('@')[0]) : 'User'}
                   </span>
                 </div>
-                <span className="text-[10px] text-kano-text-muted block truncate">
+                <span className="text-xs text-kano-text-muted block truncate">
                   {user ? user.email : ''}
                 </span>
               </div>
@@ -490,9 +490,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       signOut();
                       showToast('Signed out of káno̱', { type: 'info' });
                     }}
-                    className="w-6 h-6 p-1 text-kano-text-muted hover:text-red-600"
+                    className="w-7 h-7 p-1 text-kano-text-muted hover:text-red-600"
                   >
-                    <LogOut className="w-3.5 h-3.5" />
+                    <LogOut className="w-4 h-4" />
                   </IconButton>
                 </Tooltip>
               )}

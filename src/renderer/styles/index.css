@@ -5,10 +5,17 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     color: var(--color-text-primary);
     background-color: var(--color-bg);
+    line-height: 1.55;
   }
 
   /* Accessible focus visibility */
@@ -41,33 +48,37 @@
 .ProseMirror {
   outline: none;
   min-height: 250px;
+  font-size: 1.0625rem;
+  line-height: 1.7;
 }
 
 .ProseMirror p {
-  margin-bottom: 0.75em;
-  line-height: 1.6;
+  margin-bottom: 0.85em;
+  line-height: 1.7;
 }
 
 .ProseMirror h1 {
-  font-size: 1.875rem;
+  font-size: 2.125rem;
   font-weight: 700;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  letter-spacing: -0.02em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
   line-height: 1.25;
 }
 
 .ProseMirror h2 {
-  font-size: 1.5rem;
+  font-size: 1.65rem;
   font-weight: 600;
-  margin-top: 1.25em;
+  letter-spacing: -0.015em;
+  margin-top: 1.4em;
   margin-bottom: 0.5em;
   line-height: 1.3;
 }
 
 .ProseMirror h3 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 600;
-  margin-top: 1em;
+  margin-top: 1.2em;
   margin-bottom: 0.4em;
   line-height: 1.4;
 }

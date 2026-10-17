@@ -562,10 +562,10 @@ export const NotesRoute: React.FC = () => {
         </div>
 
         {/* Header & Search */}
-        <div className="p-3 border-b border-kano-border space-y-2">
+        <div className="p-3.5 border-b border-kano-border space-y-2.5">
           <div className="flex items-center justify-between">
-            <h1 className="text-xs font-bold text-kano-text-primary tracking-tight flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-kano-accent" />
+            <h1 className="text-sm font-bold text-kano-text-primary tracking-tight flex items-center gap-1.5">
+              <FileText className="w-4 h-4 text-kano-accent" />
               Notes & Documents ({filteredNotes.length})
             </h1>
             <div className="flex items-center gap-1.5">
@@ -573,7 +573,7 @@ export const NotesRoute: React.FC = () => {
                 align="right"
                 trigger={
                   <IconButton aria-label="Export workspace" variant="ghost" size="sm">
-                    <Download className="w-3.5 h-3.5" />
+                    <Download className="w-4 h-4" />
                   </IconButton>
                 }
                 items={[
@@ -592,21 +592,22 @@ export const NotesRoute: React.FC = () => {
               <Button
                 variant="primary"
                 size="sm"
-                iconLeft={<Plus className="w-3.5 h-3.5" />}
+                iconLeft={<Plus className="w-4 h-4" />}
                 onClick={handleCreateNote}
+                className="h-8.5 px-3 text-xs sm:text-sm"
               >
                 New Note
               </Button>
             </div>
           </div>
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-kano-text-muted absolute left-2.5 top-2.5 pointer-events-none" />
+            <Search className="w-4 h-4 text-kano-text-muted absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               placeholder="Search notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 text-xs rounded-md bg-kano-bg border border-kano-border text-kano-text-primary placeholder:text-kano-text-muted focus:outline-none focus:border-kano-accent transition-colors"
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-kano-bg border border-kano-border text-kano-text-primary placeholder:text-kano-text-muted focus:outline-none focus:border-kano-accent transition-colors"
             />
           </div>
         </div>
@@ -614,7 +615,7 @@ export const NotesRoute: React.FC = () => {
         {/* Scrollable Note Cards */}
         <div className="flex-1 overflow-y-auto divide-y divide-kano-border-subtle">
           {filteredNotes.length === 0 ? (
-            <div className="p-6 text-center text-xs text-kano-text-muted">
+            <div className="p-6 text-center text-xs sm:text-sm text-kano-text-muted">
               {searchQuery ? 'No notes matching search' : 'No notes in this view'}
             </div>
           ) : (
@@ -629,31 +630,31 @@ export const NotesRoute: React.FC = () => {
                 <div
                   key={note.id}
                   onClick={() => setSelectedNoteId(note.id)}
-                  className={`p-3 cursor-pointer transition-colors text-xs ${
+                  className={`p-3.5 cursor-pointer transition-colors text-xs ${
                     isSelected
                       ? 'bg-kano-surface-hover border-l-2 border-kano-accent'
                       : 'hover:bg-kano-surface-hover'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-semibold text-kano-text-primary truncate flex-1 pr-2">
+                    <h4 className="font-semibold text-sm text-kano-text-primary truncate flex-1 pr-2">
                       {note.title || 'Untitled Note'}
                     </h4>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      {note.isPinned && <Pin className="w-3 h-3 text-kano-accent" />}
-                      {note.isFavorite && <Star className="w-3 h-3 text-amber-500 fill-amber-500" />}
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      {note.isPinned && <Pin className="w-3.5 h-3.5 text-kano-accent" />}
+                      {note.isFavorite && <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />}
                     </div>
                   </div>
 
                   {note.plainTextSummary ? (
-                    <p className="text-[11px] text-kano-text-muted line-clamp-2 leading-relaxed mb-1.5">
+                    <p className="text-xs text-kano-text-muted line-clamp-2 leading-relaxed mb-1.5">
                       {note.plainTextSummary}
                     </p>
                   ) : (
-                    <p className="text-[11px] text-kano-text-muted/60 italic mb-1.5">Empty note</p>
+                    <p className="text-xs text-kano-text-muted/60 italic mb-1.5">Empty note</p>
                   )}
 
-                  <span className="text-[10px] text-kano-text-muted font-mono">{dateStr}</span>
+                  <span className="text-xs text-kano-text-muted font-mono">{dateStr}</span>
                 </div>
               );
             })

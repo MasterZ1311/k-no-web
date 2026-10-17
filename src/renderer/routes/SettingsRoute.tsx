@@ -166,30 +166,30 @@ export const SettingsRoute: React.FC = () => {
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 sm:space-y-8 select-none max-w-4xl">
       <div>
-        <h1 className="text-xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-kano-text-primary flex items-center gap-2">
           <Settings className="w-5 h-5 text-kano-accent" />
           Workspace & Client Settings
         </h1>
-        <p className="text-xs text-kano-text-muted mt-1">
+        <p className="text-sm text-kano-text-muted mt-1">
           Customize your appearance, native notifications, realtime synchronization, and local data storage.
         </p>
       </div>
 
       {/* 1. Appearance & Theme */}
-      <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
+      <div className="bg-kano-surface border border-kano-border rounded-xl p-5 sm:p-6 shadow-subtle space-y-5">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <Sparkles className="w-4 h-4 text-kano-accent" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Appearance & Display</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Appearance & Display</h3>
         </div>
 
-        <div className="space-y-4 text-xs">
+        <div className="space-y-5 text-sm">
           <div>
-            <label className="font-semibold block text-kano-text-primary mb-2">Color Theme</label>
+            <label className="font-semibold block text-kano-text-primary mb-2.5">Color Theme</label>
             <div className="grid grid-cols-3 gap-3 max-w-md">
               <button
                 type="button"
                 onClick={() => handleThemeChange('system')}
-                className={`flex flex-col items-center gap-2 p-3 rounded-lg border transition-all text-xs ${
+                className={`flex flex-col items-center gap-2.5 p-3.5 rounded-xl border transition-all text-sm font-medium ${
                   settings.theme === 'system'
                     ? 'border-kano-accent bg-kano-accent-subtle/40 text-kano-accent font-semibold shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover text-kano-text-secondary'
@@ -202,7 +202,7 @@ export const SettingsRoute: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleThemeChange('light')}
-                className={`flex flex-col items-center gap-2 p-3 rounded-lg border transition-all text-xs ${
+                className={`flex flex-col items-center gap-2.5 p-3.5 rounded-xl border transition-all text-sm font-medium ${
                   settings.theme === 'light'
                     ? 'border-kano-accent bg-kano-accent-subtle/40 text-kano-accent font-semibold shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover text-kano-text-secondary'
@@ -215,7 +215,7 @@ export const SettingsRoute: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleThemeChange('dark')}
-                className={`flex flex-col items-center gap-2 p-3 rounded-lg border transition-all text-xs ${
+                className={`flex flex-col items-center gap-2.5 p-3.5 rounded-xl border transition-all text-sm font-medium ${
                   settings.theme === 'dark'
                     ? 'border-kano-accent bg-kano-accent-subtle/40 text-kano-accent font-semibold shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover text-kano-text-secondary'
@@ -229,8 +229,8 @@ export const SettingsRoute: React.FC = () => {
 
           {/* Color Palette Selection */}
           <div className="pt-3 border-t border-kano-border/60">
-            <label className="font-semibold block text-kano-text-primary mb-1">Color Palette</label>
-            <p className="text-[11px] text-kano-text-muted mb-2.5">
+            <label className="text-sm font-semibold block text-kano-text-primary mb-1">Color Palette</label>
+            <p className="text-xs text-kano-text-muted mb-2.5">
               Choose the accent and tonal personality for your workspace.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl">
@@ -239,21 +239,21 @@ export const SettingsRoute: React.FC = () => {
                 type="button"
                 onClick={() => handlePaletteChange('emerald')}
                 aria-label="Vivid Emerald Palette"
-                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                className={`flex flex-col items-start gap-2 p-3.5 rounded-xl border transition-all text-left ${
                   (settings.colorPalette || 'emerald') === 'emerald'
                     ? 'border-kano-accent ring-2 ring-kano-accent/20 bg-kano-surface-hover/70 shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="font-semibold text-xs text-kano-text-primary">Vivid Emerald</span>
-                  <div className="flex items-center gap-1">
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#10b981] shadow-xs" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#0b0d11] border border-white/20" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#f8fafc] border border-black/10" />
+                  <span className="font-semibold text-sm text-kano-text-primary">Vivid Emerald</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-[#10b981] shadow-xs" />
+                    <span className="w-4 h-4 rounded-full bg-[#0b0d11] border border-white/20" />
+                    <span className="w-4 h-4 rounded-full bg-[#f8fafc] border border-black/10" />
                   </div>
                 </div>
-                <span className="text-[11px] text-kano-text-muted">Linear precision graphite & mint</span>
+                <span className="text-xs text-kano-text-muted">Linear precision graphite & mint</span>
               </button>
 
               {/* Luxury Taupe S */}
@@ -261,21 +261,21 @@ export const SettingsRoute: React.FC = () => {
                 type="button"
                 onClick={() => handlePaletteChange('luxury-taupe')}
                 aria-label="Luxury Taupe S Palette"
-                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                className={`flex flex-col items-start gap-2 p-3.5 rounded-xl border transition-all text-left ${
                   settings.colorPalette === 'luxury-taupe'
                     ? 'border-[#EA1F0A] ring-2 ring-[#EA1F0A]/20 bg-kano-surface-hover/70 shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="font-semibold text-xs text-kano-text-primary">Luxury Taupe S</span>
-                  <div className="flex items-center gap-1">
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#EA1F0A] shadow-xs" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#000000] border border-white/20" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#F6F5F1] border border-black/10" />
+                  <span className="font-semibold text-sm text-kano-text-primary">Luxury Taupe S</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-[#EA1F0A] shadow-xs" />
+                    <span className="w-4 h-4 rounded-full bg-[#000000] border border-white/20" />
+                    <span className="w-4 h-4 rounded-full bg-[#F6F5F1] border border-black/10" />
                   </div>
                 </div>
-                <span className="text-[11px] text-kano-text-muted">Editorial crimson, pitch black & alabaster</span>
+                <span className="text-xs text-kano-text-muted">Editorial crimson, pitch black & alabaster</span>
               </button>
 
               {/* Bygone */}
@@ -283,23 +283,23 @@ export const SettingsRoute: React.FC = () => {
                 type="button"
                 onClick={() => handlePaletteChange('bygone')}
                 aria-label="Bygone Palette"
-                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                className={`flex flex-col items-start gap-2 p-3.5 rounded-xl border transition-all text-left ${
                   settings.colorPalette === 'bygone'
                     ? 'border-[#850805] ring-2 ring-[#850805]/20 bg-kano-surface-hover/70 shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="font-semibold text-xs text-kano-text-primary">Bygone</span>
-                  <div className="flex items-center gap-1">
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#850805] shadow-xs" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#402212]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#FFF99F] border border-black/10" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#84784E]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#1C241B]" />
+                  <span className="font-semibold text-sm text-kano-text-primary">Bygone</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-[#850805] shadow-xs" />
+                    <span className="w-4 h-4 rounded-full bg-[#402212]" />
+                    <span className="w-4 h-4 rounded-full bg-[#FFF99F] border border-black/10" />
+                    <span className="w-4 h-4 rounded-full bg-[#84784E]" />
+                    <span className="w-4 h-4 rounded-full bg-[#1C241B]" />
                   </div>
                 </div>
-                <span className="text-[11px] text-kano-text-muted">Vintage sepia, parchment & burgundy</span>
+                <span className="text-xs text-kano-text-muted">Vintage sepia, parchment & burgundy</span>
               </button>
 
               {/* To-Do App */}
@@ -307,23 +307,23 @@ export const SettingsRoute: React.FC = () => {
                 type="button"
                 onClick={() => handlePaletteChange('todo-app')}
                 aria-label="To-Do App Palette"
-                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                className={`flex flex-col items-start gap-2 p-3.5 rounded-xl border transition-all text-left ${
                   settings.colorPalette === 'todo-app'
                     ? 'border-[#25B3EC] ring-2 ring-[#25B3EC]/20 bg-kano-surface-hover/70 shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="font-semibold text-xs text-kano-text-primary">To-Do App</span>
-                  <div className="flex items-center gap-1">
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#FFFFFF] border border-black/15 shadow-xs" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#3A4793]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#25B3EC]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#9787EE]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#FFBF3E]" />
+                  <span className="font-semibold text-sm text-kano-text-primary">To-Do App</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-[#FFFFFF] border border-black/15 shadow-xs" />
+                    <span className="w-4 h-4 rounded-full bg-[#3A4793]" />
+                    <span className="w-4 h-4 rounded-full bg-[#25B3EC]" />
+                    <span className="w-4 h-4 rounded-full bg-[#9787EE]" />
+                    <span className="w-4 h-4 rounded-full bg-[#FFBF3E]" />
                   </div>
                 </div>
-                <span className="text-[11px] text-kano-text-muted">Royal indigo, electric cyan & marigold</span>
+                <span className="text-xs text-kano-text-muted">Royal indigo, electric cyan & marigold</span>
               </button>
 
               {/* Studio Spectrum */}
@@ -331,29 +331,29 @@ export const SettingsRoute: React.FC = () => {
                 type="button"
                 onClick={() => handlePaletteChange('spectrum')}
                 aria-label="Studio Spectrum Palette"
-                className={`flex flex-col items-start gap-2 p-3 rounded-xl border transition-all text-left ${
+                className={`flex flex-col items-start gap-2 p-3.5 rounded-xl border transition-all text-left ${
                   settings.colorPalette === 'spectrum'
                     ? 'border-[#7FC0FA] ring-2 ring-[#7FC0FA]/20 bg-kano-surface-hover/70 shadow-xs'
                     : 'border-kano-border hover:bg-kano-surface-hover/50 bg-kano-surface'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="font-semibold text-xs text-kano-text-primary">Studio Spectrum</span>
-                  <div className="flex items-center gap-1">
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#7FC0FA]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#F0FA73]" />
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#FA2E23]" />
+                  <span className="font-semibold text-sm text-kano-text-primary">Studio Spectrum</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-[#7FC0FA]" />
+                    <span className="w-4 h-4 rounded-full bg-[#F0FA73]" />
+                    <span className="w-4 h-4 rounded-full bg-[#FA2E23]" />
                   </div>
                 </div>
-                <span className="text-[11px] text-kano-text-muted">Creative multi-shade studio palette</span>
+                <span className="text-xs text-kano-text-muted">Creative multi-shade studio palette</span>
               </button>
             </div>
           </div>
 
           <div className="pt-2 border-t border-kano-border/60 flex items-center justify-between">
             <div>
-              <span className="font-semibold block text-kano-text-primary">Reduced Motion</span>
-              <span className="text-[11px] text-kano-text-muted">Minimize interface animations and transitions.</span>
+              <span className="text-sm font-semibold block text-kano-text-primary">Reduced Motion</span>
+              <span className="text-xs text-kano-text-muted">Minimize interface animations and transitions.</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -372,14 +372,14 @@ export const SettingsRoute: React.FC = () => {
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <Layers className="w-4 h-4 text-kano-accent" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Workspace Navigation</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Workspace Navigation</h3>
         </div>
 
-        <div className="text-xs space-y-3">
+        <div className="text-sm space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <span className="font-semibold block text-kano-text-primary">Collapse Sidebar by Default</span>
-              <span className="text-[11px] text-kano-text-muted">Keep sidebar collapsed on application launch to maximize workspace area.</span>
+              <span className="text-xs text-kano-text-muted">Keep sidebar collapsed on application launch to maximize workspace area.</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -403,18 +403,18 @@ export const SettingsRoute: React.FC = () => {
             ) : (
               <BellOff className="w-4 h-4 text-kano-text-muted" />
             )}
-            <h3 className="text-sm font-semibold text-kano-text-primary">Windows Desktop Notifications</h3>
+            <h3 className="text-base font-semibold text-kano-text-primary">Windows Desktop Notifications</h3>
           </div>
           <Button variant="secondary" size="sm" onClick={handleTestNotification}>
             Send Test Alert
           </Button>
         </div>
 
-        <div className="text-xs space-y-3">
+        <div className="text-sm space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <span className="font-semibold block text-kano-text-primary">Enable Desktop Notifications</span>
-              <span className="text-[11px] text-kano-text-muted">Allow káno̱ to trigger native Windows notifications for reminders and updates.</span>
+              <span className="text-xs text-kano-text-muted">Allow káno̱ to trigger native Windows notifications for reminders and updates.</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -434,7 +434,7 @@ export const SettingsRoute: React.FC = () => {
           >
             <div>
               <span className="font-semibold block text-kano-text-primary">Task Deadline Alerts</span>
-              <span className="text-[11px] text-kano-text-muted">Receive alerts for approaching task deadlines and scheduled milestones.</span>
+              <span className="text-xs text-kano-text-muted">Receive alerts for approaching task deadlines and scheduled milestones.</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -455,7 +455,7 @@ export const SettingsRoute: React.FC = () => {
           >
             <div>
               <span className="font-semibold block text-kano-text-primary">Room Activity Alerts</span>
-              <span className="text-[11px] text-kano-text-muted">Notify when other members join or update documents in shared rooms.</span>
+              <span className="text-xs text-kano-text-muted">Notify when other members join or update documents in shared rooms.</span>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -475,22 +475,22 @@ export const SettingsRoute: React.FC = () => {
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <Radio className="w-4 h-4 text-kano-accent" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Realtime Synchronization</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Realtime Synchronization</h3>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="p-3 rounded-lg bg-kano-bg border border-kano-border space-y-1">
-            <span className="text-[11px] text-kano-text-muted uppercase tracking-wider font-semibold block">
+            <span className="text-xs text-kano-text-muted uppercase tracking-wider font-semibold block">
               Backend Service
             </span>
             <div className="flex items-center gap-2">
               <span className="font-medium text-kano-text-primary">Supabase PostgreSQL</span>
               {authStatus?.isConfigured ? (
-                <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">
+                <span className="px-2 py-0.5 rounded text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">
                   Configured
                 </span>
               ) : (
-                <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-500/10 text-slate-500 font-semibold">
+                <span className="px-2 py-0.5 rounded text-xs bg-slate-500/10 text-slate-500 font-semibold">
                   Local / Mock
                 </span>
               )}
@@ -498,11 +498,11 @@ export const SettingsRoute: React.FC = () => {
           </div>
 
           <div className="p-3 rounded-lg bg-kano-bg border border-kano-border space-y-1">
-            <span className="text-[11px] text-kano-text-muted uppercase tracking-wider font-semibold block">
+            <span className="text-xs text-kano-text-muted uppercase tracking-wider font-semibold block">
               Realtime Channel Status
             </span>
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[11px] text-kano-text-secondary">
+              <span className="font-mono text-xs text-kano-text-secondary">
                 {activeRoom ? `room:${activeRoom.id.substring(0, 8)}...` : 'Inactive'}
               </span>
               {getStatusBadge()}
@@ -515,13 +515,13 @@ export const SettingsRoute: React.FC = () => {
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <Database className="w-4 h-4 text-kano-accent" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Storage & Cache</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Storage & Cache</h3>
         </div>
 
-        <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center justify-between text-sm">
           <div>
             <span className="font-semibold block text-kano-text-primary">Clear Local Cache</span>
-            <span className="text-[11px] text-kano-text-muted">Purge cached web assets and session buffers to recover disk space.</span>
+            <span className="text-xs text-kano-text-muted">Purge cached web assets and session buffers to recover disk space.</span>
           </div>
           <Button
             variant="secondary"
@@ -539,15 +539,15 @@ export const SettingsRoute: React.FC = () => {
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <LogOut className="w-4 h-4 text-kano-accent" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Account & Active Session</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Account & Active Session</h3>
         </div>
 
-        <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center justify-between text-sm">
           <div>
             <span className="font-semibold block text-kano-text-primary">
               {user?.displayName || 'Active User'}
             </span>
-            <span className="text-[11px] text-kano-text-muted">{user?.email || 'Authenticated user'}</span>
+            <span className="text-xs text-kano-text-muted">{user?.email || 'Authenticated user'}</span>
           </div>
           <Button variant="danger" size="sm" onClick={() => setIsSignOutDialogOpen(true)}>
             <LogOut className="w-3.5 h-3.5 mr-1.5" />
@@ -560,35 +560,35 @@ export const SettingsRoute: React.FC = () => {
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <Shield className="w-4 h-4 text-emerald-600" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Electron Security Posture</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Electron Security Posture</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2 p-2.5 rounded-lg bg-kano-bg border border-kano-border">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             <div>
               <span className="font-semibold block text-kano-text-primary">Context Isolation</span>
-              <span className="text-[11px] text-kano-text-muted">Enabled (Preload sandboxed bridge)</span>
+              <span className="text-xs text-kano-text-muted">Enabled (Preload sandboxed bridge)</span>
             </div>
           </div>
           <div className="flex items-center gap-2 p-2.5 rounded-lg bg-kano-bg border border-kano-border">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             <div>
               <span className="font-semibold block text-kano-text-primary">Node Integration</span>
-              <span className="text-[11px] text-kano-text-muted">Disabled (Zero raw Node APIs in UI)</span>
+              <span className="text-xs text-kano-text-muted">Disabled (Zero raw Node APIs in UI)</span>
             </div>
           </div>
           <div className="flex items-center gap-2 p-2.5 rounded-lg bg-kano-bg border border-kano-border">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             <div>
               <span className="font-semibold block text-kano-text-primary">Renderer Sandbox</span>
-              <span className="text-[11px] text-kano-text-muted">Active (V8 process sandboxing)</span>
+              <span className="text-xs text-kano-text-muted">Active (V8 process sandboxing)</span>
             </div>
           </div>
           <div className="flex items-center gap-2 p-2.5 rounded-lg bg-kano-bg border border-kano-border">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             <div>
               <span className="font-semibold block text-kano-text-primary">Credential Isolation</span>
-              <span className="text-[11px] text-kano-text-muted">No auth tokens in localStorage</span>
+              <span className="text-xs text-kano-text-muted">No auth tokens in localStorage</span>
             </div>
           </div>
         </div>
@@ -598,16 +598,16 @@ export const SettingsRoute: React.FC = () => {
       <div className="bg-kano-surface border border-kano-border rounded-xl p-5 shadow-subtle space-y-4">
         <div className="flex items-center gap-2.5 pb-3 border-b border-kano-border">
           <Keyboard className="w-4 h-4 text-kano-accent" />
-          <h3 className="text-sm font-semibold text-kano-text-primary">Keyboard Shortcuts</h3>
+          <h3 className="text-base font-semibold text-kano-text-primary">Keyboard Shortcuts</h3>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
           {shortcuts.map((sc, i) => (
             <div
               key={i}
               className="flex items-center justify-between p-2 rounded-md hover:bg-kano-surface-hover"
             >
               <span className="text-kano-text-secondary">{sc.action}</span>
-              <kbd className="px-2 py-0.5 rounded bg-kano-bg border border-kano-border text-kano-text-primary font-mono text-[11px]">
+              <kbd className="px-2 py-0.5 rounded bg-kano-bg border border-kano-border text-kano-text-primary font-mono text-xs">
                 {sc.key}
               </kbd>
             </div>
@@ -620,36 +620,36 @@ export const SettingsRoute: React.FC = () => {
         <div className="flex items-center justify-between pb-3 border-b border-kano-border">
           <div className="flex items-center gap-2.5">
             <Sparkles className="w-4 h-4 text-kano-accent" />
-            <h3 className="text-sm font-semibold text-kano-text-primary">Brand & Vector Assets</h3>
+            <h3 className="text-base font-semibold text-kano-text-primary">Brand & Vector Assets</h3>
           </div>
-          <span className="text-[11px] text-kano-text-muted">Official SVG Assets</span>
+          <span className="text-xs text-kano-text-muted">Official SVG Assets</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
           <div className="p-3.5 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-2 text-center">
             <img src="/logo-mark.svg" alt="Brand Mark" className="w-10 h-10 object-contain" />
-            <span className="font-medium text-kano-text-primary text-[11px]">Brand Mark</span>
-            <span className="text-[10px] text-kano-text-muted font-mono">logo-mark.svg</span>
+            <span className="font-medium text-kano-text-primary text-xs">Brand Mark</span>
+            <span className="text-xs text-kano-text-muted font-mono">logo-mark.svg</span>
           </div>
           <div className="p-3.5 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-2 text-center">
             <img src="/logo-full.svg" alt="Full Logotype" className="h-10 w-full object-contain px-2" />
-            <span className="font-medium text-kano-text-primary text-[11px]">Full Logotype</span>
-            <span className="text-[10px] text-kano-text-muted font-mono">logo-full.svg</span>
+            <span className="font-medium text-kano-text-primary text-xs">Full Logotype</span>
+            <span className="text-xs text-kano-text-muted font-mono">logo-full.svg</span>
           </div>
           <div className="p-3.5 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-2 text-center">
             <img src="/logo-monochrome.svg" alt="Monochrome Mark" className="w-10 h-10 object-contain" />
-            <span className="font-medium text-kano-text-primary text-[11px]">Monochrome Mark</span>
-            <span className="text-[10px] text-kano-text-muted font-mono">logo-monochrome.svg</span>
+            <span className="font-medium text-kano-text-primary text-xs">Monochrome Mark</span>
+            <span className="text-xs text-kano-text-muted font-mono">logo-monochrome.svg</span>
           </div>
         </div>
       </div>
 
       {/* 9. Client Build Info */}
-      <div className="p-4 rounded-xl bg-kano-bg border border-kano-border text-xs text-kano-text-muted flex items-center justify-between">
+      <div className="p-4 rounded-xl bg-kano-bg border border-kano-border text-sm text-kano-text-muted flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <img src="/logo-mark.svg" alt="káno̱ logo" className="w-5 h-5 object-contain" />
           <span>káno̱ Desktop Client</span>
         </div>
-        <div className="flex items-center gap-4 font-mono text-[11px]">
+        <div className="flex items-center gap-4 font-mono text-xs">
           <span>Platform: {platform}</span>
           <span>Version: {appVersion}</span>
         </div>
@@ -683,7 +683,7 @@ export const SettingsRoute: React.FC = () => {
           </>
         }
       >
-        <p className="text-xs text-kano-text-secondary">
+        <p className="text-sm text-kano-text-secondary">
           You will need to sign back in with your credentials to access your rooms and documents. Any unsaved edits will be preserved in offline drafts.
         </p>
       </Dialog>

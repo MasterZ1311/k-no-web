@@ -43,6 +43,16 @@ export default {
           'olive-subtle': 'var(--palette-olive-subtle)',
         },
       },
+      fontSize: {
+        '2xs': ['0.75rem', { lineHeight: '1.05rem' }],
+        xs: ['0.8125rem', { lineHeight: '1.2rem' }],
+        sm: ['0.9375rem', { lineHeight: '1.4rem' }],
+        base: ['1.0625rem', { lineHeight: '1.6rem' }],
+        lg: ['1.1875rem', { lineHeight: '1.75rem' }],
+        xl: ['1.375rem', { lineHeight: '1.85rem' }],
+        '2xl': ['1.625rem', { lineHeight: '2.1rem' }],
+        '3xl': ['2rem', { lineHeight: '2.5rem' }],
+      },
       borderRadius: {
         sm: 'var(--radius-sm, 6px)',
         md: 'var(--radius-md, 10px)',

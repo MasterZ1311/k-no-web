@@ -25,7 +25,7 @@ export const SidebarNavItem: React.FC<SidebarNavItemProps> = ({
       type="button"
       onClick={onClick}
       aria-current={isActive ? 'page' : undefined}
-      className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors select-none ${
+      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors select-none ${
         isActive
           ? 'bg-kano-accent-subtle text-kano-accent font-semibold'
           : 'text-kano-text-secondary hover:text-kano-text-primary hover:bg-kano-surface-hover'
@@ -37,7 +37,7 @@ export const SidebarNavItem: React.FC<SidebarNavItemProps> = ({
       {!isCollapsed && <span className="flex-1 text-left truncate">{label}</span>}
       {!isCollapsed && typeof badgeCount === 'number' && badgeCount > 0 && (
         <span
-          className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono flex-shrink-0 ${
+          className={`text-xs px-2 py-0.5 rounded-full font-mono flex-shrink-0 ${
             isActive
               ? 'bg-kano-accent text-white font-bold'
               : 'bg-kano-surface border border-kano-border text-kano-text-muted'
