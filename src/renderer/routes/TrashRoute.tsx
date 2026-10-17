@@ -178,6 +178,7 @@ export const TrashRoute: React.FC = () => {
       ) : trashNotes.length === 0 ? (
         <div className="py-16 border border-dashed border-kano-border rounded-xl bg-kano-surface">
           <EmptyState
+            illustrationSrc="/empty-trash.svg"
             icon={<Trash2 className="w-6 h-6 text-kano-text-muted" />}
             title="Trash is empty"
             description="Deleted notes will appear here before being permanently removed."

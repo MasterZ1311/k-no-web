@@ -286,6 +286,7 @@ export const TasksRoute: React.FC = () => {
       ) : filteredTasks.length === 0 ? (
         <div className="py-12 border border-dashed border-kano-border rounded-xl bg-kano-surface">
           <EmptyState
+            illustrationSrc="/empty-tasks.svg"
             icon={<CheckSquare className="w-6 h-6 text-kano-text-muted" />}
             title={tasks.length === 0 ? 'No tasks in this workspace' : 'No matching tasks'}
             description={

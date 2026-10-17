@@ -165,8 +165,9 @@ export const SearchPalette: React.FC<SearchPaletteProps> = ({ isOpen, onClose, o
         {/* Results List */}
         <div className="max-h-72 overflow-y-auto p-2">
           {allItems.length === 0 ? (
-            <div className="p-6 text-center text-xs text-kano-text-muted">
-              No matching notes or destinations found.
+            <div className="py-8 px-4 text-center text-xs text-kano-text-muted flex flex-col items-center justify-center">
+              <img src="/empty-search.svg" alt="No results" className="w-16 h-16 object-contain opacity-80 mb-2 pointer-events-none select-none" />
+              <span>No matching notes or destinations found.</span>
             </div>
           ) : (
             allItems.map((item, index) => {

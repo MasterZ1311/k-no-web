@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" fill="none">
+  <defs>
+    <linearGradient id="calGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="calHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="calBase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <filter id="calShadow" x="-15%" y="-15%" width="130%" height="135%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="80" cy="84" r="62" fill="url(#calGlow)"/>
+
+  <!-- Calendar Group -->
+  <g filter="url(#calShadow)">
+    <!-- Calendar Body -->
+    <rect x="34" y="32" width="92" height="96" rx="10" fill="url(#calBase)" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <!-- Top Binder Rings -->
+    <rect x="50" y="24" width="6" height="14" rx="3" fill="#475569" stroke="#1e293b" stroke-width="1"/>
+    <rect x="104" y="24" width="6" height="14" rx="3" fill="#475569" stroke="#1e293b" stroke-width="1"/>
+
+    <!-- Header Banner -->
+    <path d="M34 42 C34 36.47 38.47 32 44 32 L116 32 C121.53 32 126 36.47 126 42 L126 56 L34 56 Z" fill="url(#calHeader)"/>
+    <rect x="56" y="41" width="48" height="6" rx="3" fill="#ffffff" fill-opacity="0.9"/>
+
+    <!-- Weekday Dots -->
+    <circle cx="48" cy="66" r="2" fill="#94a3b8"/>
+    <circle cx="58" cy="66" r="2" fill="#94a3b8"/>
+    <circle cx="68" cy="66" r="2" fill="#94a3b8"/>
+    <circle cx="80" cy="66" r="2" fill="#94a3b8"/>
+    <circle cx="92" cy="66" r="2" fill="#94a3b8"/>
+    <circle cx="102" cy="66" r="2" fill="#94a3b8"/>
+    <circle cx="112" cy="66" r="2" fill="#94a3b8"/>
+
+    <!-- Grid Divider -->
+    <line x1="42" y1="73" x2="118" y2="73" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- Day Cells (Rows) -->
+    <!-- Row 1 -->
+    <circle cx="48" cy="82" r="3" fill="#e2e8f0"/>
+    <circle cx="58" cy="82" r="3" fill="#e2e8f0"/>
+    <circle cx="68" cy="82" r="3" fill="#e2e8f0"/>
+    <circle cx="80" cy="82" r="3" fill="#e2e8f0"/>
+    <circle cx="92" cy="82" r="3" fill="#e2e8f0"/>
+    <circle cx="102" cy="82" r="3" fill="#e2e8f0"/>
+    <circle cx="112" cy="82" r="3" fill="#e2e8f0"/>
+
+    <!-- Row 2 (with Zen Today Highlight) -->
+    <circle cx="48" cy="94" r="3" fill="#e2e8f0"/>
+    <circle cx="58" cy="94" r="3" fill="#e2e8f0"/>
+    <!-- Highlighted Active Zen Day Box -->
+    <rect x="62" y="87" width="14" height="14" rx="4" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.2"/>
+    <circle cx="69" cy="94" r="3" fill="#10b981"/>
+    <circle cx="80" cy="94" r="3" fill="#e2e8f0"/>
+    <circle cx="92" cy="94" r="3" fill="#e2e8f0"/>
+    <circle cx="102" cy="94" r="3" fill="#e2e8f0"/>
+    <circle cx="112" cy="94" r="3" fill="#e2e8f0"/>
+
+    <!-- Row 3 -->
+    <circle cx="48" cy="106" r="3" fill="#e2e8f0"/>
+    <circle cx="58" cy="106" r="3" fill="#e2e8f0"/>
+    <circle cx="68" cy="106" r="3" fill="#e2e8f0"/>
+    <circle cx="80" cy="106" r="3" fill="#e2e8f0"/>
+    <circle cx="92" cy="106" r="3" fill="#e2e8f0"/>
+    <circle cx="102" cy="106" r="3" fill="#e2e8f0"/>
+    <circle cx="112" cy="106" r="3" fill="#e2e8f0"/>
+
+    <!-- Row 4 -->
+    <circle cx="48" cy="118" r="3" fill="#e2e8f0"/>
+    <circle cx="58" cy="118" r="3" fill="#e2e8f0"/>
+    <circle cx="68" cy="118" r="3" fill="#e2e8f0"/>
+    <circle cx="80" cy="118" r="3" fill="#e2e8f0"/>
+  </g>
+
+  <!-- Golden Sun / Zen Day Marker Overlay -->
+  <g filter="url(#calShadow)" transform="translate(106, 90)">
+    <circle cx="16" cy="16" r="14" fill="url(#sunGrad)" stroke="#ffffff" stroke-width="2"/>
+    <!-- Sun Rays / Zen Sparkle -->
+    <path d="M16 6 L17.5 11 L22 8 L19 13 L24 16 L19 19 L22 24 L17.5 21 L16 26 L14.5 21 L10 24 L13 19 L8 16 L13 13 L10 8 L14.5 11 Z" fill="#ffffff" fill-opacity="0.95"/>
+    <circle cx="16" cy="16" r="5" fill="#f59e0b"/>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M26 44 L28 48 L32 50 L28 52 L26 56 L24 52 L20 50 L24 48 Z" fill="#fbbf24" fill-opacity="0.85"/>
+  <circle cx="138" cy="48" r="2.5" fill="#10b981" fill-opacity="0.6"/>
+</svg>

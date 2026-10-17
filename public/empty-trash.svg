@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140" fill="none">
+  <defs>
+    <linearGradient id="trashGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="binGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="lidGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="sparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="trashShadow" x="-15%" y="-15%" width="130%" height="135%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="70" cy="74" r="54" fill="url(#trashGlow)"/>
+
+  <!-- Pedestal Base Shadow -->
+  <ellipse cx="70" cy="118" rx="36" ry="6" fill="#000000" fill-opacity="0.2"/>
+
+  <!-- Bin Body & Floating Lid -->
+  <g filter="url(#trashShadow)">
+    <!-- Tilted Open Lid (Hovering above bin) -->
+    <g transform="rotate(-12 68 40)">
+      <!-- Lid Handle -->
+      <rect x="64" y="30" width="12" height="5" rx="2" fill="#64748b"/>
+      <!-- Lid Rim -->
+      <rect x="42" y="34" width="56" height="7" rx="3.5" fill="url(#lidGrad)" stroke="#475569" stroke-width="1.2"/>
+    </g>
+
+    <!-- Bin Tapered Body -->
+    <path d="M48 48 L53 110 C53.5 113.5 56.5 116 60 116 L80 116 C83.5 116 86.5 113.5 87 110 L92 48 Z" fill="url(#binGrad)" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Subtle vertical rib lines on bin -->
+    <line x1="62" y1="56" x2="63.5" y2="108" stroke="#334155" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="70" y1="56" x2="70" y2="108" stroke="#334155" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="78" y1="56" x2="76.5" y2="108" stroke="#334155" stroke-width="1.2" stroke-linecap="round"/>
+
+    <!-- Universal Clean Recycling Arrows Badge -->
+    <g transform="translate(62, 72) scale(0.85)">
+      <!-- Recycle loop -->
+      <path d="M9 3 L12 0 L15 3 M12 0 L12 7 C12 11 14 13 18 13 L20 13 M20 10 L23 13 L20 16" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3 13 L0 16 L3 19 M0 16 L7 16 C11 16 13 14 13 10 L13 8" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- Big Clean Sparkles rising from empty bin -->
+  <!-- Sparkle 1 (Large center top) -->
+  <path d="M70 20 L72.5 28 L80 30 L72.5 32 L70 40 L67.5 32 L60 30 L67.5 28 Z" fill="url(#sparkleGrad)" filter="url(#trashShadow)"/>
+  
+  <!-- Sparkle 2 (Top right) -->
+  <path d="M96 28 L97.5 33 L102 34.5 L97.5 36 L96 41 L94.5 36 L90 34.5 L94.5 33 Z" fill="#38bdf8" fill-opacity="0.9"/>
+
+  <!-- Sparkle 3 (Top left) -->
+  <path d="M38 36 L39.5 40 L44 41.5 L39.5 43 L38 47 L36.5 43 L32 41.5 L36.5 40 Z" fill="#10b981" fill-opacity="0.85"/>
+
+  <!-- Tiny sparkle dots -->
+  <circle cx="86" cy="46" r="2" fill="#34d399"/>
+  <circle cx="52" cy="42" r="1.5" fill="#38bdf8"/>
+  <circle cx="106" cy="62" r="2" fill="#10b981" fill-opacity="0.6"/>
+  <circle cx="28" cy="80" r="2.5" fill="#38bdf8" fill-opacity="0.5"/>
+</svg>

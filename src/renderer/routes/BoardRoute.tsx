@@ -240,6 +240,7 @@ export const BoardRoute: React.FC = () => {
       ) : !activeRoom ? (
         <div className="flex-1 p-8">
           <EmptyState
+            illustrationSrc="/empty-board.svg"
             icon={<AlertCircle className="w-8 h-8 text-kano-accent" />}
             title="No Active Room"
             description="Select or create a workspace room to access Kanban workflows."
@@ -288,7 +289,8 @@ export const BoardRoute: React.FC = () => {
               {/* Column Cards Container */}
               <div className="flex-1 overflow-y-auto space-y-2 pr-0.5">
                 {colTasks.length === 0 ? (
-                  <div className="h-32 flex flex-col justify-center items-center p-3 border border-dashed border-kano-border/60 rounded-lg text-center bg-kano-surface/30">
+                  <div className="h-36 flex flex-col justify-center items-center p-3 border border-dashed border-kano-border/60 rounded-lg text-center bg-kano-surface/30">
+                    <img src="/empty-board.svg" alt="No cards" className="w-16 h-12 object-contain opacity-50 mb-1 pointer-events-none select-none" />
                     <span className="text-xs text-kano-text-muted font-medium">No cards here</span>
                     <button
                       type="button"

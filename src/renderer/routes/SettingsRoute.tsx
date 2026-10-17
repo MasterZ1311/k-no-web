@@ -641,6 +641,46 @@ export const SettingsRoute: React.FC = () => {
             <span className="text-xs text-kano-text-muted font-mono">logo-monochrome.svg</span>
           </div>
         </div>
+
+        {/* Empty State Vector Illustrations */}
+        <div className="pt-3 border-t border-kano-border/60">
+          <div className="flex items-center justify-between mb-2.5">
+            <span className="font-semibold text-sm text-kano-text-primary">Empty State Illustrations</span>
+            <span className="text-xs text-kano-text-muted">6 Dedicated Vector Assets</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+            <div className="p-3 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-1.5 text-center">
+              <img src="/empty-notes.svg" alt="Notes" className="w-12 h-12 object-contain" />
+              <span className="font-medium text-kano-text-primary text-[11px]">Notes</span>
+              <span className="text-[10px] text-kano-text-muted font-mono">empty-notes.svg</span>
+            </div>
+            <div className="p-3 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-1.5 text-center">
+              <img src="/empty-tasks.svg" alt="Tasks" className="w-12 h-12 object-contain" />
+              <span className="font-medium text-kano-text-primary text-[11px]">Tasks</span>
+              <span className="text-[10px] text-kano-text-muted font-mono">empty-tasks.svg</span>
+            </div>
+            <div className="p-3 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-1.5 text-center">
+              <img src="/empty-board.svg" alt="Board" className="w-12 h-12 object-contain" />
+              <span className="font-medium text-kano-text-primary text-[11px]">Board</span>
+              <span className="text-[10px] text-kano-text-muted font-mono">empty-board.svg</span>
+            </div>
+            <div className="p-3 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-1.5 text-center">
+              <img src="/empty-calendar.svg" alt="Calendar" className="w-12 h-12 object-contain" />
+              <span className="font-medium text-kano-text-primary text-[11px]">Calendar</span>
+              <span className="text-[10px] text-kano-text-muted font-mono">empty-calendar.svg</span>
+            </div>
+            <div className="p-3 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-1.5 text-center">
+              <img src="/empty-trash.svg" alt="Trash" className="w-12 h-12 object-contain" />
+              <span className="font-medium text-kano-text-primary text-[11px]">Trash</span>
+              <span className="text-[10px] text-kano-text-muted font-mono">empty-trash.svg</span>
+            </div>
+            <div className="p-3 rounded-lg bg-kano-bg border border-kano-border flex flex-col items-center justify-center gap-1.5 text-center">
+              <img src="/empty-search.svg" alt="Search" className="w-12 h-12 object-contain" />
+              <span className="font-medium text-kano-text-primary text-[11px]">Search</span>
+              <span className="text-[10px] text-kano-text-muted font-mono">empty-search.svg</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 9. Client Build Info */}

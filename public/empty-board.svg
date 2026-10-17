@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 140" width="180" height="140" fill="none">
+  <defs>
+    <linearGradient id="boardGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.05"/>
+    </linearGradient>
+    <linearGradient id="colBase" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="activeCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <ellipse cx="90" cy="70" rx="76" ry="54" fill="url(#boardGlow)"/>
+
+  <!-- Column 1 (To Do) -->
+  <rect x="18" y="20" width="42" height="100" rx="6" fill="url(#colBase)" stroke="#334155" stroke-width="1.2"/>
+  <circle cx="28" cy="30" r="3" fill="#64748b"/>
+  <rect x="34" y="28" width="18" height="4" rx="2" fill="#64748b"/>
+  <!-- Column 1 Static Cards -->
+  <rect x="23" y="38" width="32" height="20" rx="4" fill="#334155" fill-opacity="0.6"/>
+  <rect x="27" y="44" width="20" height="3" rx="1.5" fill="#94a3b8"/>
+  <rect x="27" y="50" width="12" height="2.5" rx="1" fill="#64748b"/>
+  <rect x="23" y="62" width="32" height="16" rx="4" fill="#334155" fill-opacity="0.4"/>
+
+  <!-- Column 2 (In Progress) -->
+  <rect x="69" y="20" width="42" height="100" rx="6" fill="url(#colBase)" stroke="#334155" stroke-width="1.2"/>
+  <circle cx="79" cy="30" r="3" fill="#10b981"/>
+  <rect x="85" y="28" width="18" height="4" rx="2" fill="#10b981"/>
+  <!-- Dotted Drop Target in Column 2 -->
+  <rect x="74" y="38" width="32" height="26" rx="4" stroke="#10b981" stroke-width="1.2" stroke-dasharray="3 3" fill="#10b981" fill-opacity="0.05"/>
+
+  <!-- Column 3 (Done) -->
+  <rect x="120" y="20" width="42" height="100" rx="6" fill="url(#colBase)" stroke="#334155" stroke-width="1.2"/>
+  <circle cx="130" cy="30" r="3" fill="#38bdf8"/>
+  <rect x="136" y="28" width="18" height="4" rx="2" fill="#38bdf8"/>
+  <!-- Column 3 Static Card -->
+  <rect x="125" y="38" width="32" height="22" rx="4" fill="#334155" fill-opacity="0.6"/>
+  <rect x="129" y="44" width="22" height="3" rx="1.5" fill="#94a3b8"/>
+  <circle cx="132" cy="52" r="2.5" fill="#10b981"/>
+
+  <!-- Floating Active Kanban Card in Motion -->
+  <g filter="url(#cardShadow)" transform="translate(68, 52) rotate(4)">
+    <rect x="0" y="0" width="42" height="30" rx="5" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+    <!-- Priority tag -->
+    <rect x="5" y="6" width="12" height="3" rx="1.5" fill="url(#activeCardGrad)"/>
+    <!-- Card title & excerpt -->
+    <rect x="5" y="12" width="30" height="3" rx="1.5" fill="#f8fafc"/>
+    <rect x="5" y="18" width="20" height="2.5" rx="1" fill="#94a3b8"/>
+    <!-- Card avatar dot -->
+    <circle cx="34" cy="22" r="3" fill="#10b981"/>
+  </g>
+
+  <!-- Motion dots / flow trail -->
+  <circle cx="56" cy="74" r="1.5" fill="#10b981" fill-opacity="0.8"/>
+  <circle cx="62" cy="71" r="2" fill="#10b981" fill-opacity="0.6"/>
+  <circle cx="68" cy="67" r="2.5" fill="#10b981" fill-opacity="0.4"/>
+
+  <!-- Sparkles -->
+  <path d="M148 14 L149.5 17.5 L153 19 L149.5 20.5 L148 24 L146.5 20.5 L143 19 L146.5 17.5 Z" fill="#10b981" fill-opacity="0.85"/>
+  <circle cx="34" cy="106" r="2" fill="#38bdf8" fill-opacity="0.6"/>
+</svg>

@@ -721,6 +721,7 @@ export const NotesRoute: React.FC = () => {
         ) : (
           <div className="flex-1 flex items-center justify-center p-8 select-none">
             <EmptyState
+              illustrationSrc="/empty-notes.svg"
               icon={<FileText className="w-8 h-8 text-kano-text-muted" />}
               title="No Note Selected"
               description="Choose a note from the list or create a new rich-text document."

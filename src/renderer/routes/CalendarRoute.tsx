@@ -242,6 +242,7 @@ export const CalendarRoute: React.FC = () => {
       ) : !activeRoom ? (
         <div className="flex-1 p-8">
           <EmptyState
+            illustrationSrc="/empty-calendar.svg"
             icon={<AlertCircle className="w-8 h-8 text-kano-accent" />}
             title="No Active Room"
             description="Select or create a workspace room to access calendar events and milestones."
@@ -405,8 +406,8 @@ export const CalendarRoute: React.FC = () => {
           {/* Agenda Items List */}
           <div className="flex-1 overflow-y-auto space-y-3 pr-1">
             {selectedDayEvents.length === 0 && selectedDayTasks.length === 0 ? (
-              <div className="py-12 text-center border border-dashed border-kano-border rounded-lg">
-                <Clock className="w-6 h-6 text-kano-text-muted mx-auto mb-2 opacity-50" />
+              <div className="py-8 px-4 text-center border border-dashed border-kano-border rounded-lg flex flex-col items-center justify-center">
+                <img src="/empty-calendar.svg" alt="Nothing scheduled" className="w-20 h-20 object-contain opacity-75 mb-2 select-none pointer-events-none" />
                 <span className="text-sm font-medium text-kano-text-secondary block">
                   Nothing scheduled
                 </span>
