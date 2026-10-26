@@ -99,6 +99,19 @@ export const CalendarRoute: React.FC = () => {
     setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
+
+  // External action listener (from PageHeader / Command Palette)
+  useEffect(() => {
+    const handleActionCreateEvent = () => {
+      setEventToEdit(null);
+      setIsEventDialogOpen(true);
+    };
+    window.addEventListener('kano:action:create-event', handleActionCreateEvent);
+    return () => {
+      window.removeEventListener('kano:action:create-event', handleActionCreateEvent);
+    };
+  }, []);
+
   const handleToday = () => {
     const now = new Date();
     setCurrentDate(new Date(now.getFullYear(), now.getMonth(), 1));
@@ -414,6 +427,16 @@ export const CalendarRoute: React.FC = () => {
                 <p className="text-xs text-kano-text-muted mt-0.5">
                   Plan meetings or assign task deadlines for this day.
                 </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEventToEdit(null);
+                    setIsEventDialogOpen(true);
+                  }}
+                  className="text-xs text-kano-accent hover:underline mt-2.5 font-medium"
+                >
+                  + Schedule an event
+                </button>
               </div>
             ) : (
               <>
@@ -447,6 +470,11 @@ export const CalendarRoute: React.FC = () => {
                               <button
                                 type="button"
                                 aria-label="Edit event"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEventToEdit(ev);
+                                  setIsEventDialogOpen(true);
+                                }}
                                 className="w-7 h-7 flex items-center justify-center shrink-0 text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover rounded-md transition-colors"
                               >
                                 <Edit2 className="w-3.5 h-3.5" />
@@ -500,15 +528,29 @@ export const CalendarRoute: React.FC = () => {
                               >
                                 {t.title}
                               </span>
-                              <span
-                                className={`text-[10px] font-medium px-1.5 py-0.2 rounded ${
-                                  isDone
-                                    ? 'bg-emerald-500/10 text-emerald-600'
-                                    : 'bg-amber-500/10 text-amber-600'
-                                }`}
-                              >
-                                {t.status}
-                              </span>
+                              <div className="flex items-center gap-1.5">
+                                <span
+                                  className={`text-[10px] font-medium px-1.5 py-0.2 rounded ${
+                                    isDone
+                                      ? 'bg-emerald-500/10 text-emerald-600'
+                                      : 'bg-amber-500/10 text-amber-600'
+                                  }`}
+                                >
+                                  {t.status}
+                                </span>
+                                <button
+                                  type="button"
+                                  aria-label="Edit task"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setTaskToEdit(t);
+                                    setIsTaskDialogOpen(true);
+                                  }}
+                                  className="w-6 h-6 flex items-center justify-center shrink-0 text-kano-text-muted hover:text-kano-text-primary hover:bg-kano-surface-hover rounded transition-colors"
+                                >
+                                  <Edit2 className="w-3 h-3" />
+                                </button>
+                              </div>
                             </div>
                             {timeStr && (
                               <span className="text-[10px] font-mono text-kano-text-muted block mt-1">

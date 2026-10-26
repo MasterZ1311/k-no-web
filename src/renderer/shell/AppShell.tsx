@@ -48,17 +48,23 @@ export const AppShell: React.FC = () => {
         return;
       }
 
-      // Ctrl+Shift+N / Cmd+Shift+N -> Jump to Notes
+      // Ctrl+Shift+N / Cmd+Shift+N -> Jump to Notes and trigger create note
       if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === 'n') {
         event.preventDefault();
         setCurrentRoute('/notes');
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('kano:action:create-note'));
+        }, 50);
         return;
       }
 
-      // Ctrl+Shift+T / Cmd+Shift+T -> Jump to Tasks
+      // Ctrl+Shift+T / Cmd+Shift+T -> Jump to Tasks and trigger create task
       if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === 't') {
         event.preventDefault();
         setCurrentRoute('/tasks');
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('kano:action:create-task'));
+        }, 50);
         return;
       }
 
@@ -226,10 +232,16 @@ export const AppShell: React.FC = () => {
         onCreateNote={() => {
           setCurrentRoute('/notes');
           setIsMobileSidebarOpen(false);
+          setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('kano:action:create-note'));
+          }, 50);
         }}
         onCreateTask={() => {
           setCurrentRoute('/tasks');
           setIsMobileSidebarOpen(false);
+          setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('kano:action:create-task'));
+          }, 50);
         }}
       />
 

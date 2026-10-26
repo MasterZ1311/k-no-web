@@ -70,6 +70,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
             return (
               <button
                 key={item.id}
+                type="button"
                 role="menuitem"
                 disabled={item.disabled}
                 onClick={() => {

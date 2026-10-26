@@ -190,6 +190,17 @@ export const BoardRoute: React.FC = () => {
     setIsDialogOpen(true);
   };
 
+  // External action listener (from PageHeader / Command Palette)
+  useEffect(() => {
+    const handleActionCreateCard = () => {
+      handleOpenNewTask(columns[0]?.id);
+    };
+    window.addEventListener('kano:action:create-board-card', handleActionCreateCard);
+    return () => {
+      window.removeEventListener('kano:action:create-board-card', handleActionCreateCard);
+    };
+  }, [columns]);
+
   const handleCardClick = (task: TaskDTO) => {
     setTaskToEdit(task);
     setDialogColumnId(task.columnId);

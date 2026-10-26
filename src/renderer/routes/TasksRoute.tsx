@@ -182,6 +182,18 @@ export const TasksRoute: React.FC = () => {
     return counts;
   }, [tasks]);
 
+  // External action listener (from PageHeader / Command Palette)
+  useEffect(() => {
+    const handleActionCreateTask = () => {
+      setTaskToEdit(null);
+      setIsDialogOpen(true);
+    };
+    window.addEventListener('kano:action:create-task', handleActionCreateTask);
+    return () => {
+      window.removeEventListener('kano:action:create-task', handleActionCreateTask);
+    };
+  }, []);
+
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
       {/* Header */}

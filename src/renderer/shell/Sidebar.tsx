@@ -166,6 +166,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const handleFolderClick = (folder: FolderDTO) => {
     handleNavClick('/notes');
+    window.dispatchEvent(
+      new CustomEvent('kano:action:select-folder', {
+        detail: { folderId: folder.id },
+      })
+    );
   };
 
   const handleCreateFolderSubmit = async (name: string, parentId?: string | null) => {

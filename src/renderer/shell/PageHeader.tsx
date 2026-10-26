@@ -30,16 +30,15 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   const { showToast } = useToast();
 
   const handleAction = () => {
-    let actionName = 'New item';
-    if (currentRoute === '/notes') actionName = 'Create Note';
-    else if (currentRoute === '/tasks') actionName = 'Create Task';
-    else if (currentRoute === '/board') actionName = 'Add Board Card';
-    else if (currentRoute === '/calendar') actionName = 'Schedule Event';
-
-    showToast(`${actionName} (Local Shell Preview)`, {
-      type: 'info',
-      description: 'Persistent creation operations will be connected to the domain database in subsequent prompts.',
-    });
+    if (currentRoute === '/notes') {
+      window.dispatchEvent(new CustomEvent('kano:action:create-note'));
+    } else if (currentRoute === '/tasks') {
+      window.dispatchEvent(new CustomEvent('kano:action:create-task'));
+    } else if (currentRoute === '/board') {
+      window.dispatchEvent(new CustomEvent('kano:action:create-board-card'));
+    } else if (currentRoute === '/calendar') {
+      window.dispatchEvent(new CustomEvent('kano:action:create-event'));
+    }
   };
 
   return (

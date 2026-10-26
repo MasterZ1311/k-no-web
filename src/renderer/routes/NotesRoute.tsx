@@ -261,6 +261,26 @@ export const NotesRoute: React.FC = () => {
     }
   };
 
+  // External shell action and folder navigation listeners
+  useEffect(() => {
+    const handleActionCreateNote = () => {
+      handleCreateNote();
+    };
+    const handleSelectFolder = (e: Event) => {
+      const custom = e as CustomEvent<{ folderId: string }>;
+      if (custom.detail?.folderId) {
+        setSelectedFolderFilter(custom.detail.folderId);
+      }
+    };
+
+    window.addEventListener('kano:action:create-note', handleActionCreateNote);
+    window.addEventListener('kano:action:select-folder', handleSelectFolder);
+    return () => {
+      window.removeEventListener('kano:action:create-note', handleActionCreateNote);
+      window.removeEventListener('kano:action:select-folder', handleSelectFolder);
+    };
+  }, [handleCreateNote]);
+
   const handleUpdateNote = async (
     noteId: string,
     expectedVersion: number,
